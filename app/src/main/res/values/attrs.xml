@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PregnancyProgressArcView">
+        <attr name="currentWeek" format="integer" />
+        <attr name="maxWeeks" format="integer" />
+        <attr name="arcStrokeWidth" format="dimension" />
+        <attr name="trimester1Color" format="color" />
+        <attr name="trimester2Color" format="color" />
+        <attr name="trimester3Color" format="color" />
+        <attr name="indicatorColor" format="color" />
+        <attr name="trackColor" format="color" />
+        <attr name="showCenterText" format="boolean" />
+    </declare-styleable>
+</resources>

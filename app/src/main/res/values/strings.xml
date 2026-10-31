@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">MaaCare</string>
+    <string name="tagline">Maternal &amp; Newborn Smart Companion</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_tracker">Tracker</string>
+    <string name="nav_medicine">Medicines</string>
+    <string name="nav_care_vaccine">Baby &amp; Care</string>
+    <string name="nav_emergency">Emergency</string>
+
+    <!-- Home Tracker -->
+    <string name="profile_greeting">Hello, %s</string>
+    <string name="pregnancy_progress_title">Pregnancy Journey</string>
+    <string name="trimester_format">%s Trimester</string>
+    <string name="days_remaining_format">%d Days to EDD</string>
+    <string name="fetal_milestones_heading">Weekly Fetal Milestones</string>
+    <string name="hydration_monitor_heading">Daily Maternal Hydration Monitor</string>
+    <string name="hydration_count_format">%d / 12 Glasses (250ml)</string>
+    <string name="btn_log_water">+ Log Water Intake (250ml)</string>
+    <string name="btn_start_monitor">Start Live Monitor Service</string>
+    <string name="btn_stop_monitor">Stop Live Monitor Service</string>
+
+    <!-- Medicine Reminders -->
+    <string name="medicine_reminders_title">Prescribed Medication &amp; Supplements</string>
+    <string name="add_medicine_button">+ Add Prescription</string>
+    <string name="empty_medicines">No active prescriptions added yet. Click \'+\' to add your daily supplements.</string>
+    <string name="medicine_name_hint">Medication Name (e.g. Iron &amp; Folic Acid)</string>
+    <string name="dosage_hint">Dosage (e.g. 1 Tablet after meal)</string>
+    <string name="schedule_time_hint">Scheduled Time</string>
+
+    <!-- Baby Care & Vaccines -->
+    <string name="tab_vaccinations">Newborn Vaccines</string>
+    <string name="tab_nutrition">Maternal Food Log</string>
+    <string name="postpartum_checklist_title">Postpartum Care Protocols</string>
+    <string name="add_food_log">+ Log Meal &amp; Nutrients</string>
+
+    <!-- Emergency Guidance -->
+    <string name="emergency_title">Rapid Maternal Emergency Response</string>
+    <string name="sos_call_ambulance">CALL EMERGENCY SOS (999)</string>
+    <string name="sos_call_caregiver">CALL EMERGENCY CONTACT</string>
+    <string name="sos_send_sms">SEND EMERGENCY SMS ALERT</string>
+    <string name="danger_signs_title">Obstetric Danger Signs Checklist</string>
+    <string name="offline_protocol_title">Offline First-Aid &amp; Triage Protocols</string>
+
+    <!-- Content Provider Contract Authority -->
+    <string name="provider_authority">com.cse2200.maacare.provider</string>
+</resources>

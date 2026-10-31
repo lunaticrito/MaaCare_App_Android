@@ -1,0 +1,200 @@
+{
+  "fetal_milestones": [
+    {
+      "week": 4,
+      "trimester": 1,
+      "baby_size": "Poppy Seed (~1 mm)",
+      "weight_grams": 0.1,
+      "length_cm": 0.1,
+      "development_summary": "The blastocyst has implanted in the uterine wall. The amniotic sac and placenta are forming rapidly.",
+      "maternal_changes": "Mild cramping, breast tenderness, and early fatigue as hCG hormone levels rise.",
+      "clinical_advice": "Begin daily 400 mcg Folic Acid supplementation to prevent neural tube defects."
+    },
+    {
+      "week": 8,
+      "trimester": 1,
+      "baby_size": "Raspberry (~1.6 cm)",
+      "weight_grams": 1.0,
+      "length_cm": 1.6,
+      "development_summary": "Tiny webbed fingers and toes are developing. Heart is beating at ~150-170 bpm.",
+      "maternal_changes": "Morning sickness, heightened sense of smell, and frequent urination.",
+      "clinical_advice": "Eat small, frequent meals rich in vitamin B6 to ease nausea. Stay hydrated with electrolyte fluids."
+    },
+    {
+      "week": 12,
+      "trimester": 1,
+      "baby_size": "Lime (~5.4 cm)",
+      "weight_grams": 14.0,
+      "length_cm": 5.4,
+      "development_summary": "Fetal reflexes develop; fingers can curl and toes can flare. Organs and kidneys produce amniotic fluid.",
+      "maternal_changes": "Nausea begins to subside as placenta assumes hormone production. Energy levels begin to stabilize.",
+      "clinical_advice": "Schedule the first comprehensive antenatal care (ANC) checkup and Nuchal Translucency ultrasound scan."
+    },
+    {
+      "week": 16,
+      "trimester": 2,
+      "baby_size": "Avocado (~11.6 cm)",
+      "weight_grams": 100.0,
+      "length_cm": 11.6,
+      "development_summary": "Eyes can make slow movements, and baby's tiny skeleton is hardening from cartilage to bone.",
+      "maternal_changes": "Maternal 'pregnancy glow' appears. Occasional round ligament stretching pain.",
+      "clinical_advice": "Start daily Iron and Calcium supplementation (take calcium 2 hours apart from iron for maximum absorption)."
+    },
+    {
+      "week": 20,
+      "trimester": 2,
+      "baby_size": "Banana (~25.6 cm)",
+      "weight_grams": 300.0,
+      "length_cm": 25.6,
+      "development_summary": "Halfway milestone! Lanugo (fine hair) covers the body. Baby can swallow amniotic fluid and hear mom's voice.",
+      "maternal_changes": "First fetal movements ('quickening') felt as gentle flutters. Mild ankle edema in evening.",
+      "clinical_advice": "Undergo the detailed anomaly ultrasound scan to assess organ structures and placental position."
+    },
+    {
+      "week": 24,
+      "trimester": 2,
+      "baby_size": "Ear of Corn (~30.0 cm)",
+      "weight_grams": 600.0,
+      "length_cm": 30.0,
+      "development_summary": "Lungs develop surfactant-producing alveolar cells. Rapid brain and taste bud development.",
+      "maternal_changes": "Mild heartburn, Braxton Hicks contractions may begin. Skin on abdomen stretches.",
+      "clinical_advice": "Screen for Gestational Diabetes Mellitus (GDM) with an Oral Glucose Tolerance Test (OGTT)."
+    },
+    {
+      "week": 28,
+      "trimester": 3,
+      "baby_size": "Eggplant (~37.6 cm)",
+      "weight_grams": 1000.0,
+      "length_cm": 37.6,
+      "development_summary": "Welcome to the 3rd trimester! Baby can blink and open eyes. Brain wave patterns show REM sleep cycles.",
+      "maternal_changes": "Shortness of breath as uterus pushes diaphragm upwards. Mild backaches.",
+      "clinical_advice": "Monitor fetal kick counts daily (expect at least 10 kicks within 2 hours of quiet resting)."
+    },
+    {
+      "week": 32,
+      "trimester": 3,
+      "baby_size": "Jicama / Coconut (~42.4 cm)",
+      "weight_grams": 1700.0,
+      "length_cm": 42.4,
+      "development_summary": "Bones fully formed though soft. Toenails, fingernails, and real scalp hair are present.",
+      "maternal_changes": "Pelvic pressure increases. Colostrum (pre-milk) may leak from breasts.",
+      "clinical_advice": "Review your birth plan and prepare the hospital bag with clean newborn clothing and sanitary supplies."
+    },
+    {
+      "week": 36,
+      "trimester": 3,
+      "baby_size": "Papaya (~47.4 cm)",
+      "weight_grams": 2600.0,
+      "length_cm": 47.4,
+      "development_summary": "Baby typically turns head-down (cephalic presentation). Skull remains pliable to navigate the birth canal.",
+      "maternal_changes": "Baby drops into pelvis ('lightening'). Easier breathing, but increased bladder pressure.",
+      "clinical_advice": "Weekly antenatal visits begin. Watch for danger signs: continuous watery leakage or vaginal bleeding."
+    },
+    {
+      "week": 40,
+      "trimester": 3,
+      "baby_size": "Watermelon (~51.2 cm)",
+      "weight_grams": 3400.0,
+      "length_cm": 51.2,
+      "development_summary": "Full term! Lungs and nervous system are completely primed for breathing atmospheric oxygen.",
+      "maternal_changes": "Cervical effacement and dilation. Rhythmic contractions spaced under 5 minutes apart indicate active labor.",
+      "clinical_advice": "Proceed immediately to the designated maternity hospital upon regular contractions or ruptured membranes."
+    }
+  ],
+  "nutrition_advisories": [
+    {
+      "title": "Iron & Hemoglobin Optimization",
+      "category": "Mineral Support",
+      "description": "Essential for preventing maternal anemia and fetal hypoxia. Eat dark leafy greens, lentils, lean meat, and jaggery.",
+      "dosage_guideline": "60 mg elemental iron daily from Week 14 onwards."
+    },
+    {
+      "title": "Folic Acid for Neural Tube Health",
+      "category": "Vitamin B9",
+      "description": "Crucial during pre-conception and first trimester to prevent spina bifida and anencephaly.",
+      "dosage_guideline": "400 mcg daily in first trimester."
+    },
+    {
+      "title": "Calcium & Bone Density",
+      "category": "Mineral Support",
+      "description": "Supports fetal skeletal calcification and prevents maternal calcium depletion.",
+      "dosage_guideline": "1000 mg daily; take with dairy, fortified milk, sesame seeds, or almonds."
+    },
+    {
+      "title": "Hydration & Amniotic Fluid Maintenance",
+      "category": "Daily Fluid",
+      "description": "Proper hydration reduces urinary tract infections, constipation, and premature contractions.",
+      "dosage_guideline": "Drink 2.5 to 3.0 Liters of purified water and coconut water daily."
+    }
+  ],
+  "emergency_directory": [
+    {
+      "facility_name": "National Maternal & Child Health Helpline",
+      "category": "24/7 Emergency Hotline",
+      "phone_number": "16263",
+      "address": "Directorate General of Health Services, 24/7 Central Call Center"
+    },
+    {
+      "facility_name": "National Emergency SOS Service (Ambulance/Police)",
+      "category": "National Rapid Response",
+      "phone_number": "999",
+      "address": "Toll-Free Nationwide Emergency Dispatch"
+    },
+    {
+      "facility_name": "Dhaka Medical College & Hospital (Maternity Complex)",
+      "category": "Tertiary Care Hospital",
+      "phone_number": "+8801711223344",
+      "address": "Secretariat Road, Ramna, Dhaka - 1000"
+    },
+    {
+      "facility_name": "Institute of Child and Mother Health (ICMH)",
+      "category": "Specialized Maternal Center",
+      "phone_number": "+88027542675",
+      "address": "Matuail, Demra, Dhaka - 1362"
+    },
+    {
+      "facility_name": "BSMMU (PG Hospital) - Obstetric Triage Unit",
+      "category": "Autonomous University Hospital",
+      "phone_number": "+88029661063",
+      "address": "Shahbag, Dhaka - 1000"
+    }
+  ],
+  "danger_signs": [
+    {
+      "sign_name": "Severe Persistent Headache & Blurred Vision",
+      "risk_level": "CRITICAL",
+      "description": "High possibility of pre-eclampsia or eclampsia (dangerously high blood pressure).",
+      "first_aid_action": "Rest in a quiet, dark room on your left side. Measure blood pressure immediately and contact doctor."
+    },
+    {
+      "sign_name": "Vaginal Bleeding or Spotting",
+      "risk_level": "CRITICAL",
+      "description": "May indicate placenta previa, placental abruption, or preterm labor.",
+      "first_aid_action": "Lie down immediately. Do not use tampons. Seek emergency obstetric care without delay."
+    },
+    {
+      "sign_name": "Severe Abdominal Pain or Cramping",
+      "risk_level": "HIGH",
+      "description": "Sharp continuous pain not relieved by rest can signify placental complications or ectopic rupture.",
+      "first_aid_action": "Avoid painkiller self-medication. Keep calm and take ambulance to hospital immediately."
+    },
+    {
+      "sign_name": "Sudden Swelling of Face, Hands, and Feet",
+      "risk_level": "HIGH",
+      "description": "Rapid fluid retention associated with hypertensive pregnancy disorders.",
+      "first_aid_action": "Elevate feet, remove tight rings, check blood pressure, and alert healthcare provider."
+    },
+    {
+      "sign_name": "Marked Reduction in Fetal Movement",
+      "risk_level": "CRITICAL",
+      "description": "Fewer than 10 kicks in 2 hours during the 3rd trimester suggests fetal distress.",
+      "first_aid_action": "Drink cold sweet water or fruit juice, lie on left side, count kicks for 1 hour. If still reduced, go to emergency triage."
+    },
+    {
+      "sign_name": "Continuous Leaking of Water / Fluid",
+      "risk_level": "HIGH",
+      "description": "Premature rupture of membranes (PROM) exposes fetus to risk of infection or umbilical cord prolapse.",
+      "first_aid_action": "Note fluid color and smell. Wear a clean sanitary pad and go straight to maternity ward."
+    }
+  ]
+}

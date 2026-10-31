@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_pregnancy_tracker"
+        android:title="@string/nav_tracker" />
+
+    <item
+        android:id="@+id/navigation_medicine"
+        android:icon="@drawable/ic_medication"
+        android:title="@string/nav_medicine" />
+
+    <item
+        android:id="@+id/navigation_care_vaccine"
+        android:icon="@drawable/ic_vaccine"
+        android:title="@string/nav_care_vaccine" />
+
+    <item
+        android:id="@+id/navigation_emergency"
+        android:icon="@drawable/ic_emergency_sos"
+        android:title="@string/nav_emergency" />
+</menu>

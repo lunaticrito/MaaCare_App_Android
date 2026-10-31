@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cse2200.maacare">
+
+    <!-- Essential System Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_pregnancy_tracker"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_pregnancy_tracker"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MaaCare">
+
+        <!-- Main Launcher Activity -->
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Maternal Health Monitor Foreground Service -->
+        <service
+            android:name=".service.MaternalHealthMonitorService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Medication Alarm Broadcast Receiver -->
+        <receiver
+            android:name=".receiver.MedicationAlarmReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!-- Device Reboot Restoration Receiver -->
+        <receiver
+            android:name=".receiver.BootCompletedReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Custom Content Provider for Caregivers / Widgets -->
+        <provider
+            android:name=".provider.MaaCareContentProvider"
+            android:authorities="com.cse2200.maacare.provider"
+            android:exported="true" />
+
+    </application>
+
+</manifest>

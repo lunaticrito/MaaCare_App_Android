@@ -1,0 +1,14 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.MaaCare" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#F48FB1</item>
+        <item name="colorPrimaryVariant">#C2185B</item>
+        <item name="colorOnPrimary">#000000</item>
+        
+        <item name="colorSecondary">#80CBC4</item>
+        <item name="colorSecondaryVariant">#004D40</item>
+        <item name="colorOnSecondary">#000000</item>
+        
+        <item name="android:statusBarColor">#121212</item>
+        <item name="android:windowBackground">#121212</item>
+    </style>
+</resources>
