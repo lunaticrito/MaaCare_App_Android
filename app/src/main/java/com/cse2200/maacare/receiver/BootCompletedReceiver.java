@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * BroadcastReceiver triggered on system reboot (RECEIVE_BOOT_COMPLETED)
- * to re-arm all active medication alarms from the local database.
+ * to re-arm all active, unexpired medication alarms from the local database.
  */
 public class BootCompletedReceiver extends BroadcastReceiver {
 
@@ -20,14 +20,15 @@ public class BootCompletedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            Log.d(TAG, "Device rebooted. Rescheduling all active maternal medicine reminders...");
+            Log.d(TAG, "Device rebooted. Restoring active unexpired medication reminders...");
             MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+                long now = System.currentTimeMillis();
                 MaaCareDatabase db = MaaCareDatabase.getInstance(context);
-                List<MedicineEntity> activeList = db.medicineDao().getActiveReminders();
+                List<MedicineEntity> activeList = db.medicineDao().getActiveUnexpiredReminders(now);
                 for (MedicineEntity medicine : activeList) {
                     AlarmScheduler.scheduleMedicationAlarm(context, medicine);
                 }
-                Log.d(TAG, "Successfully restored " + activeList.size() + " medication alarms.");
+                Log.d(TAG, "Successfully restored " + activeList.size() + " active medication alarms.");
             });
         }
     }

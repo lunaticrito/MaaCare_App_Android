@@ -13,7 +13,8 @@ import com.cse2200.maacare.service.MaternalHealthMonitorService;
 import com.cse2200.maacare.ui.MainActivity;
 
 /**
- * Handles creation of High-Priority Notification Channels and NotificationCompat Builders.
+ * Handles creation of High-Priority Notification Channels and NotificationCompat Builders
+ * for medication alerts and the live foreground maternal hydration monitor.
  */
 public class NotificationHelper {
 
@@ -55,9 +56,9 @@ public class NotificationHelper {
     }
 
     /**
-     * Builds persistent foreground notification with '+250ml Water' quick action button.
+     * Builds persistent foreground notification with '+250 mL' and '+500 mL' quick action buttons.
      */
-    public static NotificationCompat.Builder buildForegroundMonitorNotification(Context context, int waterGlasses) {
+    public static NotificationCompat.Builder buildForegroundMonitorNotification(Context context, int currentMl, int goalMl) {
         Intent launchIntent = new Intent(context, MainActivity.class);
         launchIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
@@ -65,18 +66,26 @@ public class NotificationHelper {
                 : PendingIntent.FLAG_UPDATE_CURRENT;
         PendingIntent contentPendingIntent = PendingIntent.getActivity(context, 0, launchIntent, flags);
 
-        // PendingIntent for Action Button: Log Water
-        Intent logWaterIntent = new Intent(context, MaternalHealthMonitorService.class);
-        logWaterIntent.setAction(MaternalHealthMonitorService.ACTION_LOG_WATER);
-        PendingIntent logWaterPendingIntent = PendingIntent.getService(context, 1, logWaterIntent, flags);
+        // PendingIntent for Action Button: +250 mL
+        Intent add250Intent = new Intent(context, MaternalHealthMonitorService.class);
+        add250Intent.setAction(MaternalHealthMonitorService.ACTION_LOG_WATER_250);
+        PendingIntent add250Pending = PendingIntent.getService(context, 1, add250Intent, flags);
+
+        // PendingIntent for Action Button: +500 mL
+        Intent add500Intent = new Intent(context, MaternalHealthMonitorService.class);
+        add500Intent.setAction(MaternalHealthMonitorService.ACTION_LOG_WATER_500);
+        PendingIntent add500Pending = PendingIntent.getService(context, 2, add500Intent, flags);
+
+        int percent = goalMl > 0 ? (int) (((double) currentMl / goalMl) * 100) : 0;
 
         return new NotificationCompat.Builder(context, CHANNEL_MONITOR_ID)
                 .setSmallIcon(R.drawable.ic_water_drop)
-                .setContentTitle("Maternal Hydration Monitor Active")
-                .setContentText("Intake: " + waterGlasses + " / 12 Glasses (Goal: 3000 ml)")
+                .setContentTitle("MaaCare • Maternal Hydration Active")
+                .setContentText("Intake: " + currentMl + " mL / " + goalMl + " mL (" + percent + "%)")
                 .setContentIntent(contentPendingIntent)
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
-                .addAction(R.drawable.ic_water_drop, "+250ml Water", logWaterPendingIntent);
+                .addAction(R.drawable.ic_water_drop, "+250 mL", add250Pending)
+                .addAction(R.drawable.ic_water_drop, "+500 mL", add500Pending);
     }
 }

@@ -9,12 +9,13 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.cse2200.maacare.data.db.MaaCareDatabase;
+import com.cse2200.maacare.data.db.entity.HydrationLogEntity;
 import com.cse2200.maacare.data.db.entity.MedicineEntity;
 import com.cse2200.maacare.data.db.entity.VaccinationEntity;
 
 /**
  * Standard Android ContentProvider enabling companion applications, caregivers,
- * or desktop widgets to securely query maternal medication adherence and vaccination records.
+ * or desktop widgets to query maternal medication adherence, vaccination, and hydration records.
  */
 public class MaaCareContentProvider extends ContentProvider {
 
@@ -22,6 +23,8 @@ public class MaaCareContentProvider extends ContentProvider {
     private static final int CODE_MEDICINE_ID = 101;
     private static final int CODE_VACCINATIONS = 200;
     private static final int CODE_VACCINATION_ID = 201;
+    private static final int CODE_HYDRATION = 300;
+    private static final int CODE_HYDRATION_ID = 301;
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -30,6 +33,8 @@ public class MaaCareContentProvider extends ContentProvider {
         URI_MATCHER.addURI(MaaCareContract.AUTHORITY, MaaCareContract.PATH_MEDICINES + "/#", CODE_MEDICINE_ID);
         URI_MATCHER.addURI(MaaCareContract.AUTHORITY, MaaCareContract.PATH_VACCINATIONS, CODE_VACCINATIONS);
         URI_MATCHER.addURI(MaaCareContract.AUTHORITY, MaaCareContract.PATH_VACCINATIONS + "/#", CODE_VACCINATION_ID);
+        URI_MATCHER.addURI(MaaCareContract.AUTHORITY, MaaCareContract.PATH_HYDRATION, CODE_HYDRATION);
+        URI_MATCHER.addURI(MaaCareContract.AUTHORITY, MaaCareContract.PATH_HYDRATION + "/#", CODE_HYDRATION_ID);
     }
 
     private MaaCareDatabase database;
@@ -65,6 +70,13 @@ public class MaaCareContentProvider extends ContentProvider {
                 long vacId = ContentUris.parseId(uri);
                 cursor = database.vaccinationDao().selectByIdCursor(vacId);
                 break;
+            case CODE_HYDRATION:
+                cursor = database.hydrationDao().selectAllCursor();
+                break;
+            case CODE_HYDRATION_ID:
+                long hydId = ContentUris.parseId(uri);
+                cursor = database.hydrationDao().selectByIdCursor(hydId);
+                break;
             default:
                 throw new IllegalArgumentException("Unknown Query URI: " + uri);
         }
@@ -88,6 +100,10 @@ public class MaaCareContentProvider extends ContentProvider {
                 return MaaCareContract.VaccinationEntry.CONTENT_TYPE;
             case CODE_VACCINATION_ID:
                 return MaaCareContract.VaccinationEntry.CONTENT_ITEM_TYPE;
+            case CODE_HYDRATION:
+                return MaaCareContract.HydrationEntry.CONTENT_TYPE;
+            case CODE_HYDRATION_ID:
+                return MaaCareContract.HydrationEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new IllegalArgumentException("Unknown MIME Type URI: " + uri);
         }
@@ -109,6 +125,15 @@ public class MaaCareContentProvider extends ContentProvider {
                 med.setName(values.getAsString(MaaCareContract.MedicineEntry.COLUMN_NAME));
                 med.setDosage(values.getAsString(MaaCareContract.MedicineEntry.COLUMN_DOSAGE));
                 med.setReminderTime(values.getAsString(MaaCareContract.MedicineEntry.COLUMN_REMINDER_TIME));
+
+                long start = values.containsKey(MaaCareContract.MedicineEntry.COLUMN_START_DATE)
+                        ? values.getAsLong(MaaCareContract.MedicineEntry.COLUMN_START_DATE) : System.currentTimeMillis();
+                int duration = values.containsKey(MaaCareContract.MedicineEntry.COLUMN_DURATION_DAYS)
+                        ? values.getAsInteger(MaaCareContract.MedicineEntry.COLUMN_DURATION_DAYS) : 14;
+
+                med.setStartDateMillis(start);
+                med.setDurationDays(duration);
+                med.setEndDateMillis(start + (duration * 86400000L));
                 med.setTakenToday(values.getAsBoolean(MaaCareContract.MedicineEntry.COLUMN_IS_TAKEN) != null
                         && values.getAsBoolean(MaaCareContract.MedicineEntry.COLUMN_IS_TAKEN));
                 med.setReminderEnabled(values.getAsBoolean(MaaCareContract.MedicineEntry.COLUMN_REMINDER_ENABLED) != null
@@ -120,10 +145,21 @@ public class MaaCareContentProvider extends ContentProvider {
                 VaccinationEntity vac = new VaccinationEntity();
                 vac.setVaccineName(values.getAsString(MaaCareContract.VaccinationEntry.COLUMN_NAME));
                 vac.setTargetAge(values.getAsString(MaaCareContract.VaccinationEntry.COLUMN_TARGET_AGE));
+                vac.setTargetAgeDays(values.containsKey(MaaCareContract.VaccinationEntry.COLUMN_TARGET_AGE_DAYS)
+                        ? values.getAsInteger(MaaCareContract.VaccinationEntry.COLUMN_TARGET_AGE_DAYS) : 0);
                 vac.setDiseaseTarget(values.getAsString(MaaCareContract.VaccinationEntry.COLUMN_DISEASE_TARGET));
                 vac.setDone(values.getAsBoolean(MaaCareContract.VaccinationEntry.COLUMN_IS_DONE) != null
                         && values.getAsBoolean(MaaCareContract.VaccinationEntry.COLUMN_IS_DONE));
                 insertedId = database.vaccinationDao().insert(vac);
+                break;
+
+            case CODE_HYDRATION:
+                HydrationLogEntity hyd = new HydrationLogEntity();
+                hyd.setDateString(values.getAsString(MaaCareContract.HydrationEntry.COLUMN_DATE));
+                hyd.setVolumeMl(values.getAsInteger(MaaCareContract.HydrationEntry.COLUMN_VOLUME_ML));
+                hyd.setLoggedTimeMillis(values.containsKey(MaaCareContract.HydrationEntry.COLUMN_LOGGED_TIME)
+                        ? values.getAsLong(MaaCareContract.HydrationEntry.COLUMN_LOGGED_TIME) : System.currentTimeMillis());
+                insertedId = database.hydrationDao().insert(hyd);
                 break;
 
             default:
@@ -151,6 +187,12 @@ public class MaaCareContentProvider extends ContentProvider {
             case CODE_VACCINATION_ID:
                 long vacId = ContentUris.parseId(uri);
                 rowsDeleted = database.vaccinationDao().deleteById(vacId);
+                break;
+            case CODE_HYDRATION_ID:
+                long hydId = ContentUris.parseId(uri);
+                HydrationLogEntity entity = new HydrationLogEntity();
+                entity.setId(hydId);
+                rowsDeleted = database.hydrationDao().delete(entity);
                 break;
             default:
                 throw new IllegalArgumentException("Delete unsupported for URI: " + uri);

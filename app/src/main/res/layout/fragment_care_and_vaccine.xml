@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Top Header Card -->
+        <!-- Top Chronological Child Age Tracker Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,28 +23,46 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:padding="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Newborn Immunization &amp; Postpartum Care"
-                    android:textColor="@color/secondary_dark"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
+                    <TextView
+                        android:id="@+id/tv_baby_age_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Baby is 8 Weeks old (2 Months)"
+                        android:textColor="@color/secondary_dark"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_baby_birth_subtext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="Chronological age computed from birth date."
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_edit_baby_birth"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="National Expanded Programme on Immunization (EPI) &amp; Maternal Diet Log."
-                    android:textColor="@color/text_secondary"
-                    android:textSize="13sp" />
+                    android:text="Birth Date"
+                    android:textColor="@color/secondary_dark" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Segmented Toggle Buttons (Vaccine vs Food Log) -->
+        <!-- Segmented 3-Way Toggle Buttons -->
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/toggle_care_sections"
             android:layout_width="match_parent"
@@ -60,8 +78,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/tab_vaccinations"
+                android:text="Vaccines"
+                android:textSize="11sp"
                 app:icon="@drawable/ic_vaccine" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_section_nutrition_guide"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Diet Guide"
+                android:textSize="11sp"
+                app:icon="@drawable/ic_pregnancy_tracker" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_section_food"
@@ -69,11 +98,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/tab_nutrition"
+                android:text="Food Log"
+                android:textSize="11sp"
                 app:icon="@drawable/ic_baby" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
-        <!-- Container for Vaccine Section -->
+        <!-- 1. Container for Vaccine Section -->
         <LinearLayout
             android:id="@+id/layout_vaccine_section"
             android:layout_width="match_parent"
@@ -86,9 +116,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="0 of 6 Newborn Vaccines Administered"
+                android:text="EPI &amp; WHO Newborn Immunization Schedule (Weeks &amp; Months)"
                 android:textColor="@color/secondary_dark"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -99,7 +129,156 @@
                 android:paddingBottom="16dp" />
         </LinearLayout>
 
-        <!-- Container for Food Log Section -->
+        <!-- 2. Container for Age-Appropriate Nutrition Guide (Weeks & Months) -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/layout_nutrition_guide_section"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="24dp">
+
+                <!-- 0 - 6 Months Guide -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="@color/surface_card"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0–6 Months (Weeks 1–24): Exclusive Breastfeeding"
+                            android:textColor="@color/secondary_dark"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="• WHO Guideline: Only mother\'s breast milk (or prescribed donor milk). No water, tea, honey, or cow\'s milk.\n• Frequency: Feed on demand (8 to 12 times in 24 hours).\n• Vital Indicators: At least 6 wet diapers daily indicates optimal hydration and milk transfer."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 6 - 8 Months Guide -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="@color/surface_card"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="6–8 Months: Complementary Foods Introduction"
+                            android:textColor="@color/primary_dark"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="• Starter Meals: Soft rice &amp; moong dal khichuri, mashed ripe papaya, steamed mashed carrots/pumpkin.\n• Frequency: 2 to 3 complementary meals daily alongside continued breastfeeding.\n• Protein: Introduce cooked, mashed boiled egg yolk (rich in choline &amp; iron).\n• 3-Day Rule: Introduce single ingredients one at a time to monitor allergic reactions."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 9 - 11 Months Guide -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="@color/surface_card"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="9–11 Months: Chopped Finger Foods &amp; Iron Meals"
+                            android:textColor="#5E35B1"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="• Texture: Progress from purees to finely chopped, soft finger foods encouraging self-feeding.\n• Meal Cadence: 3 to 4 meals/day + 1 healthy snack (e.g. mashed banana, curd).\n• Micronutrients: Finely shredded fish/chicken, lentils, spinach for hemoglobin support."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 12 - 24 Months Guide -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:cardBackgroundColor="@color/surface_card"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="1dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12–24 Months: Family Balanced Diet"
+                            android:textColor="#E65100"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="• Transition: Child joins family meals (mild spices, no added salt/sugar until 1 year).\n• Food Variety: Whole grains, legumes, dairy, eggs, seasonal fruits, green leafy vegetables.\n• Continued Lactation: Continue breastfeeding up to 2 years of age or beyond for immune benefits."
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- 3. Container for Baby Food & Allergy Log Section -->
         <LinearLayout
             android:id="@+id/layout_food_section"
             android:layout_width="match_parent"
@@ -113,13 +292,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:text="Maternal Daily Nutrition &amp; Protein Tracking"
+                android:text="Infant &amp; Toddler Feeding Records &amp; Allergy Observations"
                 android:textColor="@color/primary_dark"
-                android:textSize="14sp"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_food_logs"
+                android:id="@+id/rv_baby_food_logs"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
@@ -128,15 +307,15 @@
 
     </LinearLayout>
 
-    <!-- Floating Action Button to Add Food Log (visible in food section) -->
+    <!-- Floating Action Button to Add Baby Food Log (visible in food section) -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab_add_food_log"
+        android:id="@+id/fab_add_baby_food"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
         android:backgroundTint="@color/secondary"
-        android:text="Log Meal"
+        android:text="Log Meal &amp; Allergy"
         android:textColor="@color/white"
         android:visibility="gone"
         app:icon="@drawable/ic_add"

@@ -22,6 +22,9 @@ public interface MedicineDao {
     @Query("SELECT * FROM medicines WHERE reminder_enabled = 1")
     List<MedicineEntity> getActiveReminders();
 
+    @Query("SELECT * FROM medicines WHERE end_date_millis > :currentTime AND reminder_enabled = 1")
+    List<MedicineEntity> getActiveUnexpiredReminders(long currentTime);
+
     @Query("SELECT * FROM medicines WHERE id = :id LIMIT 1")
     MedicineEntity getMedicineById(long id);
 

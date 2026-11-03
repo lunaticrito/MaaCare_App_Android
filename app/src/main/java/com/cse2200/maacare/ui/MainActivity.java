@@ -13,13 +13,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.cse2200.maacare.R;
+import com.cse2200.maacare.data.prefs.PreferenceManager;
 import com.cse2200.maacare.databinding.ActivityMainBinding;
 import com.cse2200.maacare.receiver.NetworkStateChangeReceiver;
+import com.cse2200.maacare.ui.auth.LoginActivity;
 import com.cse2200.maacare.ui.fragments.CareAndVaccineFragment;
 import com.cse2200.maacare.ui.fragments.EmergencyGuideFragment;
 import com.cse2200.maacare.ui.fragments.HomeTrackerFragment;
 import com.cse2200.maacare.ui.fragments.MedicineReminderFragment;
 import com.cse2200.maacare.util.NotificationHelper;
+import android.content.Intent;
 
 /**
  * Main Activity hosting BottomNavigationView, Fragment container,
@@ -31,10 +34,19 @@ public class MainActivity extends AppCompatActivity implements NetworkStateChang
 
     private ActivityMainBinding binding;
     private NetworkStateChangeReceiver networkReceiver;
+    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        preferenceManager = new PreferenceManager(this);
+        if (!preferenceManager.isLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

@@ -17,6 +17,7 @@ import com.cse2200.maacare.util.NotificationHelper;
 
 /**
  * BroadcastReceiver triggered by AlarmManager to post high-priority medication notifications.
+ * Automatically checks whether the prescribed course duration has expired and cancels alarms accordingly.
  */
 public class MedicationAlarmReceiver extends BroadcastReceiver {
 
@@ -29,45 +30,56 @@ public class MedicationAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         long medId = intent.getLongExtra(EXTRA_MED_ID, 0);
-        String medName = intent.getStringExtra(EXTRA_MED_NAME);
-        String dosage = intent.getStringExtra(EXTRA_MED_DOSAGE);
 
-        if (medName == null) medName = "Prescribed Supplement";
-        if (dosage == null) dosage = "Take as prescribed by obstetrician";
-
-        NotificationHelper.createNotificationChannels(context);
-
-        Intent openAppIntent = new Intent(context, MainActivity.class);
-        openAppIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
-                : PendingIntent.FLAG_UPDATE_CURRENT;
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) medId, openAppIntent, flags);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MEDICATION_ID)
-                .setSmallIcon(R.drawable.ic_medication)
-                .setContentTitle("Maternal Medication Reminder: " + medName)
-                .setContentText(dosage)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(
-                        "Time to take your maternal supplement: " + medName + " (" + dosage + "). Staying consistent ensures vital fetal organ growth."))
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
-
-        try {
-            NotificationManagerCompat.from(context).notify((int) (1000 + medId), builder.build());
-            Log.d(TAG, "Fired medication alert notification for: " + medName);
-        } catch (SecurityException se) {
-            Log.e(TAG, "Notification permission missing on Android 13+", se);
-        }
-
-        // Reschedule alarm for next day's dosage cycle
         MaaCareDatabase.databaseWriteExecutor.execute(() -> {
             MaaCareDatabase db = MaaCareDatabase.getInstance(context);
-            MedicineEntity entity = db.medicineDao().getMedicineById(medId);
-            if (entity != null && entity.isReminderEnabled()) {
-                AlarmScheduler.scheduleMedicationAlarm(context, entity);
+            MedicineEntity medicine = db.medicineDao().getMedicineById(medId);
+
+            if (medicine == null) {
+                return;
             }
+
+            // Check if prescribed course duration has ended
+            if (medicine.isCourseCompleted()) {
+                Log.d(TAG, "Course expired for " + medicine.getName() + ". Auto-cancelling reminder alarm.");
+                medicine.setReminderEnabled(false);
+                db.medicineDao().update(medicine);
+                AlarmScheduler.cancelMedicationAlarm(context, medicine);
+                return;
+            }
+
+            // If active, build and fire notification with course progress
+            NotificationHelper.createNotificationChannels(context);
+
+            Intent openAppIntent = new Intent(context, MainActivity.class);
+            openAppIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            int flags = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+                    : PendingIntent.FLAG_UPDATE_CURRENT;
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) medId, openAppIntent, flags);
+
+            String courseBadge = "Day " + medicine.getCurrentDayInCourse() + " of "
+                    + medicine.getDurationDays() + " (" + medicine.getDaysRemainingInCourse() + " days left)";
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, NotificationHelper.CHANNEL_MEDICATION_ID)
+                    .setSmallIcon(R.drawable.ic_medication)
+                    .setContentTitle("MaaCare Medication Alert: " + medicine.getName())
+                    .setContentText(medicine.getDosage() + " • " + courseBadge)
+                    .setStyle(new NotificationCompat.BigTextStyle().bigText(
+                            "Time for prescribed supplement: " + medicine.getName() + " (" + medicine.getDosage()
+                                    + ").\nCourse Progress: " + courseBadge + ".\nConsistency ensures optimal fetal development."))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent);
+
+            try {
+                NotificationManagerCompat.from(context).notify((int) (1000 + medId), builder.build());
+            } catch (SecurityException se) {
+                Log.e(TAG, "Notification permission missing on Android 13+", se);
+            }
+
+            // Re-arm for next dosage if still active
+            AlarmScheduler.scheduleMedicationAlarm(context, medicine);
         });
     }
 }

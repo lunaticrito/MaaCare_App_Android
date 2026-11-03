@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 /**
- * Entity representing a prescribed medication or supplement reminder.
+ * Entity representing a prescribed medication or supplement reminder with course duration tracking.
  */
 @Entity(tableName = "medicines")
 public class MedicineEntity {
@@ -22,6 +22,15 @@ public class MedicineEntity {
     @ColumnInfo(name = "reminder_time")
     private String reminderTime;
 
+    @ColumnInfo(name = "start_date_millis")
+    private long startDateMillis;
+
+    @ColumnInfo(name = "duration_days")
+    private int durationDays;
+
+    @ColumnInfo(name = "end_date_millis")
+    private long endDateMillis;
+
     @ColumnInfo(name = "is_taken_today")
     private boolean isTakenToday;
 
@@ -34,10 +43,14 @@ public class MedicineEntity {
     public MedicineEntity() {
     }
 
-    public MedicineEntity(String name, String dosage, String reminderTime, boolean isTakenToday, boolean reminderEnabled) {
+    public MedicineEntity(String name, String dosage, String reminderTime, long startDateMillis,
+                          int durationDays, boolean isTakenToday, boolean reminderEnabled) {
         this.name = name;
         this.dosage = dosage;
         this.reminderTime = reminderTime;
+        this.startDateMillis = startDateMillis;
+        this.durationDays = durationDays;
+        this.endDateMillis = startDateMillis + (durationDays * 86400000L);
         this.isTakenToday = isTakenToday;
         this.reminderEnabled = reminderEnabled;
         this.createdAt = System.currentTimeMillis();
@@ -75,6 +88,30 @@ public class MedicineEntity {
         this.reminderTime = reminderTime;
     }
 
+    public long getStartDateMillis() {
+        return startDateMillis;
+    }
+
+    public void setStartDateMillis(long startDateMillis) {
+        this.startDateMillis = startDateMillis;
+    }
+
+    public int getDurationDays() {
+        return durationDays;
+    }
+
+    public void setDurationDays(int durationDays) {
+        this.durationDays = durationDays;
+    }
+
+    public long getEndDateMillis() {
+        return endDateMillis;
+    }
+
+    public void setEndDateMillis(long endDateMillis) {
+        this.endDateMillis = endDateMillis;
+    }
+
     public boolean isTakenToday() {
         return isTakenToday;
     }
@@ -97,5 +134,30 @@ public class MedicineEntity {
 
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    // --- Course Tracking Helpers ---
+
+    public boolean isCourseCompleted() {
+        return System.currentTimeMillis() > endDateMillis;
+    }
+
+    public int getCurrentDayInCourse() {
+        long elapsed = System.currentTimeMillis() - startDateMillis;
+        if (elapsed < 0) return 1;
+        int day = (int) (elapsed / 86400000L) + 1;
+        return Math.min(day, durationDays);
+    }
+
+    public int getDaysRemainingInCourse() {
+        long remaining = endDateMillis - System.currentTimeMillis();
+        if (remaining <= 0) return 0;
+        return (int) Math.ceil(remaining / 86400000.0);
+    }
+
+    public int getCourseProgressPercent() {
+        if (durationDays <= 0) return 100;
+        int currentDay = getCurrentDayInCourse();
+        return Math.min(100, Math.max(0, (int) (((double) currentDay / durationDays) * 100)));
     }
 }

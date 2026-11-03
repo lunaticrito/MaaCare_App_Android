@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 /**
- * Entity representing an EPI newborn vaccination schedule item.
+ * Entity representing an EPI & WHO compliant newborn vaccination milestone.
  */
 @Entity(tableName = "vaccinations")
 public class VaccinationEntity {
@@ -17,7 +17,10 @@ public class VaccinationEntity {
     private String vaccineName;
 
     @ColumnInfo(name = "target_age")
-    private String targetAge;
+    private String targetAge; // e.g. "At Birth", "6 Weeks", "10 Weeks", "14 Weeks", "9 Months", "15 Months"
+
+    @ColumnInfo(name = "target_age_days")
+    private int targetAgeDays;
 
     @ColumnInfo(name = "disease_target")
     private String diseaseTarget;
@@ -31,9 +34,11 @@ public class VaccinationEntity {
     public VaccinationEntity() {
     }
 
-    public VaccinationEntity(String vaccineName, String targetAge, String diseaseTarget, boolean isDone, String administeredDate) {
+    public VaccinationEntity(String vaccineName, String targetAge, int targetAgeDays,
+                             String diseaseTarget, boolean isDone, String administeredDate) {
         this.vaccineName = vaccineName;
         this.targetAge = targetAge;
+        this.targetAgeDays = targetAgeDays;
         this.diseaseTarget = diseaseTarget;
         this.isDone = isDone;
         this.administeredDate = administeredDate;
@@ -63,6 +68,14 @@ public class VaccinationEntity {
         this.targetAge = targetAge;
     }
 
+    public int getTargetAgeDays() {
+        return targetAgeDays;
+    }
+
+    public void setTargetAgeDays(int targetAgeDays) {
+        this.targetAgeDays = targetAgeDays;
+    }
+
     public String getDiseaseTarget() {
         return diseaseTarget;
     }
@@ -85,5 +98,18 @@ public class VaccinationEntity {
 
     public void setAdministeredDate(String administeredDate) {
         this.administeredDate = administeredDate;
+    }
+
+    /**
+     * Determines whether the vaccine is Completed, Due Now, or Upcoming based on baby's age in days.
+     */
+    public String computeStatus(int babyAgeDays) {
+        if (isDone) {
+            return "COMPLETED";
+        } else if (babyAgeDays >= targetAgeDays) {
+            return "DUE NOW";
+        } else {
+            return "UPCOMING";
+        }
     }
 }

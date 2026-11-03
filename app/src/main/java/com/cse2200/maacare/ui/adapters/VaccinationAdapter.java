@@ -11,7 +11,8 @@ import com.cse2200.maacare.data.db.entity.VaccinationEntity;
 import com.cse2200.maacare.databinding.ItemVaccinationBinding;
 
 /**
- * Adapter for newborn EPI vaccination schedule with interactive administered toggles.
+ * Adapter for newborn EPI & WHO vaccination schedule with interactive administered toggles
+ * and dynamic Completed, Due Now, and Upcoming status badges.
  */
 public class VaccinationAdapter extends ListAdapter<VaccinationEntity, VaccinationAdapter.VaccineViewHolder> {
 
@@ -20,10 +21,16 @@ public class VaccinationAdapter extends ListAdapter<VaccinationEntity, Vaccinati
     }
 
     private final OnVaccineToggleListener listener;
+    private int babyAgeDays = 56; // Default ~8 weeks
 
     public VaccinationAdapter(OnVaccineToggleListener listener) {
         super(DIFF_CALLBACK);
         this.listener = listener;
+    }
+
+    public void setBabyAgeDays(int babyAgeDays) {
+        this.babyAgeDays = babyAgeDays;
+        notifyDataSetChanged();
     }
 
     private static final DiffUtil.ItemCallback<VaccinationEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<VaccinationEntity>() {
@@ -35,6 +42,7 @@ public class VaccinationAdapter extends ListAdapter<VaccinationEntity, Vaccinati
         @Override
         public boolean areContentsTheSame(@NonNull VaccinationEntity oldItem, @NonNull VaccinationEntity newItem) {
             return oldItem.isDone() == newItem.isDone()
+                    && oldItem.getTargetAgeDays() == newItem.getTargetAgeDays()
                     && oldItem.getVaccineName().equals(newItem.getVaccineName())
                     && oldItem.getTargetAge().equals(newItem.getTargetAge());
         }
@@ -54,7 +62,7 @@ public class VaccinationAdapter extends ListAdapter<VaccinationEntity, Vaccinati
     @Override
     public void onBindViewHolder(@NonNull VaccineViewHolder holder, int position) {
         VaccinationEntity item = getItem(position);
-        holder.bind(item, listener);
+        holder.bind(item, babyAgeDays, listener);
     }
 
     public static class VaccineViewHolder extends RecyclerView.ViewHolder {
@@ -65,7 +73,7 @@ public class VaccinationAdapter extends ListAdapter<VaccinationEntity, Vaccinati
             this.binding = binding;
         }
 
-        public void bind(VaccinationEntity item, OnVaccineToggleListener listener) {
+        public void bind(VaccinationEntity item, int babyAgeDays, OnVaccineToggleListener listener) {
             binding.tvVaccineName.setText(item.getVaccineName());
             binding.tvTargetAge.setText(item.getTargetAge());
             binding.tvDiseaseTarget.setText(item.getDiseaseTarget());
@@ -73,12 +81,21 @@ public class VaccinationAdapter extends ListAdapter<VaccinationEntity, Vaccinati
             binding.cbVaccineDone.setOnCheckedChangeListener(null);
             binding.cbVaccineDone.setChecked(item.isDone());
 
-            if (item.isDone()) {
-                binding.tvVaccineStatus.setText("Completed");
+            String status = item.computeStatus(babyAgeDays);
+            binding.tvVaccineStatus.setText(status);
+
+            if ("COMPLETED".equals(status)) {
                 binding.tvVaccineStatus.setTextColor(Color.parseColor("#2E7D32"));
+                binding.tvVaccineStatus.setBackgroundColor(Color.parseColor("#E8F5E9"));
+                binding.tvVaccineStatus.setPadding(12, 4, 12, 4);
+            } else if ("DUE NOW".equals(status)) {
+                binding.tvVaccineStatus.setTextColor(Color.parseColor("#C62828"));
+                binding.tvVaccineStatus.setBackgroundColor(Color.parseColor("#FFEBEE"));
+                binding.tvVaccineStatus.setPadding(12, 4, 12, 4);
             } else {
-                binding.tvVaccineStatus.setText("Pending");
-                binding.tvVaccineStatus.setTextColor(Color.parseColor("#F57C00"));
+                binding.tvVaccineStatus.setTextColor(Color.parseColor("#00695C"));
+                binding.tvVaccineStatus.setBackgroundColor(Color.parseColor("#E0F2F1"));
+                binding.tvVaccineStatus.setPadding(12, 4, 12, 4);
             }
 
             binding.cbVaccineDone.setOnCheckedChangeListener((buttonView, isChecked) -> {

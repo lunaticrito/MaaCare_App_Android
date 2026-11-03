@@ -11,7 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import com.cse2200.maacare.R;
 import com.cse2200.maacare.data.db.entity.MedicineEntity;
+import com.cse2200.maacare.data.prefs.PreferenceManager;
 import com.cse2200.maacare.data.repository.MaaCareRepository;
 import com.cse2200.maacare.databinding.DialogAddMedicineBinding;
 import com.cse2200.maacare.databinding.FragmentMedicineReminderBinding;
@@ -24,12 +26,14 @@ import java.util.Locale;
 
 /**
  * Prescribed Medicine & Supplement Reminder Fragment.
- * Implements Room database persistence, AlarmManager scheduling, and DiffUtil updates.
+ * Implements Room database persistence, AlarmManager scheduling, DiffUtil updates,
+ * and Course Duration Tracking.
  */
 public class MedicineReminderFragment extends Fragment implements MedicineAdapter.OnMedicineActionListener {
 
     private FragmentMedicineReminderBinding binding;
     private MaaCareRepository repository;
+    private PreferenceManager preferenceManager;
     private MedicineAdapter medicineAdapter;
     private String selectedTimeFormatted = "09:00 AM";
 
@@ -44,6 +48,7 @@ public class MedicineReminderFragment extends Fragment implements MedicineAdapte
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         repository = new MaaCareRepository(requireContext());
+        preferenceManager = new PreferenceManager(requireContext());
 
         setupRecyclerView();
         loadMedicines();
@@ -68,11 +73,15 @@ public class MedicineReminderFragment extends Fragment implements MedicineAdapte
                             binding.layoutEmptyMedicines.setVisibility(View.VISIBLE);
                         } else {
                             binding.layoutEmptyMedicines.setVisibility(View.GONE);
+                            int activeCount = 0;
                             int takenCount = 0;
                             for (MedicineEntity m : list) {
-                                if (m.isTakenToday()) takenCount++;
+                                if (!m.isCourseCompleted()) {
+                                    activeCount++;
+                                    if (m.isTakenToday()) takenCount++;
+                                }
                             }
-                            binding.tvAdherenceStatus.setText(takenCount + " of " + list.size() + " supplements taken today.");
+                            binding.tvAdherenceStatus.setText(takenCount + " of " + activeCount + " active courses taken today.");
                         }
                     });
                 }
@@ -108,6 +117,15 @@ public class MedicineReminderFragment extends Fragment implements MedicineAdapte
             timePicker.show();
         });
 
+        // Toggle custom days visibility
+        dialogBinding.chipGroupDuration.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.chip_custom_days) {
+                dialogBinding.layoutCustomDays.setVisibility(View.VISIBLE);
+            } else {
+                dialogBinding.layoutCustomDays.setVisibility(View.GONE);
+            }
+        });
+
         new AlertDialog.Builder(requireContext())
                 .setView(dialogBinding.getRoot())
                 .setPositiveButton("Add Prescription", (dialog, which) -> {
@@ -122,7 +140,30 @@ public class MedicineReminderFragment extends Fragment implements MedicineAdapte
                         dosage = "1 dose as prescribed";
                     }
 
-                    MedicineEntity newMed = new MedicineEntity(name, dosage, selectedTimeFormatted, false, true);
+                    int durationDays = 14; // Default 2 weeks
+                    int checkedChipId = dialogBinding.chipGroupDuration.getCheckedChipId();
+                    if (checkedChipId == R.id.chip_3_days) {
+                        durationDays = 3;
+                    } else if (checkedChipId == R.id.chip_7_days) {
+                        durationDays = 7;
+                    } else if (checkedChipId == R.id.chip_14_days) {
+                        durationDays = 14;
+                    } else if (checkedChipId == R.id.chip_30_days) {
+                        durationDays = 30;
+                    } else if (checkedChipId == R.id.chip_90_days) {
+                        durationDays = 90;
+                    } else if (checkedChipId == R.id.chip_pregnancy_course) {
+                        durationDays = Math.max(1, preferenceManager.getDaysRemainingToEdd());
+                    } else if (checkedChipId == R.id.chip_custom_days) {
+                        String customStr = dialogBinding.etCustomDays.getText() != null ? dialogBinding.etCustomDays.getText().toString().trim() : "14";
+                        try {
+                            durationDays = Math.max(1, Integer.parseInt(customStr));
+                        } catch (NumberFormatException ignored) {}
+                    }
+
+                    long startDate = System.currentTimeMillis();
+                    MedicineEntity newMed = new MedicineEntity(name, dosage, selectedTimeFormatted, startDate, durationDays, false, true);
+
                     repository.insertMedicine(newMed, new MaaCareRepository.DataCallback<Long>() {
                         @Override
                         public void onSuccess(Long id) {
@@ -130,7 +171,7 @@ public class MedicineReminderFragment extends Fragment implements MedicineAdapte
                             AlarmScheduler.scheduleMedicationAlarm(requireContext(), newMed);
                             if (getActivity() != null) {
                                 getActivity().runOnUiThread(() -> {
-                                    Toast.makeText(requireContext(), "Prescription Added & Alarm Scheduled", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(requireContext(), "Prescription Course Added (" + newMed.getDurationDays() + " Days)", Toast.LENGTH_SHORT).show();
                                     loadMedicines();
                                 });
                             }
@@ -161,7 +202,7 @@ public class MedicineReminderFragment extends Fragment implements MedicineAdapte
     @Override
     public void onReminderToggled(MedicineEntity medicine, boolean isEnabled) {
         medicine.setReminderEnabled(isEnabled);
-        if (isEnabled) {
+        if (isEnabled && !medicine.isCourseCompleted()) {
             AlarmScheduler.scheduleMedicationAlarm(requireContext(), medicine);
         } else {
             AlarmScheduler.cancelMedicationAlarm(requireContext(), medicine);
