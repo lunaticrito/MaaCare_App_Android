@@ -8,6 +8,7 @@
     <color name="secondary">#80CBC4</color>
     <color name="secondary_dark">#004D40</color>
     <color name="secondary_light">#1A2F2B</color>
+    <color name="teal_accent">#4DB6AC</color>
 
     <!-- Center Quick-Log FAB Warm Gold Accent -->
     <color name="accent_gold">#E2C07D</color>
@@ -43,6 +44,7 @@
     <color name="chip_unchecked_bg">#1E2430</color>
     <color name="chip_unchecked_text">#F1F5F9</color>
     <color name="chip_unchecked_stroke">#334155</color>
+    <color name="chip_unselected_border">#334155</color>
     <color name="chip_checked_bg">#FF9AA2</color>
     <color name="chip_checked_text">#12161F</color>
     <color name="chip_checked_stroke">#FF9AA2</color>

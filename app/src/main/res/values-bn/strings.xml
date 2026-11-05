@@ -36,7 +36,7 @@
     <string name="greeting_format">হ্যালো, %s!</string>
     <string name="search_hero_hint">মা ও শিশুর স্বাস্থ্য তথ্য খুঁজুন…</string>
     <string name="pregnancy_progress_title">মাতৃত্বের অগ্রগতি</string>
-    <string name="status_pregnant_format">গর্ভবতী • সপ্তাহ %d, দিন %d</string>
+    <string name="status_pregnant_format">গর্ভবতী • সপ্তাহ %1$d, দিন %2$d</string>
     <string name="trimester_format">%s ট্রাইমেস্টার</string>
     <string name="days_remaining_format">প্রসবের বাকি %d দিন</string>
     <string name="fetal_size_shohay_format">শিশুর আকার: %s</string>
@@ -45,7 +45,7 @@
 
     <!-- Hydration Controller -->
     <string name="hydration_controller_title">দৈনিক পানি পানের পরিমাপক</string>
-    <string name="hydration_count_format">%d মিলি / %d মিলি (%d%%)</string>
+    <string name="hydration_count_format">%1$d মিলি / %2$d মিলি (%3$d%%)</string>
     <string name="btn_add_250">+২৫০ মিলি</string>
     <string name="btn_add_500">+৫০০ মিলি</string>
     <string name="btn_sub_250">-২৫০ মিলি</string>
@@ -70,7 +70,7 @@
     <string name="chip_custom">নির্দিষ্ট দিন</string>
     <string name="course_status_active">চলমান কোর্স</string>
     <string name="course_status_completed">কোর্স সমাপ্ত</string>
-    <string name="course_day_format">%d তম দিন (%d দিনের কোর্স) • বাকি %d দিন</string>
+    <string name="course_day_format">%1$d তম দিন (%2$d দিনের কোর্স) • বাকি %3$d দিন</string>
 
     <!-- Baby Suite: 4 Sub-Modules -->
     <string name="baby_suite_title">নবজাতক ও শিশুর সম্পূর্ণ যত্ন</string>

@@ -115,6 +115,19 @@ public class MaaCareRepository {
         });
     }
 
+    public void updateVaccineAdministered(long id, boolean isDone, DataCallback<Integer> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            VaccinationEntity v = database.vaccinationDao().getVaccineById(id);
+            if (v != null) {
+                v.setDone(isDone);
+                int rows = database.vaccinationDao().update(v);
+                callback.onSuccess(rows);
+            } else {
+                callback.onSuccess(0);
+            }
+        });
+    }
+
     // --- Maternal Nutrition & Meal Logs ---
 
     public void getAllFoodLogs(DataCallback<List<FoodLogEntity>> callback) {

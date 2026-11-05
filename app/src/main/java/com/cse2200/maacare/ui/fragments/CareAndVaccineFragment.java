@@ -226,13 +226,13 @@ public class CareAndVaccineFragment extends Fragment {
     }
 
     private void setupVaccinesSubmodule() {
-        vaccineAdapter = new VaccinationAdapter(vaccine -> {
-            repository.updateVaccineAdministered(vaccine.getId(), vaccine.isAdministered(), new MaaCareRepository.DataCallback<Integer>() {
+        vaccineAdapter = new VaccinationAdapter((vaccine, isDone) -> {
+            repository.updateVaccineAdministered(vaccine.getId(), isDone, new MaaCareRepository.DataCallback<Integer>() {
                 @Override
                 public void onSuccess(Integer result) {
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
-                            String msg = vaccine.isAdministered() ? "Vaccine Marked Administered" : "Vaccine Marked Due";
+                            String msg = isDone ? "Vaccine Marked Administered" : "Vaccine Marked Due";
                             Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
                             loadVaccines();
                         });
@@ -327,13 +327,13 @@ public class CareAndVaccineFragment extends Fragment {
 
     private void loadVaccines() {
         int babyDays = preferenceManager.getBabyAgeDays();
-        vaccineAdapter.setCurrentBabyAgeDays(babyDays);
+        vaccineAdapter.setBabyAgeDays(babyDays);
 
         repository.getAllVaccines(new MaaCareRepository.DataCallback<List<VaccinationEntity>>() {
             @Override
             public void onSuccess(List<VaccinationEntity> list) {
                 if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> vaccineAdapter.setVaccines(list));
+                    getActivity().runOnUiThread(() -> vaccineAdapter.submitList(list));
                 }
             }
             @Override

@@ -35,7 +35,7 @@
     <string name="greeting_format">Hi, %s!</string>
     <string name="search_hero_hint">Search mama and baby topics…</string>
     <string name="pregnancy_progress_title">Pregnancy Journey</string>
-    <string name="status_pregnant_format">Pregnant • Week %d, Day %d</string>
+    <string name="status_pregnant_format">Pregnant • Week %1$d, Day %2$d</string>
     <string name="trimester_format">%s Trimester</string>
     <string name="days_remaining_format">%d Days to EDD</string>
     <string name="fetal_size_shohay_format">Baby size: %s</string>
@@ -44,7 +44,7 @@
 
     <!-- Hydration Controller -->
     <string name="hydration_controller_title">Daily Maternal Hydration Controller</string>
-    <string name="hydration_count_format">%d mL / %d mL (%d%%)</string>
+    <string name="hydration_count_format">%1$d mL / %2$d mL (%3$d%%)</string>
     <string name="btn_add_250">+250 mL</string>
     <string name="btn_add_500">+500 mL</string>
     <string name="btn_sub_250">-250 mL</string>
@@ -69,7 +69,7 @@
     <string name="chip_custom">Custom Days</string>
     <string name="course_status_active">ACTIVE COURSE</string>
     <string name="course_status_completed">COURSE COMPLETED</string>
-    <string name="course_day_format">Day %d of %d • %d days left</string>
+    <string name="course_day_format">Day %1$d of %2$d • %3$d days left</string>
 
     <!-- Baby Suite: 4 Sub-Modules -->
     <string name="baby_suite_title">Comprehensive Baby Care Suite</string>
