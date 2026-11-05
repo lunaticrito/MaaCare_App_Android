@@ -11,8 +11,13 @@
         android:title="@string/nav_medicine" />
 
     <item
+        android:id="@+id/navigation_quick_log"
+        android:icon="@drawable/ic_add"
+        android:title="@string/action_quick_log" />
+
+    <item
         android:id="@+id/navigation_care_vaccine"
-        android:icon="@drawable/ic_vaccine"
+        android:icon="@drawable/ic_baby"
         android:title="@string/nav_care_vaccine" />
 
     <item

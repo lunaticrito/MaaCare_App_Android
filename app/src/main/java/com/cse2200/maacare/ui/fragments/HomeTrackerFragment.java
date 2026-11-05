@@ -298,6 +298,13 @@ public class HomeTrackerFragment extends Fragment {
         } catch (IllegalArgumentException ignored) {}
     }
 
+    public void refreshData() {
+        if (binding != null && isAdded()) {
+            updateProfileAndArcUI();
+            updateHydrationUI();
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

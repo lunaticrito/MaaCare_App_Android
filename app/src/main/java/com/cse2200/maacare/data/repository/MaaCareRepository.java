@@ -3,7 +3,13 @@ package com.cse2200.maacare.data.repository;
 import android.content.Context;
 import android.util.Log;
 import com.cse2200.maacare.data.db.MaaCareDatabase;
+import com.cse2200.maacare.data.db.entity.BabyCareTimelineEntity;
+import com.cse2200.maacare.data.db.entity.BabyEssentialItemEntity;
 import com.cse2200.maacare.data.db.entity.BabyFoodLogEntity;
+import com.cse2200.maacare.data.db.entity.BabyGrowthEntity;
+import com.cse2200.maacare.data.db.entity.BabyMilestoneEntity;
+import com.cse2200.maacare.data.db.entity.BabyVitalsEntity;
+import com.cse2200.maacare.data.db.entity.DoctorEntity;
 import com.cse2200.maacare.data.db.entity.FoodLogEntity;
 import com.cse2200.maacare.data.db.entity.HydrationLogEntity;
 import com.cse2200.maacare.data.db.entity.MedicineEntity;
@@ -214,6 +220,123 @@ public class MaaCareRepository {
                 Log.e(TAG, "Failed reading bundled offline JSON", e);
                 callback.onError(e);
             }
+        });
+    }
+
+    // --- Baby Care Daily Timeline ---
+
+    public void getAllBabyEvents(DataCallback<List<BabyCareTimelineEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<BabyCareTimelineEntity> list = database.babyCareDao().getAllEvents();
+            callback.onSuccess(list);
+        });
+    }
+
+    public void getBabyEventsByDate(String date, DataCallback<List<BabyCareTimelineEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<BabyCareTimelineEntity> list = database.babyCareDao().getEventsByDate(date);
+            callback.onSuccess(list);
+        });
+    }
+
+    public void insertBabyEvent(BabyCareTimelineEntity event, DataCallback<Long> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            long id = database.babyCareDao().insert(event);
+            callback.onSuccess(id);
+        });
+    }
+
+    // --- Developmental Milestones ---
+
+    public void getAllMilestones(DataCallback<List<BabyMilestoneEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<BabyMilestoneEntity> list = database.babyMilestoneDao().getAllMilestones();
+            callback.onSuccess(list);
+        });
+    }
+
+    public void updateMilestone(long id, boolean isAchieved, String remarks, DataCallback<Integer> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            int rows = database.babyMilestoneDao().updateMilestoneStatus(id, isAchieved, remarks, System.currentTimeMillis());
+            callback.onSuccess(rows);
+        });
+    }
+
+    // --- Baby Growth & Anthropometrics ---
+
+    public void getAllGrowthRecords(DataCallback<List<BabyGrowthEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<BabyGrowthEntity> list = database.babyGrowthDao().getAllGrowthRecords();
+            callback.onSuccess(list);
+        });
+    }
+
+    public void insertGrowthRecord(BabyGrowthEntity growth, DataCallback<Long> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            long id = database.babyGrowthDao().insert(growth);
+            callback.onSuccess(id);
+        });
+    }
+
+    // --- Baby Vitals & Health ---
+
+    public void getLatestVitals(DataCallback<BabyVitalsEntity> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            BabyVitalsEntity vitals = database.babyVitalsDao().getLatestVitals();
+            callback.onSuccess(vitals);
+        });
+    }
+
+    public void insertVitals(BabyVitalsEntity vitals, DataCallback<Long> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            long id = database.babyVitalsDao().insert(vitals);
+            callback.onSuccess(id);
+        });
+    }
+
+    // --- Hospital Bag & Essentials Checklist ---
+
+    public void getAllEssentials(DataCallback<List<BabyEssentialItemEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<BabyEssentialItemEntity> list = database.babyEssentialsDao().getAllItems();
+            callback.onSuccess(list);
+        });
+    }
+
+    public void getEssentialsByCategory(String category, DataCallback<List<BabyEssentialItemEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<BabyEssentialItemEntity> list = database.babyEssentialsDao().getItemsByCategory(category);
+            callback.onSuccess(list);
+        });
+    }
+
+    public void updateEssentialChecked(long id, boolean isChecked, DataCallback<Integer> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            int rows = database.babyEssentialsDao().updateItemChecked(id, isChecked);
+            callback.onSuccess(rows);
+        });
+    }
+
+    // --- Doctor Directory ---
+
+    public void getAllDoctors(DataCallback<List<DoctorEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<DoctorEntity> list = database.doctorDao().getAllDoctors();
+            callback.onSuccess(list);
+        });
+    }
+
+    public void searchDoctors(String query, DataCallback<List<DoctorEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<DoctorEntity> list = database.doctorDao().searchDoctors(query);
+            callback.onSuccess(list);
+        });
+    }
+
+    public void getDoctorsBySpecialty(String specialty, DataCallback<List<DoctorEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<DoctorEntity> list = database.doctorDao().getDoctorsBySpecialty(specialty);
+            callback.onSuccess(list);
         });
     }
 }

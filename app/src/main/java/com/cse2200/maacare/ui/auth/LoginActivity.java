@@ -9,12 +9,13 @@ import com.cse2200.maacare.data.db.entity.UserEntity;
 import com.cse2200.maacare.data.prefs.PreferenceManager;
 import com.cse2200.maacare.data.repository.MaaCareRepository;
 import com.cse2200.maacare.databinding.ActivityLoginBinding;
+import com.cse2200.maacare.ui.BaseActivity;
 import com.cse2200.maacare.ui.MainActivity;
 
 /**
  * User Authentication screen supporting credential sign-in and instant Demo Login.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private ActivityLoginBinding binding;
     private MaaCareRepository repository;

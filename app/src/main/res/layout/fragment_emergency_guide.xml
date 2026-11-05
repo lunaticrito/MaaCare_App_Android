@@ -40,6 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
+                    android:fontFamily="@font/inter"
                     android:text="@string/emergency_title"
                     android:textColor="@color/emergency_red_dark"
                     android:textSize="17sp"
@@ -50,6 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
+                    android:fontFamily="@font/inter"
                     android:gravity="center"
                     android:text="One-tap calling &amp; automated emergency SMS with maternal vitals."
                     android:textColor="@color/text_secondary"
@@ -62,6 +64,7 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="14dp"
                     android:backgroundTint="@color/emergency_red"
+                    android:fontFamily="@font/inter"
                     android:text="@string/sos_call_ambulance"
                     android:textColor="@color/white"
                     android:textSize="14sp"
@@ -77,6 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
+                    android:fontFamily="@font/inter"
                     android:text="@string/sos_call_caregiver"
                     android:textColor="@color/emergency_red_dark"
                     android:textSize="13sp"
@@ -92,44 +96,192 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
+                    android:fontFamily="@font/inter"
                     android:text="@string/sos_send_sms"
                     android:textColor="@color/emergency_red_dark"
                     android:textSize="13sp"
                     app:icon="@drawable/ic_sms"
                     app:iconTint="@color/emergency_red_dark" />
-
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Danger Signs Section Heading -->
+        <!-- Doctor Directory Section ("Find A Doctor Near You") -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="@string/danger_signs_title"
+            android:fontFamily="@font/inter"
+            android:text="@string/doctor_dir_title"
             android:textColor="@color/text_primary"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
+        <!-- Stats Row (100+ Doctors | 64 Districts | 200+ Hospitals) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_bottom_sheet_dialog"
+                android:fontFamily="@font/inter"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/stat_verified_doctors"
+                android:textColor="@color/primary"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_bottom_sheet_dialog"
+                android:fontFamily="@font/inter"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/stat_districts"
+                android:textColor="@color/teal_accent"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_bottom_sheet_dialog"
+                android:fontFamily="@font/inter"
+                android:gravity="center"
+                android:padding="6dp"
+                android:text="@string/stat_hospitals"
+                android:textColor="@color/accent_gold"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Search Doctor Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="@color/primary"
+            app:startIconDrawable="@drawable/ic_hospital"
+            app:startIconTint="@color/primary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_search_doctors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter"
+                android:hint="@string/search_doctor_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColor="@color/text_primary"
+                android:textSize="13sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Specialty Filter Chips (All, Obstetrician, Gynecologist, Pediatrician) -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_doctor_specialty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:checkedChip="@+id/chip_spec_all"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_spec_all"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:fontFamily="@font/inter"
+                    android:text="All Specialists" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_spec_obstetrician"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/spec_obstetrician" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_spec_gynecologist"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/spec_gynecologist" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_spec_pediatrician"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/spec_pediatrician" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
+        <!-- Nearest Doctors List -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_danger_signs"
+            android:id="@+id/rv_nearest_doctors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:nestedScrollingEnabled="false" />
 
-        <!-- Emergency Hospital Directory Heading -->
+        <!-- Hospital Bag Essentials Section -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="24/7 Maternal Hospital Directory"
+            android:fontFamily="@font/inter"
+            android:text="@string/tab_essentials"
             android:textColor="@color/text_primary"
-            android:textSize="16sp"
+            android:textSize="17sp"
             android:textStyle="bold" />
 
+        <!-- Hospital Essentials Checklist RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_hospital_directory"
+            android:id="@+id/rv_hospital_essentials"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:nestedScrollingEnabled="false" />
+
+        <!-- Obstetric Danger Signs Section Header -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/inter"
+            android:text="@string/danger_signs_title"
+            android:textColor="@color/text_primary"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <!-- Danger Signs RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_danger_signs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />

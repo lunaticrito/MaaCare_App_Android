@@ -6,13 +6,25 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+import com.cse2200.maacare.data.db.dao.BabyCareDao;
+import com.cse2200.maacare.data.db.dao.BabyEssentialsDao;
 import com.cse2200.maacare.data.db.dao.BabyFoodLogDao;
+import com.cse2200.maacare.data.db.dao.BabyGrowthDao;
+import com.cse2200.maacare.data.db.dao.BabyMilestoneDao;
+import com.cse2200.maacare.data.db.dao.BabyVitalsDao;
+import com.cse2200.maacare.data.db.dao.DoctorDao;
 import com.cse2200.maacare.data.db.dao.FoodLogDao;
 import com.cse2200.maacare.data.db.dao.HydrationDao;
 import com.cse2200.maacare.data.db.dao.MedicineDao;
 import com.cse2200.maacare.data.db.dao.UserDao;
 import com.cse2200.maacare.data.db.dao.VaccinationDao;
+import com.cse2200.maacare.data.db.entity.BabyCareTimelineEntity;
+import com.cse2200.maacare.data.db.entity.BabyEssentialItemEntity;
 import com.cse2200.maacare.data.db.entity.BabyFoodLogEntity;
+import com.cse2200.maacare.data.db.entity.BabyGrowthEntity;
+import com.cse2200.maacare.data.db.entity.BabyMilestoneEntity;
+import com.cse2200.maacare.data.db.entity.BabyVitalsEntity;
+import com.cse2200.maacare.data.db.entity.DoctorEntity;
 import com.cse2200.maacare.data.db.entity.FoodLogEntity;
 import com.cse2200.maacare.data.db.entity.HydrationLogEntity;
 import com.cse2200.maacare.data.db.entity.MedicineEntity;
@@ -32,9 +44,15 @@ import java.util.concurrent.Executors;
                 VaccinationEntity.class,
                 FoodLogEntity.class,
                 HydrationLogEntity.class,
-                BabyFoodLogEntity.class
+                BabyFoodLogEntity.class,
+                BabyCareTimelineEntity.class,
+                BabyMilestoneEntity.class,
+                BabyGrowthEntity.class,
+                BabyVitalsEntity.class,
+                BabyEssentialItemEntity.class,
+                DoctorEntity.class
         },
-        version = 2,
+        version = 3,
         exportSchema = false
 )
 public abstract class MaaCareDatabase extends RoomDatabase {
@@ -49,6 +67,12 @@ public abstract class MaaCareDatabase extends RoomDatabase {
     public abstract FoodLogDao foodLogDao();
     public abstract HydrationDao hydrationDao();
     public abstract BabyFoodLogDao babyFoodLogDao();
+    public abstract BabyCareDao babyCareDao();
+    public abstract BabyMilestoneDao babyMilestoneDao();
+    public abstract BabyGrowthDao babyGrowthDao();
+    public abstract BabyVitalsDao babyVitalsDao();
+    public abstract BabyEssentialsDao babyEssentialsDao();
+    public abstract DoctorDao doctorDao();
 
     public static MaaCareDatabase getInstance(final Context context) {
         if (INSTANCE == null) {

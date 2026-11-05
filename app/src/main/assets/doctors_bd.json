@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Prof. Dr. Rashida Begum",
+    "specialty": "Obstetrician & Gynecologist",
+    "hospital": "Dhaka Medical College Hospital, Dhaka",
+    "distanceKm": 2.4,
+    "nextSlot": "Today, 05:00 PM",
+    "availableToday": true,
+    "phone": "+8801712345671",
+    "rating": 4.9
+  },
+  {
+    "name": "Dr. Farzana Huq",
+    "specialty": "Senior Consultant - Obstetrics & Fetal Medicine",
+    "hospital": "Square Hospitals Ltd, Panthapath, Dhaka",
+    "distanceKm": 3.8,
+    "nextSlot": "Today, 06:30 PM",
+    "availableToday": true,
+    "phone": "+8801712345672",
+    "rating": 4.8
+  },
+  {
+    "name": "Dr. Shahedur Rahman",
+    "specialty": "Chief Consultant Pediatrician & Neonatologist",
+    "hospital": "Evercare Hospital Dhaka, Bashundhara",
+    "distanceKm": 5.2,
+    "nextSlot": "Tomorrow, 10:00 AM",
+    "availableToday": false,
+    "phone": "+8801712345673",
+    "rating": 4.9
+  },
+  {
+    "name": "Prof. Dr. Nazneen Akhter",
+    "specialty": "Maternal-Fetal Medicine & High-Risk Pregnancy",
+    "hospital": "BSMMU (PG Hospital), Shahbagh, Dhaka",
+    "distanceKm": 3.1,
+    "nextSlot": "Today, 04:00 PM",
+    "availableToday": true,
+    "phone": "+8801712345674",
+    "rating": 4.7
+  },
+  {
+    "name": "Dr. Kazi Tanvir Ahmed",
+    "specialty": "Pediatric Critical Care & Infant Health",
+    "hospital": "United Hospital, Gulshan 2, Dhaka",
+    "distanceKm": 6.5,
+    "nextSlot": "Tomorrow, 11:30 AM",
+    "availableToday": false,
+    "phone": "+8801712345675",
+    "rating": 4.8
+  },
+  {
+    "name": "Dr. Syeda Nusrat Jahan",
+    "specialty": "Gynecology & Reproductive Endocrinologist",
+    "hospital": "Labaid Specialized Hospital, Dhanmondi, Dhaka",
+    "distanceKm": 1.8,
+    "nextSlot": "Today, 07:00 PM",
+    "availableToday": true,
+    "phone": "+8801712345676",
+    "rating": 4.8
+  },
+  {
+    "name": "Prof. Dr. M. A. Mannan",
+    "specialty": "Senior Neonatologist & Pediatric Specialist",
+    "hospital": "Bangladesh Institute of Child Health (Dhaka Shishu Hospital)",
+    "distanceKm": 4.2,
+    "nextSlot": "Today, 03:00 PM",
+    "availableToday": true,
+    "phone": "+8801712345677",
+    "rating": 4.9
+  },
+  {
+    "name": "Dr. Shamsun Nahar",
+    "specialty": "Consultant Obstetrician & Infertility Specialist",
+    "hospital": "Popular Diagnostic Centre, Shantinagar, Dhaka",
+    "distanceKm": 2.9,
+    "nextSlot": "Today, 06:00 PM",
+    "availableToday": true,
+    "phone": "+8801712345678",
+    "rating": 4.6
+  }
+]

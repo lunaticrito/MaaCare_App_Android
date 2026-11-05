@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme -->
+    <!-- Base application theme (Light Mode) -->
     <style name="Theme.MaaCare" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color -->
         <item name="colorPrimary">@color/primary</item>
@@ -12,9 +12,21 @@
         <item name="colorOnSecondary">@color/white</item>
         
         <!-- Status bar color -->
-        <item name="android:statusBarColor">@color/primary_dark</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:statusBarColor">@color/background_light</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         
         <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:fontFamily">@font/inter</item>
+
+        <!-- Material Component Styles with High-Contrast Fallbacks -->
+        <item name="chipStyle">@style/Widget.MaaCare.Chip</item>
+    </style>
+
+    <style name="Widget.MaaCare.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/selector_chip_bg</item>
+        <item name="android:textColor">@color/selector_chip_text</item>
+        <item name="chipStrokeColor">@color/selector_chip_stroke</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="android:fontFamily">@font/inter</item>
     </style>
 </resources>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">মা কেয়ার</string>
+    <string name="tagline">মা ও নবজাতকের স্মার্ট স্বাস্থ্য সঙ্গী</string>
+
+    <!-- Top Bar Controls -->
+    <string name="theme_toggle_desc">লাইট বা ডার্ক থিম পরিবর্তন করুন</string>
+    <string name="lang_toggle_desc">ভাষা পরিবর্তন (ইংরেজি বা বাংলা)</string>
+    <string name="lang_en">EN</string>
+    <string name="lang_bn">বাংলা</string>
+    <string name="lang_switch_label">EN | বাংলা</string>
+    <string name="offline_banner_text">অফলাইন মোড সক্রিয় — স্থানীয় জরুরি ডেটা ব্যবহার হচ্ছে</string>
+    <string name="action_quick_log">কুইক লগ</string>
+
+    <!-- 5-Slot Bottom Navigation -->
+    <string name="nav_home">হোম</string>
+    <string name="nav_tracker">হোম</string>
+    <string name="nav_medicine">ওষুধ</string>
+    <string name="nav_care">যত্ন ও ওষুধ</string>
+    <string name="nav_quick_log">কুইক লগ</string>
+    <string name="nav_baby">শিশু কেয়ার</string>
+    <string name="nav_baby_care">শিশু কেয়ার</string>
+    <string name="nav_care_vaccine">শিশু কেয়ার</string>
+    <string name="nav_doctors">ডাক্তার ও জরুরি</string>
+    <string name="nav_emergency">ডাক্তার ও জরুরি</string>
+
+    <!-- Quick Log Dialog Options -->
+    <string name="quick_log_title">দ্রুত মা ও শিশুর রেকর্ড</string>
+    <string name="action_log_water">পানি পানের হিসাব (+২৫০ মিলি)</string>
+    <string name="action_log_feeding">খাওয়ানোর সময় রেকর্ড</string>
+    <string name="action_log_diaper">ডায়াপার পরিবর্তন রেকর্ড</string>
+    <string name="action_log_sleep">ঘুমানোর সময় রেকর্ড</string>
+    <string name="action_log_bath">গোসলের সময় রেকর্ড</string>
+
+    <!-- Home Dashboard Hero & Pregnancy -->
+    <string name="greeting_format">হ্যালো, %s!</string>
+    <string name="search_hero_hint">মা ও শিশুর স্বাস্থ্য তথ্য খুঁজুন…</string>
+    <string name="pregnancy_progress_title">মাতৃত্বের অগ্রগতি</string>
+    <string name="status_pregnant_format">গর্ভবতী • সপ্তাহ %d, দিন %d</string>
+    <string name="trimester_format">%s ট্রাইমেস্টার</string>
+    <string name="days_remaining_format">প্রসবের বাকি %d দিন</string>
+    <string name="fetal_size_shohay_format">শিশুর আকার: %s</string>
+    <string name="btn_expand_milestones">শিশুর বৃদ্ধি ও পরিবর্তন ›</string>
+    <string name="fetal_milestones_heading">সাপ্তাহিক ভ্রূণের বিকাশ মাইলফলক</string>
+
+    <!-- Hydration Controller -->
+    <string name="hydration_controller_title">দৈনিক পানি পানের পরিমাপক</string>
+    <string name="hydration_count_format">%d মিলি / %d মিলি (%d%%)</string>
+    <string name="btn_add_250">+২৫০ মিলি</string>
+    <string name="btn_add_500">+৫০০ মিলি</string>
+    <string name="btn_sub_250">-২৫০ মিলি</string>
+    <string name="btn_edit_hydration">পরিবর্তন</string>
+    <string name="btn_start_monitor">লাইভ মনিটর সার্ভিস চালু করুন</string>
+    <string name="btn_stop_monitor">লাইভ মনিটর সার্ভিস বন্ধ করুন</string>
+
+    <!-- Prescriptions & Course Durations -->
+    <string name="medicine_reminders_title">প্রেসক্রিপশনের ওষুধ ও সাপ্লিমেন্ট</string>
+    <string name="add_medicine_button">+ ওষুধ যোগ করুন</string>
+    <string name="empty_medicines">কোনো ওষুধ যোগ করা হয়নি। \'+\' চাপ দিয়ে ডাক্তারের প্রেসক্রিপশন যোগ করুন।</string>
+    <string name="medicine_name_hint">ওষুধের নাম (যেমন: আয়রন ও ফলিক এসিড)</string>
+    <string name="dosage_hint">ডোজ (যেমন: খাওয়ার পর ১টি ট্যাবলেট)</string>
+    <string name="schedule_time_hint">ওষুধ গ্রহণের সময়</string>
+    <string name="course_duration_heading">কোর্স মেয়াদের সময়কাল</string>
+    <string name="chip_3_days">৩ দিন</string>
+    <string name="chip_7_days">১ সপ্তাহ (৭ দিন)</string>
+    <string name="chip_14_days">২ সপ্তাহ (১৪ দিন)</string>
+    <string name="chip_30_days">১ মাস (৩০ দিন)</string>
+    <string name="chip_90_days">৩ মাস (৯০ দিন)</string>
+    <string name="chip_pregnancy">সমগ্র গর্ভাবস্থা</string>
+    <string name="chip_custom">নির্দিষ্ট দিন</string>
+    <string name="course_status_active">চলমান কোর্স</string>
+    <string name="course_status_completed">কোর্স সমাপ্ত</string>
+    <string name="course_day_format">%d তম দিন (%d দিনের কোর্স) • বাকি %d দিন</string>
+
+    <!-- Baby Suite: 4 Sub-Modules -->
+    <string name="baby_suite_title">নবজাতক ও শিশুর সম্পূর্ণ যত্ন</string>
+    <string name="tab_baby_timeline">টাইমলাইন</string>
+    <string name="tab_baby_growth">গ্রোথ চার্ট</string>
+    <string name="tab_baby_health">স্বাস্থ্য ও ভাইটালস</string>
+    <string name="tab_baby_vaccines">টিকা শিডিউল</string>
+
+    <!-- Timeline Activity Filter -->
+    <string name="filter_all_activities">সকল কার্যক্রম</string>
+    <string name="filter_select_date">তারিখ নির্বাচন</string>
+    <string name="pill_yesterday">গতকাল</string>
+    <string name="pill_today">আজ</string>
+    <string name="pill_tomorrow">আগামীকাল</string>
+    <string name="act_feeding">বুকের দুধ / ফর্মুলা ফিডিং</string>
+    <string name="act_diaper">পোশাক বা ডায়াপার পরিবর্তন</string>
+    <string name="act_sleep">ঘুম ও বিশ্রাম</string>
+    <string name="act_bath">গোসল ও পরিচ্ছন্নতা</string>
+
+    <!-- Growth & Milestones -->
+    <string name="subtab_milestone">মাইলফলক</string>
+    <string name="subtab_weight">ওজন</string>
+    <string name="subtab_height">উচ্চতা</string>
+    <string name="milestone_section_title">৪ মাস - ১ বছর: অঙ্গ সঞ্চালন ও সমন্বয়</string>
+    <string name="q_hands_support">বসার সময় দুই হাতের ওপর ভর দিয়ে ব্যালেন্স নেয়</string>
+    <string name="q_rolling">পিঠ থেকে পেটে বা পেট থেকে পিঠে গড়াগড়ি খায়</string>
+    <string name="q_standing_support">ধরে দাঁড় করানোর সময় পায়ে সম্পূর্ণ ভর নিতে পারে</string>
+    <string name="q_reaching_toys">উপুড় হয়ে থাকার সময় হাতের কাছের খেলনা ধরার চেষ্টা করে</string>
+    <string name="radio_yes">হ্যাঁ</string>
+    <string name="radio_no">না</string>
+    <string name="remark_hint">মন্তব্য: শিশুর অগ্রগতি লিখুন</string>
+    <string name="btn_submit_milestone">জমা দিন</string>
+    <string name="growth_at_birth_format">জন্মের সময় (%s)</string>
+    <string name="growth_current_format">বর্তমান পরিমাপ (%s)</string>
+    <string name="btn_add_measurement">পরিমাপ যোগ করুন</string>
+    <string name="chart_who_title">বিশ্ব স্বাস্থ্য সংস্থা (WHO) শিশু বৃদ্ধির নির্দেশক চার্ট (০–৩২ মাস)</string>
+
+    <!-- Baby Health & Vitals -->
+    <string name="subtab_health_monitor">স্বাস্থ্য পর্যবেক্ষণ</string>
+    <string name="subtab_vaccine_quick">টিকা</string>
+    <string name="card_basic_details">প্রাথমিক বিবরণ</string>
+    <string name="q_baby_sick">শিশু কি অসুস্থ?</string>
+    <string name="notes_symptoms_hint">লক্ষণ বা অসুস্থতার বর্ণনা লিখুন…</string>
+    <string name="card_temperature">তাপমাত্রা পর্যবেক্ষণ</string>
+    <string name="start_time_hint">শুরুর সময় (যেমন: সকাল ০৮:০০)</string>
+    <string name="end_time_hint">শেষের সময় (যেমন: সকাল ১০:০০)</string>
+    <string name="temp_frequency_hint">শরীরের তাপমাত্রা (°F) / বিরতি</string>
+    <string name="btn_proceed">সংরক্ষণ করুন</string>
+    <string name="card_vital_signs">শারীরিক ভাইটালস</string>
+    <string name="pulse_hint">পালস রেট (প্রতি মিনিটে)</string>
+    <string name="spo2_hint">অক্সিজেন স্যাচুরেশন SpO2 (ঘন্টায়)</string>
+
+    <!-- Vaccines Timeline -->
+    <string name="vaccine_badge_completed">দেওয়া সম্পন্ন</string>
+    <string name="vaccine_badge_due_now">এখনই প্রদেয়</string>
+    <string name="vaccine_badge_upcoming">আসন্ন ডোজ</string>
+
+    <!-- Doctor Directory & Essentials -->
+    <string name="doctor_dir_title">নিকটস্থ বিশেষজ্ঞ ডাক্তার খুঁজুন</string>
+    <string name="search_doctor_hint">ডাক্তার বা হাসপাতাল খুঁজুন…</string>
+    <string name="stat_verified_doctors">১০০+ নিবন্ধিত ডাক্তার</string>
+    <string name="stat_districts">৬৪ জেলার নেটওয়ার্ক</string>
+    <string name="stat_hospitals">২০০+ হাসপাতাল</string>
+    <string name="spec_obstetrician">প্রসূতি বিশেষজ্ঞ</string>
+    <string name="spec_gynecologist">স্ত্রী রোগ বিশেষজ্ঞ</string>
+    <string name="spec_pediatrician">শিশু বিশেষজ্ঞ</string>
+    <string name="badge_available_today">আজ চেম্বার খোলা</string>
+    <string name="btn_call_doctor">সরাসরি কল</string>
+    <string name="btn_book_appointment">সাক্ষাৎ বুকিং</string>
+    <string name="tab_doctor_list">নিকটস্থ ডাক্তার তালিকা</string>
+    <string name="tab_essentials">হাসপাতাল ব্যাগের প্রয়োজনীয় সামগ্রী</string>
+    <string name="category_baby_essentials">নবজাতকের জন্য জরুরি সামগ্রী</string>
+    <string name="category_labor_bag">প্রসবকালীন লেবার ব্যাগ</string>
+    <string name="category_postpartum_kit">প্রসবোত্তর মায়ের রিকভারি কিট</string>
+
+    <!-- Emergency SOS -->
+    <string name="emergency_title">জরুরি প্রসূতি ও নবজাতক সেবা</string>
+    <string name="sos_call_ambulance">জরুরি কল করুন (৯৯৯)</string>
+    <string name="sos_call_caregiver">অভিভাবককে কল করুন</string>
+    <string name="sos_send_sms">জরুরি এসএমএস পাঠান</string>
+    <string name="danger_signs_title">গর্ভাবস্থার মারাত্মক বিপদের লক্ষণসমূহ</string>
+
+    <!-- Content Provider Contract Authority -->
+    <string name="provider_authority">com.cse2200.maacare.provider</string>
+</resources>

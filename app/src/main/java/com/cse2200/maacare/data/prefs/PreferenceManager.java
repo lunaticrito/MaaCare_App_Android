@@ -23,6 +23,8 @@ public class PreferenceManager {
     private static final String KEY_WATER_GOAL_ML = "key_water_goal_ml";
     private static final String KEY_WATER_INTAKE_ML = "key_water_intake_ml";
     private static final String KEY_MONITOR_ACTIVE = "key_monitor_active";
+    private static final String KEY_DARK_MODE = "key_dark_mode";
+    private static final String KEY_APP_LANGUAGE = "Locale.Helper.Selected.Language";
 
     private final SharedPreferences prefs;
 
@@ -205,5 +207,23 @@ public class PreferenceManager {
 
     public void setMonitorActive(boolean active) {
         prefs.edit().putBoolean(KEY_MONITOR_ACTIVE, active).apply();
+    }
+
+    // --- Theme & Localization Settings ---
+
+    public boolean isDarkMode() {
+        return prefs.getBoolean(KEY_DARK_MODE, false);
+    }
+
+    public void setDarkMode(boolean darkMode) {
+        prefs.edit().putBoolean(KEY_DARK_MODE, darkMode).apply();
+    }
+
+    public String getAppLanguage() {
+        return prefs.getString(KEY_APP_LANGUAGE, "en");
+    }
+
+    public void setAppLanguage(String languageCode) {
+        prefs.edit().putString(KEY_APP_LANGUAGE, languageCode).apply();
     }
 }

@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Warm Rose & Teal Maternal Palette -->
-    <color name="primary">#C2185B</color>
-    <color name="primary_dark">#880E4F</color>
-    <color name="primary_light">#FCE4EC</color>
-    
-    <color name="secondary">#00897B</color>
+    <!-- Minimalist Soft-Pastel Maternal Palette (Light Mode) -->
+    <color name="primary">#F28B96</color> <!-- Soft Rose/Blush -->
+    <color name="primary_dark">#D8707C</color>
+    <color name="primary_light">#FDECEF</color>
+
+    <color name="secondary">#00897B</color> <!-- Teal Mint -->
     <color name="secondary_dark">#004D40</color>
     <color name="secondary_light">#E0F2F1</color>
-    
-    <!-- Emergency SOS High Contrast Red -->
+
+    <!-- Center Quick-Log FAB Warm Gold Accent -->
+    <color name="accent_gold">#D4AF6A</color>
+    <color name="accent_gold_dark">#B8934E</color>
+    <color name="accent_gold_light">#FFF9E6</color>
+
+    <!-- Surfaces & Neutrals -->
+    <color name="background_light">#FAF8F7</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="surface_card_alt">#F1F5F9</color>
+    <color name="text_primary">#1E293B</color> <!-- Deep Charcoal -->
+    <color name="text_secondary">#64748B</color> <!-- Slate Gray -->
+    <color name="text_hint">#94A3B8</color>
+    <color name="divider_color">#E2E8F0</color>
+
+    <!-- Emergency SOS High Contrast -->
     <color name="emergency_red">#D32F2F</color>
     <color name="emergency_red_dark">#B71C1C</color>
     <color name="emergency_red_light">#FFEBEE</color>
 
-    <!-- Trimester Progress Color Zones -->
-    <color name="trimester1_color">#FFA726</color> <!-- Amber -->
-    <color name="trimester2_color">#26A69A</color> <!-- Teal -->
-    <color name="trimester3_color">#E91E63</color> <!-- Deep Rose -->
+    <!-- Trimester Zones -->
+    <color name="trimester1_color">#FFA726</color>
+    <color name="trimester2_color">#26A69A</color>
+    <color name="trimester3_color">#F28B96</color>
 
-    <!-- Surfaces & Neutrals -->
-    <color name="background_light">#F8F9FA</color>
-    <color name="surface_card">#FFFFFF</color>
-    <color name="surface_card_alt">#F1F5F9</color>
-    <color name="text_primary">#212121</color>
-    <color name="text_secondary">#666666</color>
-    <color name="text_hint">#9E9E9E</color>
-    <color name="divider_color">#E0E0E0</color>
+    <!-- Baby Care Timeline Pastel Palette -->
+    <color name="pastel_feeding">#E6F2FF</color>
+    <color name="pastel_diaper">#E6FAEA</color>
+    <color name="pastel_sleep">#FFF1E0</color>
+    <color name="pastel_bath">#FDECEF</color>
 
-    <!-- Feedback States -->
+    <!-- Chip High-Contrast States -->
+    <color name="chip_unchecked_bg">#F8FAFC</color>
+    <color name="chip_unchecked_text">#1E293B</color>
+    <color name="chip_unchecked_stroke">#CBD5E1</color>
+    <color name="chip_checked_bg">#F28B96</color>
+    <color name="chip_checked_text">#FFFFFF</color>
+    <color name="chip_checked_stroke">#F28B96</color>
+
     <color name="success_green">#2E7D32</color>
     <color name="success_green_light">#E8F5E9</color>
     <color name="warning_amber">#F57C00</color>

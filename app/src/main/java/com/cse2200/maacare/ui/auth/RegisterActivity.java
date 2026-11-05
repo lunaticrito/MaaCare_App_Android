@@ -9,6 +9,7 @@ import com.cse2200.maacare.data.db.entity.UserEntity;
 import com.cse2200.maacare.data.prefs.PreferenceManager;
 import com.cse2200.maacare.data.repository.MaaCareRepository;
 import com.cse2200.maacare.databinding.ActivityRegisterBinding;
+import com.cse2200.maacare.ui.BaseActivity;
 import com.cse2200.maacare.ui.MainActivity;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,7 +20,7 @@ import java.util.Locale;
  * Registration Activity with calendar date selection for Last Menstrual Period (LMP)
  * and automatic derivation of gestational timeline.
  */
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     private ActivityRegisterBinding binding;
     private MaaCareRepository repository;

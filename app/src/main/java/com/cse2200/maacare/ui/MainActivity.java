@@ -22,13 +22,20 @@ import com.cse2200.maacare.ui.fragments.EmergencyGuideFragment;
 import com.cse2200.maacare.ui.fragments.HomeTrackerFragment;
 import com.cse2200.maacare.ui.fragments.MedicineReminderFragment;
 import com.cse2200.maacare.util.NotificationHelper;
+import com.cse2200.maacare.data.repository.MaaCareRepository;
+import com.cse2200.maacare.data.db.entity.BabyCareTimelineEntity;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import android.widget.Toast;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import android.content.Intent;
 
 /**
  * Main Activity hosting BottomNavigationView, Fragment container,
  * dynamic ConnectivityManager BroadcastReceiver, and runtime permission requests.
  */
-public class MainActivity extends AppCompatActivity implements NetworkStateChangeReceiver.NetworkStateListener {
+public class MainActivity extends BaseActivity implements NetworkStateChangeReceiver.NetworkStateListener {
 
     private static final int PERMISSION_REQUEST_NOTIFICATIONS = 101;
 
@@ -56,7 +63,10 @@ public class MainActivity extends AppCompatActivity implements NetworkStateChang
         // Request Android 13 POST_NOTIFICATIONS runtime permission if applicable
         requestNotificationPermissionIfNeeded();
 
-        // Setup Bottom Navigation
+        // Top App Bar Controls (Theme & Language Switchers)
+        setupTopBarControls();
+
+        // Setup Bottom Navigation & Center FAB
         setupBottomNavigation();
 
         // Set default fragment
@@ -68,6 +78,12 @@ public class MainActivity extends AppCompatActivity implements NetworkStateChang
         networkReceiver = new NetworkStateChangeReceiver(this);
     }
 
+    private void setupTopBarControls() {
+        binding.btnThemeToggle.setOnClickListener(v -> toggleTheme());
+        binding.btnLanguageToggle.setOnClickListener(v -> toggleLanguage());
+        binding.fabCenterQuickLog.setOnClickListener(v -> showQuickLogBottomSheet());
+    }
+
     private void setupBottomNavigation() {
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -77,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements NetworkStateChang
                 selectedFragment = new HomeTrackerFragment();
             } else if (itemId == R.id.navigation_medicine) {
                 selectedFragment = new MedicineReminderFragment();
+            } else if (itemId == R.id.navigation_quick_log) {
+                showQuickLogBottomSheet();
+                return false;
             } else if (itemId == R.id.navigation_care_vaccine) {
                 selectedFragment = new CareAndVaccineFragment();
             } else if (itemId == R.id.navigation_emergency) {
@@ -89,6 +108,105 @@ public class MainActivity extends AppCompatActivity implements NetworkStateChang
             }
             return false;
         });
+    }
+
+    private void showQuickLogBottomSheet() {
+        BottomSheetDialog dialog = new BottomSheetDialog(this);
+        View view = getLayoutInflater().inflate(R.layout.dialog_quick_log, null);
+        dialog.setContentView(view);
+
+        MaaCareRepository repo = new MaaCareRepository(this);
+        long now = System.currentTimeMillis();
+        String dateStr = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date(now));
+        String timeStr = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date(now));
+
+        view.findViewById(R.id.btn_quick_water).setOnClickListener(v -> {
+            preferenceManager.adjustTodayWaterIntakeMl(250);
+            Toast.makeText(this, "+250 mL logged! Stay healthy & hydrated.", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+            refreshCurrentFragment();
+        });
+
+        view.findViewById(R.id.btn_quick_feeding).setOnClickListener(v -> {
+            BabyCareTimelineEntity feed = new BabyCareTimelineEntity(
+                    dateStr, timeStr, now, "FEEDING", "Baby Feeding Recorded",
+                    "Logged via 1-tap quick action", "#E6F2FF"
+            );
+            repo.insertBabyEvent(feed, new MaaCareRepository.DataCallback<Long>() {
+                @Override public void onSuccess(Long result) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "Feeding session recorded!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        refreshCurrentFragment();
+                    });
+                }
+                @Override public void onError(Throwable error) {}
+            });
+        });
+
+        view.findViewById(R.id.btn_quick_diaper).setOnClickListener(v -> {
+            BabyCareTimelineEntity diaper = new BabyCareTimelineEntity(
+                    dateStr, timeStr, now, "DIAPER", "Diaper Change Recorded",
+                    "Clean diaper logged via quick action", "#E6FAEA"
+            );
+            repo.insertBabyEvent(diaper, new MaaCareRepository.DataCallback<Long>() {
+                @Override public void onSuccess(Long result) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "Diaper change recorded!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        refreshCurrentFragment();
+                    });
+                }
+                @Override public void onError(Throwable error) {}
+            });
+        });
+
+        view.findViewById(R.id.btn_quick_sleep).setOnClickListener(v -> {
+            BabyCareTimelineEntity sleep = new BabyCareTimelineEntity(
+                    dateStr, timeStr, now, "SLEEP", "Baby Sleep / Nap Recorded",
+                    "Peaceful sleep interval logged", "#FFF1E0"
+            );
+            repo.insertBabyEvent(sleep, new MaaCareRepository.DataCallback<Long>() {
+                @Override public void onSuccess(Long result) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "Sleep log recorded!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        refreshCurrentFragment();
+                    });
+                }
+                @Override public void onError(Throwable error) {}
+            });
+        });
+
+        view.findViewById(R.id.btn_quick_bath).setOnClickListener(v -> {
+            BabyCareTimelineEntity bath = new BabyCareTimelineEntity(
+                    dateStr, timeStr, now, "BATH", "Tub Bathing Recorded",
+                    "Warm bath and hygiene logged", "#FDECEF"
+            );
+            repo.insertBabyEvent(bath, new MaaCareRepository.DataCallback<Long>() {
+                @Override public void onSuccess(Long result) {
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this, "Tub bath recorded!", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        refreshCurrentFragment();
+                    });
+                }
+                @Override public void onError(Throwable error) {}
+            });
+        });
+
+        view.findViewById(R.id.btn_cancel_quick_log).setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    private void refreshCurrentFragment() {
+        Fragment current = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (current instanceof HomeTrackerFragment) {
+            ((HomeTrackerFragment) current).refreshData();
+        } else if (current instanceof CareAndVaccineFragment) {
+            ((CareAndVaccineFragment) current).refreshData();
+        }
     }
 
     private void loadFragment(Fragment fragment) {

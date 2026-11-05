@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet_dialog"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tv_quick_log_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter"
+        android:gravity="center"
+        android:text="@string/quick_log_title"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/inter"
+        android:gravity="center"
+        android:text="One-tap logging for maternal hydration and newborn daily routine"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp" />
+
+    <!-- Water Intake Quick Log -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_quick_water"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/inter"
+        android:gravity="start|center_vertical"
+        android:paddingStart="16dp"
+        android:text="@string/action_log_water"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_water_drop"
+        app:iconGravity="start"
+        app:iconSize="22dp"
+        app:iconTint="@color/teal_accent"
+        app:strokeColor="@color/chip_unselected_border"
+        app:strokeWidth="1.2dp" />
+
+    <!-- Feeding Quick Log -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_quick_feeding"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/inter"
+        android:gravity="start|center_vertical"
+        android:paddingStart="16dp"
+        android:text="@string/action_log_feeding"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_baby"
+        app:iconGravity="start"
+        app:iconSize="22dp"
+        app:iconTint="#1976D2"
+        app:strokeColor="@color/chip_unselected_border"
+        app:strokeWidth="1.2dp" />
+
+    <!-- Diaper Change Quick Log -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_quick_diaper"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/inter"
+        android:gravity="start|center_vertical"
+        android:paddingStart="16dp"
+        android:text="@string/action_log_diaper"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_check_circle"
+        app:iconGravity="start"
+        app:iconSize="22dp"
+        app:iconTint="#388E3C"
+        app:strokeColor="@color/chip_unselected_border"
+        app:strokeWidth="1.2dp" />
+
+    <!-- Sleep Quick Log -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_quick_sleep"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/inter"
+        android:gravity="start|center_vertical"
+        android:paddingStart="16dp"
+        android:text="@string/action_log_sleep"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_pregnancy_tracker"
+        app:iconGravity="start"
+        app:iconSize="22dp"
+        app:iconTint="#F57C00"
+        app:strokeColor="@color/chip_unselected_border"
+        app:strokeWidth="1.2dp" />
+
+    <!-- Bath Quick Log -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_quick_bath"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/inter"
+        android:gravity="start|center_vertical"
+        android:paddingStart="16dp"
+        android:text="@string/action_log_bath"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_water_drop"
+        app:iconGravity="start"
+        app:iconSize="22dp"
+        app:iconTint="#D81B60"
+        app:strokeColor="@color/chip_unselected_border"
+        app:strokeWidth="1.2dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel_quick_log"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:fontFamily="@font/inter"
+        android:text="Dismiss"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp" />
+
+</LinearLayout>

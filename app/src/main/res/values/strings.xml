@@ -2,45 +2,155 @@
     <string name="app_name">MaaCare</string>
     <string name="tagline">Maternal &amp; Newborn Smart Companion</string>
 
-    <!-- Bottom Navigation -->
-    <string name="nav_tracker">Tracker</string>
-    <string name="nav_medicine">Medicines</string>
-    <string name="nav_care_vaccine">Baby &amp; Care</string>
-    <string name="nav_emergency">Emergency</string>
+    <!-- Top Bar Controls -->
+    <string name="theme_toggle_desc">Toggle Light or Dark Theme</string>
+    <string name="lang_toggle_desc">Toggle English or Bangla</string>
+    <string name="lang_en">EN</string>
+    <string name="lang_bn">বাংলা</string>
+    <string name="lang_switch_label">EN | বাংলা</string>
+    <string name="offline_banner_text">Offline Mode Active — Using Local Maternal Emergency Data</string>
+    <string name="action_quick_log">Quick Log</string>
 
-    <!-- Home Tracker -->
-    <string name="profile_greeting">Hello, %s</string>
+    <!-- 5-Slot Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_tracker">Home</string>
+    <string name="nav_medicine">Medicine</string>
+    <string name="nav_care">Care &amp; Meds</string>
+    <string name="nav_quick_log">Quick Log</string>
+    <string name="nav_baby">Baby Suite</string>
+    <string name="nav_baby_care">Baby Care</string>
+    <string name="nav_care_vaccine">Baby Suite</string>
+    <string name="nav_doctors">Doctors &amp; SOS</string>
+    <string name="nav_emergency">Doctors &amp; SOS</string>
+
+    <!-- Quick Log Dialog Options -->
+    <string name="quick_log_title">Quick Maternal &amp; Baby Log</string>
+    <string name="action_log_water">Log Water Intake (+250 mL)</string>
+    <string name="action_log_feeding">Log Breast / Formula Feed</string>
+    <string name="action_log_diaper">Log Diaper Change</string>
+    <string name="action_log_sleep">Log Sleep Interval</string>
+    <string name="action_log_bath">Log Baby Bath</string>
+
+    <!-- Home Dashboard Hero & Pregnancy -->
+    <string name="greeting_format">Hi, %s!</string>
+    <string name="search_hero_hint">Search mama and baby topics…</string>
     <string name="pregnancy_progress_title">Pregnancy Journey</string>
+    <string name="status_pregnant_format">Pregnant • Week %d, Day %d</string>
     <string name="trimester_format">%s Trimester</string>
     <string name="days_remaining_format">%d Days to EDD</string>
+    <string name="fetal_size_shohay_format">Baby size: %s</string>
+    <string name="btn_expand_milestones">Developmental Milestone ›</string>
     <string name="fetal_milestones_heading">Weekly Fetal Milestones</string>
-    <string name="hydration_monitor_heading">Daily Maternal Hydration Monitor</string>
-    <string name="hydration_count_format">%d / 12 Glasses (250ml)</string>
-    <string name="btn_log_water">+ Log Water Intake (250ml)</string>
+
+    <!-- Hydration Controller -->
+    <string name="hydration_controller_title">Daily Maternal Hydration Controller</string>
+    <string name="hydration_count_format">%d mL / %d mL (%d%%)</string>
+    <string name="btn_add_250">+250 mL</string>
+    <string name="btn_add_500">+500 mL</string>
+    <string name="btn_sub_250">-250 mL</string>
+    <string name="btn_edit_hydration">Edit</string>
     <string name="btn_start_monitor">Start Live Monitor Service</string>
     <string name="btn_stop_monitor">Stop Live Monitor Service</string>
 
-    <!-- Medicine Reminders -->
+    <!-- Prescriptions & Course Durations -->
     <string name="medicine_reminders_title">Prescribed Medication &amp; Supplements</string>
     <string name="add_medicine_button">+ Add Prescription</string>
-    <string name="empty_medicines">No active prescriptions added yet. Click \'+\' to add your daily supplements.</string>
+    <string name="empty_medicines">No active prescriptions logged. Click \'+\' to add a prescribed supplement.</string>
     <string name="medicine_name_hint">Medication Name (e.g. Iron &amp; Folic Acid)</string>
     <string name="dosage_hint">Dosage (e.g. 1 Tablet after meal)</string>
     <string name="schedule_time_hint">Scheduled Time</string>
+    <string name="course_duration_heading">Prescribed Course Duration</string>
+    <string name="chip_3_days">3 Days</string>
+    <string name="chip_7_days">1 Week (7 Days)</string>
+    <string name="chip_14_days">2 Weeks (14 Days)</string>
+    <string name="chip_30_days">1 Month (30 Days)</string>
+    <string name="chip_90_days">3 Months (90 Days)</string>
+    <string name="chip_pregnancy">Entire Pregnancy</string>
+    <string name="chip_custom">Custom Days</string>
+    <string name="course_status_active">ACTIVE COURSE</string>
+    <string name="course_status_completed">COURSE COMPLETED</string>
+    <string name="course_day_format">Day %d of %d • %d days left</string>
 
-    <!-- Baby Care & Vaccines -->
-    <string name="tab_vaccinations">Newborn Vaccines</string>
-    <string name="tab_nutrition">Maternal Food Log</string>
-    <string name="postpartum_checklist_title">Postpartum Care Protocols</string>
-    <string name="add_food_log">+ Log Meal &amp; Nutrients</string>
+    <!-- Baby Suite: 4 Sub-Modules -->
+    <string name="baby_suite_title">Comprehensive Baby Care Suite</string>
+    <string name="tab_baby_timeline">Timeline</string>
+    <string name="tab_baby_growth">Growth</string>
+    <string name="tab_baby_health">Health &amp; Vitals</string>
+    <string name="tab_baby_vaccines">Vaccines</string>
 
-    <!-- Emergency Guidance -->
+    <!-- Timeline Activity Filter -->
+    <string name="filter_all_activities">Show All Activities</string>
+    <string name="filter_select_date">Select Date</string>
+    <string name="pill_yesterday">Yesterday</string>
+    <string name="pill_today">Today</string>
+    <string name="pill_tomorrow">Tomorrow</string>
+    <string name="act_feeding">Formula / Breastfeeding</string>
+    <string name="act_diaper">Changing Clothes / Diaper Change</string>
+    <string name="act_sleep">Sleeping / Nap</string>
+    <string name="act_bath">Tub Bathing / Hygiene</string>
+
+    <!-- Growth & Milestones -->
+    <string name="subtab_milestone">Milestone</string>
+    <string name="subtab_weight">Weight</string>
+    <string name="subtab_height">Height</string>
+    <string name="milestone_section_title">4 Months - 1 Year Old: Motor &amp; Coordination</string>
+    <string name="q_hands_support">Uses hands to support while sitting</string>
+    <string name="q_rolling">Rolls from back to tummy and tummy to back</string>
+    <string name="q_standing_support">While standing with support, accepts entire weight with legs</string>
+    <string name="q_reaching_toys">Reaches for nearby toys while on tummy</string>
+    <string name="radio_yes">Yes</string>
+    <string name="radio_no">No</string>
+    <string name="remark_hint">Remark: describe baby\'s progress</string>
+    <string name="btn_submit_milestone">Submit</string>
+    <string name="growth_at_birth_format">At birth (%s)</string>
+    <string name="growth_current_format">Current (%s)</string>
+    <string name="btn_add_measurement">Add Measurement</string>
+    <string name="chart_who_title">WHO Child Growth Reference Curve (0–32 Months)</string>
+
+    <!-- Baby Health & Vitals -->
+    <string name="subtab_health_monitor">Health Monitoring</string>
+    <string name="subtab_vaccine_quick">Vaccine</string>
+    <string name="card_basic_details">Basic Details</string>
+    <string name="q_baby_sick">Baby is sick?</string>
+    <string name="notes_symptoms_hint">Enter symptoms or observations…</string>
+    <string name="card_temperature">Temperature Monitoring</string>
+    <string name="start_time_hint">Start time (e.g. 08:00 AM)</string>
+    <string name="end_time_hint">End time (e.g. 10:00 AM)</string>
+    <string name="temp_frequency_hint">Temperature (°F) / Frequency</string>
+    <string name="btn_proceed">Proceed</string>
+    <string name="card_vital_signs">Vital Signs</string>
+    <string name="pulse_hint">Pulse Frequency (bpm)</string>
+    <string name="spo2_hint">SpO2 Frequency (in hr)</string>
+
+    <!-- Vaccines Timeline -->
+    <string name="vaccine_badge_completed">COMPLETED</string>
+    <string name="vaccine_badge_due_now">DUE NOW</string>
+    <string name="vaccine_badge_upcoming">UPCOMING</string>
+
+    <!-- Doctor Directory & Essentials -->
+    <string name="doctor_dir_title">Find A Doctor Near You</string>
+    <string name="search_doctor_hint">Search Doctors or Hospitals…</string>
+    <string name="stat_verified_doctors">100+ Verified Doctors</string>
+    <string name="stat_districts">64 Districts Covered</string>
+    <string name="stat_hospitals">200+ Hospitals</string>
+    <string name="spec_obstetrician">Obstetrician</string>
+    <string name="spec_gynecologist">Gynecologist</string>
+    <string name="spec_pediatrician">Pediatrician</string>
+    <string name="badge_available_today">Available Today</string>
+    <string name="btn_call_doctor">Call Doctor</string>
+    <string name="btn_book_appointment">Book Visit</string>
+    <string name="tab_doctor_list">Nearest Doctors</string>
+    <string name="tab_essentials">Hospital Bag Essentials</string>
+    <string name="category_baby_essentials">Baby Essentials</string>
+    <string name="category_labor_bag">Labor Bag</string>
+    <string name="category_postpartum_kit">Postpartum Recovery Kit</string>
+
+    <!-- Emergency SOS -->
     <string name="emergency_title">Rapid Maternal Emergency Response</string>
     <string name="sos_call_ambulance">CALL EMERGENCY SOS (999)</string>
     <string name="sos_call_caregiver">CALL EMERGENCY CONTACT</string>
     <string name="sos_send_sms">SEND EMERGENCY SMS ALERT</string>
     <string name="danger_signs_title">Obstetric Danger Signs Checklist</string>
-    <string name="offline_protocol_title">Offline First-Aid &amp; Triage Protocols</string>
 
     <!-- Content Provider Contract Authority -->
     <string name="provider_authority">com.cse2200.maacare.provider</string>
