@@ -4,6 +4,7 @@
     <color name="primary">#FF9AA2</color> <!-- Soft Coral-Rose -->
     <color name="primary_dark">#F28B96</color>
     <color name="primary_light">#332228</color>
+    <color name="ic_launcher_background">#F2E3E8</color>
 
     <color name="secondary">#80CBC4</color>
     <color name="secondary_dark">#004D40</color>
