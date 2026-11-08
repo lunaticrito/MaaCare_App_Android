@@ -17,6 +17,7 @@ import com.cse2200.maacare.data.prefs.PreferenceManager;
 import com.cse2200.maacare.data.repository.MaaCareRepository;
 import com.cse2200.maacare.databinding.DialogAddMedicineBinding;
 import com.cse2200.maacare.databinding.FragmentMedicineReminderBinding;
+import com.cse2200.maacare.firebase.FirebaseManager;
 import com.cse2200.maacare.ui.adapters.MedicineAdapter;
 import com.cse2200.maacare.util.AlarmScheduler;
 import java.text.SimpleDateFormat;
@@ -169,6 +170,11 @@ public class MedicineReminderFragment extends Fragment implements MedicineAdapte
                         public void onSuccess(Long id) {
                             newMed.setId(id);
                             AlarmScheduler.scheduleMedicationAlarm(requireContext(), newMed);
+
+                            // Backup prescription to Firebase Firestore
+                            String uid = preferenceManager.getFirebaseUid();
+                            FirebaseManager.getInstance(requireContext()).backupMedicineToFirestore(uid, newMed);
+
                             if (getActivity() != null) {
                                 getActivity().runOnUiThread(() -> {
                                     Toast.makeText(requireContext(), "Prescription Course Added (" + newMed.getDurationDays() + " Days)", Toast.LENGTH_SHORT).show();
@@ -191,6 +197,8 @@ public class MedicineReminderFragment extends Fragment implements MedicineAdapte
         repository.updateMedicine(medicine, new MaaCareRepository.DataCallback<Integer>() {
             @Override
             public void onSuccess(Integer result) {
+                String uid = preferenceManager.getFirebaseUid();
+                FirebaseManager.getInstance(requireContext()).backupMedicineToFirestore(uid, medicine);
                 loadMedicines();
             }
 

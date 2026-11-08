@@ -89,6 +89,34 @@
                     app:iconTint="@color/emergency_red"
                     app:strokeColor="@color/emergency_red" />
 
+                <!-- Import Caregiver from Contacts Button (ContactsContract) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_import_contact_caregiver"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="@font/inter"
+                    android:text="Import Caregiver from Contacts"
+                    android:textColor="@color/primary"
+                    android:textSize="13sp"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/ic_call"
+                    app:iconTint="@color/primary"
+                    app:strokeColor="@color/primary" />
+
+                <!-- Active Caregiver Contact Display -->
+                <TextView
+                    android:id="@+id/tv_caregiver_contact_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/inter"
+                    android:text="Caregiver: +8801711223344"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
                 <!-- 1-Tap SOS SMS Button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_sos_send_sms"

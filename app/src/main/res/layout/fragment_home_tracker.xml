@@ -65,6 +65,89 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Ultrasound & Baby Memory Photo Card (Showcasing RelativeLayout architecture) -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/chip_unselected_border"
+            app:strokeWidth="1dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_photo_memory_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:fontFamily="@font/inter"
+                    android:text="Baby &amp; Ultrasound Memory (MediaStore)"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_photo_memory_sub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_photo_memory_title"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/inter"
+                    android:text="Tap to select ultrasound scan or baby milestone photo"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_ultrasound_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="170dp"
+                    android:layout_below="@id/tv_photo_memory_sub"
+                    android:layout_marginTop="10dp"
+                    android:background="#F1F5F9"
+                    android:contentDescription="Ultrasound and Baby Milestone Photo"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_pregnancy_tracker"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.MaterialComponents.MediumComponent" />
+
+                <TextView
+                    android:id="@+id/tv_photo_file_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_ultrasound_photo"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/inter"
+                    android:text="MediaStore: Local &amp; Cloud Ready"
+                    android:textColor="@color/secondary"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_pick_ultrasound_photo"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_ultrasound_photo"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="@color/primary"
+                    android:fontFamily="@font/inter"
+                    android:text="Pick Photo"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:cornerRadius="10dp" />
+
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <!-- Custom View: Pregnancy Arc Progress Gauge -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"

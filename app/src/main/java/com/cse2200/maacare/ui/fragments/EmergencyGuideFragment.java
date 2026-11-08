@@ -1,8 +1,13 @@
 package com.cse2200.maacare.ui.fragments;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -11,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cse2200.maacare.R;
@@ -20,6 +26,7 @@ import com.cse2200.maacare.data.model.MaternalHealthDataResponse;
 import com.cse2200.maacare.data.prefs.PreferenceManager;
 import com.cse2200.maacare.data.repository.MaaCareRepository;
 import com.cse2200.maacare.databinding.FragmentEmergencyGuideBinding;
+import com.cse2200.maacare.firebase.FirebaseManager;
 import com.cse2200.maacare.ui.adapters.DangerSignAdapter;
 import com.cse2200.maacare.ui.adapters.DoctorAdapter;
 import com.cse2200.maacare.ui.adapters.EssentialsAdapter;
@@ -29,11 +36,15 @@ import java.util.List;
  * Emergency Health Guidance & Doctor Directory Fragment featuring:
  * - One-tap SOS calling via Intent.ACTION_DIAL (999 and primary caregiver)
  * - Automated Maternal Emergency SMS Dispatch with gestational week & blood group
+ * - Device ContentProvider Consumption: Import Caregiver Contact via ContactsContract
  * - Find A Doctor Near You with live search & specialty filters
  * - Hospital Bag Essentials interactive checklist
  * - Obstetric Danger Signs Checklist & First-Aid Protocols
  */
 public class EmergencyGuideFragment extends Fragment {
+
+    private static final int REQUEST_CODE_PICK_CONTACT = 202;
+    private static final int PERMISSION_REQUEST_CONTACTS = 203;
 
     private FragmentEmergencyGuideBinding binding;
     private PreferenceManager preferenceManager;
@@ -57,11 +68,18 @@ public class EmergencyGuideFragment extends Fragment {
         repository = new MaaCareRepository(requireContext());
 
         setupEmergencyActionButtons();
+        updateCaregiverContactDisplay();
         setupDoctorDirectory();
         setupEssentialsChecklist();
         setupDangerSigns();
 
         loadAllData();
+    }
+
+    private void updateCaregiverContactDisplay() {
+        String name = preferenceManager.getEmergencyContactName();
+        String phone = preferenceManager.getEmergencyPhone();
+        binding.tvCaregiverContactDisplay.setText("Caregiver: " + name + " (" + phone + ")");
     }
 
     private void setupEmergencyActionButtons() {
@@ -80,7 +98,17 @@ public class EmergencyGuideFragment extends Fragment {
             startActivity(callIntent);
         });
 
-        // 3. One-tap Automated Emergency SMS
+        // 3. Import Caregiver from Contacts (ContactsContract ContentProvider)
+        binding.btnImportContactCaregiver.setOnClickListener(v -> {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
+                    == PackageManager.PERMISSION_GRANTED) {
+                launchContactPicker();
+            } else {
+                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSION_REQUEST_CONTACTS);
+            }
+        });
+
+        // 4. One-tap Automated Emergency SMS
         binding.btnSosSendSms.setOnClickListener(v -> {
             String phone = preferenceManager.getEmergencyPhone();
             String motherName = preferenceManager.getMotherName();
@@ -91,6 +119,10 @@ public class EmergencyGuideFragment extends Fragment {
                     + motherName + " (Gestational Week: " + week
                     + ", Blood Group: " + blood + "). Please assist immediately!";
 
+            // Sync SOS alert to Firebase Realtime Database
+            String uid = preferenceManager.getFirebaseUid();
+            FirebaseManager.getInstance(requireContext()).syncRealtimeSosAlert(uid, true, message);
+
             Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
             smsIntent.setData(Uri.parse("smsto:" + phone));
             smsIntent.putExtra("sms_body", message);
@@ -100,6 +132,57 @@ public class EmergencyGuideFragment extends Fragment {
                 Toast.makeText(requireContext(), "No SMS app found", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void launchContactPicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+        startActivityForResult(intent, REQUEST_CODE_PICK_CONTACT);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CONTACTS) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                launchContactPicker();
+            } else {
+                Toast.makeText(requireContext(), "Permission needed to import contact.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_PICK_CONTACT && resultCode == Activity.RESULT_OK && data != null) {
+            Uri contactUri = data.getData();
+            if (contactUri != null) {
+                String[] projection = new String[]{
+                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                        ContactsContract.CommonDataKinds.Phone.NUMBER
+                };
+                try (Cursor cursor = requireContext().getContentResolver().query(contactUri, projection, null, null, null)) {
+                    if (cursor != null && cursor.moveToFirst()) {
+                        int nameIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                        int numberIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+
+                        String name = nameIdx != -1 ? cursor.getString(nameIdx) : "Caregiver";
+                        String phone = numberIdx != -1 ? cursor.getString(numberIdx) : "";
+
+                        // Format / clean phone number
+                        phone = phone.replaceAll("\\s+", "");
+
+                        preferenceManager.setEmergencyContactName(name);
+                        preferenceManager.setEmergencyPhone(phone);
+                        updateCaregiverContactDisplay();
+
+                        Toast.makeText(requireContext(), "Imported Caregiver: " + name + " (" + phone + ")", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(requireContext(), "Failed importing contact: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     private void setupDoctorDirectory() {

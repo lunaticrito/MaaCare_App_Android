@@ -19,6 +19,9 @@ public class PreferenceManager {
     private static final String KEY_BABY_BIRTH_MILLIS = "key_baby_birth_millis";
     private static final String KEY_BLOOD_GROUP = "key_blood_group";
     private static final String KEY_EMERGENCY_PHONE = "key_emergency_phone";
+    private static final String KEY_EMERGENCY_CONTACT_NAME = "key_emergency_contact_name";
+    private static final String KEY_FIREBASE_UID = "key_firebase_uid";
+    private static final String KEY_PHOTO_MEMORY_URI = "key_photo_memory_uri";
 
     private static final String KEY_WATER_GOAL_ML = "key_water_goal_ml";
     private static final String KEY_WATER_INTAKE_ML = "key_water_intake_ml";
@@ -225,5 +228,35 @@ public class PreferenceManager {
 
     public void setAppLanguage(String languageCode) {
         prefs.edit().putString(KEY_APP_LANGUAGE, languageCode).apply();
+    }
+
+    // --- Firebase UID & Sync Session ---
+
+    public String getFirebaseUid() {
+        return prefs.getString(KEY_FIREBASE_UID, "demo_anna_uid");
+    }
+
+    public void setFirebaseUid(String uid) {
+        prefs.edit().putString(KEY_FIREBASE_UID, uid).apply();
+    }
+
+    // --- Contact Picker Info ---
+
+    public String getEmergencyContactName() {
+        return prefs.getString(KEY_EMERGENCY_CONTACT_NAME, "Dr. Rahman (Caregiver)");
+    }
+
+    public void setEmergencyContactName(String name) {
+        prefs.edit().putString(KEY_EMERGENCY_CONTACT_NAME, name).apply();
+    }
+
+    // --- Media / Ultrasound & Baby Memory Photo ---
+
+    public String getPhotoMemoryUri() {
+        return prefs.getString(KEY_PHOTO_MEMORY_URI, null);
+    }
+
+    public void setPhotoMemoryUri(String uriString) {
+        prefs.edit().putString(KEY_PHOTO_MEMORY_URI, uriString).apply();
     }
 }

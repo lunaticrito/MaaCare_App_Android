@@ -3,28 +3,34 @@ package com.cse2200.maacare.ui.auth;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import com.cse2200.maacare.data.db.entity.UserEntity;
 import com.cse2200.maacare.data.prefs.PreferenceManager;
 import com.cse2200.maacare.data.repository.MaaCareRepository;
 import com.cse2200.maacare.databinding.ActivityRegisterBinding;
+import com.cse2200.maacare.firebase.FirebaseManager;
 import com.cse2200.maacare.ui.BaseActivity;
 import com.cse2200.maacare.ui.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 /**
- * Registration Activity with calendar date selection for Last Menstrual Period (LMP)
- * and automatic derivation of gestational timeline.
+ * Registration Activity with calendar date selection for Last Menstrual Period (LMP),
+ * Firebase Auth cloud signup with local Room persistence fallback, and gestational timeline engine.
  */
 public class RegisterActivity extends BaseActivity {
+
+    private static final String TAG = "RegisterActivity";
 
     private ActivityRegisterBinding binding;
     private MaaCareRepository repository;
     private PreferenceManager preferenceManager;
+    private FirebaseManager firebaseManager;
 
     private long selectedLmpMillis = 0;
     private static final SimpleDateFormat DATE_FMT = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
@@ -37,15 +43,14 @@ public class RegisterActivity extends BaseActivity {
 
         repository = new MaaCareRepository(this);
         preferenceManager = new PreferenceManager(this);
+        firebaseManager = FirebaseManager.getInstance(this);
 
         // Default: 20 weeks pregnant if not chosen
         selectedLmpMillis = System.currentTimeMillis() - (140L * 86400000L);
         updateLmpPreview(selectedLmpMillis);
 
         binding.btnPickLmpDate.setOnClickListener(v -> showDatePicker());
-
         binding.btnRegisterSubmit.setOnClickListener(v -> performRegistration());
-
         binding.tvBackToLogin.setOnClickListener(v -> finish());
     }
 
@@ -96,14 +101,43 @@ public class RegisterActivity extends BaseActivity {
 
         // Child birth baseline for newborn care module
         long babyBirthMillis = System.currentTimeMillis() - (56L * 86400000L);
-
         UserEntity user = new UserEntity(name, identifier, password, selectedLmpMillis, babyBirthMillis, blood, phone);
+
+        FirebaseAuth auth = firebaseManager.getAuth();
+        if (firebaseManager.isFirebaseAvailable() && auth != null && identifier.contains("@")) {
+            // Attempt cloud signup via Firebase Auth
+            auth.createUserWithEmailAndPassword(identifier, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful() && auth.getCurrentUser() != null) {
+                            FirebaseUser fbUser = auth.getCurrentUser();
+                            preferenceManager.setFirebaseUid(fbUser.getUid());
+                            Log.i(TAG, "Firebase Auth account created: " + fbUser.getUid());
+                        } else {
+                            Log.w(TAG, "Firebase Auth registration failed, persisting to local SQLite: "
+                                    + (task.getException() != null ? task.getException().getMessage() : ""));
+                        }
+                        persistUserToLocalDatabase(user);
+                    });
+        } else {
+            persistUserToLocalDatabase(user);
+        }
+    }
+
+    private void persistUserToLocalDatabase(UserEntity user) {
         repository.registerUser(user, new MaaCareRepository.DataCallback<Long>() {
             @Override
             public void onSuccess(Long userId) {
                 runOnUiThread(() -> {
-                    preferenceManager.saveUserSession(userId, name, identifier, selectedLmpMillis, babyBirthMillis, blood, phone);
-                    Toast.makeText(RegisterActivity.this, "Profile Registered Successfully!", Toast.LENGTH_SHORT).show();
+                    preferenceManager.saveUserSession(
+                            userId,
+                            user.getName(),
+                            user.getEmailOrPhone(),
+                            user.getLmpDateMillis(),
+                            user.getBabyBirthMillis(),
+                            user.getBloodGroup(),
+                            user.getEmergencyPhone()
+                    );
+                    Toast.makeText(RegisterActivity.this, "Account created successfully!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

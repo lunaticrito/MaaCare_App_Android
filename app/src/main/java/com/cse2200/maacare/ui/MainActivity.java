@@ -1,47 +1,60 @@
 package com.cse2200.maacare.ui;
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.cse2200.maacare.R;
+import com.cse2200.maacare.data.db.entity.BabyCareTimelineEntity;
 import com.cse2200.maacare.data.prefs.PreferenceManager;
+import com.cse2200.maacare.data.repository.MaaCareRepository;
 import com.cse2200.maacare.databinding.ActivityMainBinding;
+import com.cse2200.maacare.firebase.FirebaseManager;
 import com.cse2200.maacare.receiver.NetworkStateChangeReceiver;
+import com.cse2200.maacare.receiver.SystemBroadcastReceiver;
 import com.cse2200.maacare.ui.auth.LoginActivity;
 import com.cse2200.maacare.ui.fragments.CareAndVaccineFragment;
 import com.cse2200.maacare.ui.fragments.EmergencyGuideFragment;
 import com.cse2200.maacare.ui.fragments.HomeTrackerFragment;
 import com.cse2200.maacare.ui.fragments.MedicineReminderFragment;
 import com.cse2200.maacare.util.NotificationHelper;
-import com.cse2200.maacare.data.repository.MaaCareRepository;
-import com.cse2200.maacare.data.db.entity.BabyCareTimelineEntity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import android.widget.Toast;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import android.content.Intent;
 
 /**
- * Main Activity hosting BottomNavigationView, Fragment container,
- * dynamic ConnectivityManager BroadcastReceiver, and runtime permission requests.
+ * Main Activity hosting:
+ * - 5-Slot Bottom Navigation & Center Quick-Log FAB
+ * - Dynamic System Broadcast Receiver (Airplane Mode & Battery Low alerts)
+ * - Network Connectivity Monitor
+ * - Firebase Suite Realtime Cloud Synchronization
  */
-public class MainActivity extends BaseActivity implements NetworkStateChangeReceiver.NetworkStateListener {
+public class MainActivity extends BaseActivity implements
+        NetworkStateChangeReceiver.NetworkStateListener,
+        SystemBroadcastReceiver.SystemBroadcastListener {
 
     private static final int PERMISSION_REQUEST_NOTIFICATIONS = 101;
 
     private ActivityMainBinding binding;
     private NetworkStateChangeReceiver networkReceiver;
-    private PreferenceManager preferenceManager;
+    private SystemBroadcastReceiver systemReceiver;
+    private FirebaseManager firebaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +69,8 @@ public class MainActivity extends BaseActivity implements NetworkStateChangeRece
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        firebaseManager = FirebaseManager.getInstance(this);
 
         // Initialize Notification Channels
         NotificationHelper.createNotificationChannels(this);
@@ -74,8 +89,9 @@ public class MainActivity extends BaseActivity implements NetworkStateChangeRece
             loadFragment(new HomeTrackerFragment());
         }
 
-        // Register Dynamic BroadcastReceiver for Connectivity
+        // Initialize Dynamic BroadcastReceivers
         networkReceiver = new NetworkStateChangeReceiver(this);
+        systemReceiver = new SystemBroadcastReceiver(this);
     }
 
     private void setupTopBarControls() {
@@ -119,10 +135,15 @@ public class MainActivity extends BaseActivity implements NetworkStateChangeRece
         long now = System.currentTimeMillis();
         String dateStr = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date(now));
         String timeStr = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date(now));
+        String uid = preferenceManager.getFirebaseUid();
 
         view.findViewById(R.id.btn_quick_water).setOnClickListener(v -> {
             preferenceManager.adjustTodayWaterIntakeMl(250);
-            Toast.makeText(this, "+250 mL logged! Stay healthy & hydrated.", Toast.LENGTH_SHORT).show();
+            int todayWater = preferenceManager.getTodayWaterIntakeMl();
+            int goalWater = preferenceManager.getDailyWaterGoalMl();
+            firebaseManager.syncRealtimeHydration(uid, todayWater, goalWater);
+
+            Toast.makeText(this, "+250 mL logged! Realtime sync active.", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
             refreshCurrentFragment();
         });
@@ -134,8 +155,10 @@ public class MainActivity extends BaseActivity implements NetworkStateChangeRece
             );
             repo.insertBabyEvent(feed, new MaaCareRepository.DataCallback<Long>() {
                 @Override public void onSuccess(Long result) {
+                    feed.setId(result);
+                    firebaseManager.backupBabyEventToFirestore(uid, feed);
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "Feeding session recorded!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Feeding recorded & backed up!", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         refreshCurrentFragment();
                     });
@@ -151,8 +174,10 @@ public class MainActivity extends BaseActivity implements NetworkStateChangeRece
             );
             repo.insertBabyEvent(diaper, new MaaCareRepository.DataCallback<Long>() {
                 @Override public void onSuccess(Long result) {
+                    diaper.setId(result);
+                    firebaseManager.backupBabyEventToFirestore(uid, diaper);
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "Diaper change recorded!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Diaper change recorded & synced!", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         refreshCurrentFragment();
                     });
@@ -168,8 +193,10 @@ public class MainActivity extends BaseActivity implements NetworkStateChangeRece
             );
             repo.insertBabyEvent(sleep, new MaaCareRepository.DataCallback<Long>() {
                 @Override public void onSuccess(Long result) {
+                    sleep.setId(result);
+                    firebaseManager.backupBabyEventToFirestore(uid, sleep);
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "Sleep log recorded!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Sleep log recorded & synced!", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         refreshCurrentFragment();
                     });
@@ -185,8 +212,10 @@ public class MainActivity extends BaseActivity implements NetworkStateChangeRece
             );
             repo.insertBabyEvent(bath, new MaaCareRepository.DataCallback<Long>() {
                 @Override public void onSuccess(Long result) {
+                    bath.setId(result);
+                    firebaseManager.backupBabyEventToFirestore(uid, bath);
                     runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "Tub bath recorded!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Tub bath recorded & synced!", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         refreshCurrentFragment();
                     });
@@ -232,8 +261,15 @@ public class MainActivity extends BaseActivity implements NetworkStateChangeRece
     @Override
     protected void onResume() {
         super.onResume();
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkReceiver, filter);
+        // Register Dynamic BroadcastReceiver for Connectivity
+        IntentFilter netFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkReceiver, netFilter);
+
+        // Register Dynamic System Broadcast Receiver for Airplane Mode & Low Battery
+        IntentFilter sysFilter = new IntentFilter();
+        sysFilter.addAction(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        sysFilter.addAction(Intent.ACTION_BATTERY_LOW);
+        registerReceiver(systemReceiver, sysFilter);
     }
 
     @Override
@@ -241,6 +277,10 @@ public class MainActivity extends BaseActivity implements NetworkStateChangeRece
         super.onPause();
         try {
             unregisterReceiver(networkReceiver);
+        } catch (IllegalArgumentException ignored) {}
+
+        try {
+            unregisterReceiver(systemReceiver);
         } catch (IllegalArgumentException ignored) {}
     }
 
@@ -251,7 +291,62 @@ public class MainActivity extends BaseActivity implements NetworkStateChangeRece
                 binding.tvOfflineBanner.setVisibility(View.GONE);
             } else {
                 binding.tvOfflineBanner.setVisibility(View.VISIBLE);
+                binding.tvOfflineBanner.setText(R.string.offline_banner_text);
+                binding.tvOfflineBanner.setBackgroundColor(Color.parseColor("#D32F2F"));
             }
+        });
+    }
+
+    @Override
+    public void onAirplaneModeChanged(boolean isAirplaneModeOn) {
+        runOnUiThread(() -> {
+            if (isAirplaneModeOn) {
+                binding.tvOfflineBanner.setVisibility(View.VISIBLE);
+                binding.tvOfflineBanner.setText("✈️ Airplane Mode Active — MaaCare Offline Emergency Mode (Local Data Available)");
+                binding.tvOfflineBanner.setBackgroundColor(Color.parseColor("#455A64"));
+
+                Snackbar.make(binding.getRoot(),
+                        "Airplane Mode: Switched to Offline Emergency Mode",
+                        Snackbar.LENGTH_LONG)
+                        .setAction("Details", v -> {
+                            Toast.makeText(this, "Local emergency guides & offline alarms remain fully operational.", Toast.LENGTH_LONG).show();
+                        }).show();
+            } else {
+                binding.tvOfflineBanner.setVisibility(View.GONE);
+                Snackbar.make(binding.getRoot(),
+                        "🌐 Online Cloud-Sync Mode Restored",
+                        Snackbar.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onBatteryLow() {
+        runOnUiThread(() -> {
+            String phone = preferenceManager.getEmergencyPhone();
+            String motherName = preferenceManager.getMotherName();
+            int week = preferenceManager.getGestationalWeek();
+            String blood = preferenceManager.getBloodGroup();
+
+            new MaterialAlertDialogBuilder(this)
+                    .setTitle("⚠️ Low Battery Alert")
+                    .setMessage("Your device battery is running critically low. Would you like to dispatch an automated emergency SMS with your current pregnancy status (Week " + week + ", " + blood + ") to your emergency caregiver (" + phone + ")?")
+                    .setIcon(R.drawable.ic_warning)
+                    .setPositiveButton("Send SMS Now", (dialog, which) -> {
+                        String smsBody = "BATTERY LOW ALERT: Phone battery critically low for "
+                                + motherName + " (Pregnancy Week: " + week
+                                + ", Blood Group: " + blood + "). Please check on her!";
+                        Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
+                        smsIntent.setData(Uri.parse("smsto:" + phone));
+                        smsIntent.putExtra("sms_body", smsBody);
+                        try {
+                            startActivity(smsIntent);
+                        } catch (Exception e) {
+                            Toast.makeText(MainActivity.this, "Unable to launch SMS composer.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Dismiss", null)
+                    .show();
         });
     }
 }

@@ -20,6 +20,10 @@ public class FetalMilestoneAdapter extends ListAdapter<FetalMilestone, FetalMile
 
     private final OnMilestoneClickListener listener;
 
+    public FetalMilestoneAdapter() {
+        this(null);
+    }
+
     public FetalMilestoneAdapter(OnMilestoneClickListener listener) {
         super(DIFF_CALLBACK);
         this.listener = listener;

@@ -20,6 +20,7 @@ import com.cse2200.maacare.data.db.entity.VaccinationEntity;
 import com.cse2200.maacare.data.prefs.PreferenceManager;
 import com.cse2200.maacare.data.repository.MaaCareRepository;
 import com.cse2200.maacare.databinding.FragmentCareAndVaccineBinding;
+import com.cse2200.maacare.firebase.FirebaseManager;
 import com.cse2200.maacare.ui.adapters.BabyMilestoneAdapter;
 import com.cse2200.maacare.ui.adapters.BabyTimelineAdapter;
 import com.cse2200.maacare.ui.adapters.VaccinationAdapter;
@@ -210,9 +211,24 @@ public class CareAndVaccineFragment extends Fragment {
                     isSick, notes, 98.6, 98.6, tempDegree, pulse, spo2, System.currentTimeMillis()
             );
 
+            double tempNumeric = 98.6;
+            try {
+                tempNumeric = Double.parseDouble(tempDegree.replace("°F", "").replace("°C", "").trim());
+            } catch (Exception ignored) {}
+
+            int finalPulse = pulse;
+            int finalSpo2 = spo2;
+            double finalTempNumeric = tempNumeric;
+
             repository.insertVitals(vitals, new MaaCareRepository.DataCallback<Long>() {
                 @Override
                 public void onSuccess(Long result) {
+                    // Sync with Firebase Realtime Database
+                    String uid = preferenceManager.getFirebaseUid();
+                    FirebaseManager.getInstance(requireContext()).syncRealtimeBabyVitals(
+                            uid, isSick, finalTempNumeric, finalPulse, finalSpo2, notes
+                    );
+
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
                             Toast.makeText(requireContext(), "Vital signs recorded successfully!", Toast.LENGTH_SHORT).show();
@@ -227,9 +243,14 @@ public class CareAndVaccineFragment extends Fragment {
 
     private void setupVaccinesSubmodule() {
         vaccineAdapter = new VaccinationAdapter((vaccine, isDone) -> {
+            vaccine.setDone(isDone);
             repository.updateVaccineAdministered(vaccine.getId(), isDone, new MaaCareRepository.DataCallback<Integer>() {
                 @Override
                 public void onSuccess(Integer result) {
+                    // Backup vaccine to Firestore
+                    String uid = preferenceManager.getFirebaseUid();
+                    FirebaseManager.getInstance(requireContext()).backupVaccineToFirestore(uid, vaccine);
+
                     if (getActivity() != null) {
                         getActivity().runOnUiThread(() -> {
                             String msg = isDone ? "Vaccine Marked Administered" : "Vaccine Marked Due";
