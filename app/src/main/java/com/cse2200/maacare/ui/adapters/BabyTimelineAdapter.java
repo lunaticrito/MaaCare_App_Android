@@ -1,20 +1,34 @@
 package com.cse2200.maacare.ui.adapters;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.cse2200.maacare.R;
 import com.cse2200.maacare.data.db.entity.BabyCareTimelineEntity;
+import com.cse2200.maacare.databinding.ItemBabyTimelineBinding;
+import com.cse2200.maacare.util.LocaleHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Interactive Bilingual RecyclerView Adapter for daily baby care timeline entries
+ * with per-card Edit and Delete controls.
+ */
 public class BabyTimelineAdapter extends RecyclerView.Adapter<BabyTimelineAdapter.TimelineViewHolder> {
 
+    public interface OnTimelineActionListener {
+        void onEditTimelineEvent(BabyCareTimelineEntity event);
+        void onDeleteTimelineEvent(BabyCareTimelineEntity event);
+    }
+
     private final List<BabyCareTimelineEntity> eventList = new ArrayList<>();
+    private final OnTimelineActionListener listener;
+
+    public BabyTimelineAdapter(OnTimelineActionListener listener) {
+        this.listener = listener;
+    }
 
     public void setEvents(List<BabyCareTimelineEntity> list) {
         eventList.clear();
@@ -27,13 +41,17 @@ public class BabyTimelineAdapter extends RecyclerView.Adapter<BabyTimelineAdapte
     @NonNull
     @Override
     public TimelineViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_baby_timeline, parent, false);
-        return new TimelineViewHolder(view);
+        ItemBabyTimelineBinding binding = ItemBabyTimelineBinding.inflate(
+                LayoutInflater.from(parent.getContext()),
+                parent,
+                false
+        );
+        return new TimelineViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TimelineViewHolder holder, int position) {
-        holder.bind(eventList.get(position));
+        holder.bind(eventList.get(position), listener);
     }
 
     @Override
@@ -42,33 +60,36 @@ public class BabyTimelineAdapter extends RecyclerView.Adapter<BabyTimelineAdapte
     }
 
     static class TimelineViewHolder extends RecyclerView.ViewHolder {
-        private final View viewCategoryIndicator;
-        private final TextView tvActivityTypeBadge;
-        private final TextView tvEventTime;
-        private final TextView tvEventTitle;
-        private final TextView tvEventDetails;
+        private final ItemBabyTimelineBinding binding;
 
-        public TimelineViewHolder(@NonNull View itemView) {
-            super(itemView);
-            viewCategoryIndicator = itemView.findViewById(R.id.view_category_indicator);
-            tvActivityTypeBadge = itemView.findViewById(R.id.tv_activity_type_badge);
-            tvEventTime = itemView.findViewById(R.id.tv_event_time);
-            tvEventTitle = itemView.findViewById(R.id.tv_event_title);
-            tvEventDetails = itemView.findViewById(R.id.tv_event_details);
+        public TimelineViewHolder(@NonNull ItemBabyTimelineBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
-        public void bind(BabyCareTimelineEntity event) {
-            tvActivityTypeBadge.setText(event.getActivityType());
-            tvEventTime.setText(event.getTimeFormatted());
-            tvEventTitle.setText(event.getTitle());
-            tvEventDetails.setText(event.getDetails());
+        public void bind(BabyCareTimelineEntity event, OnTimelineActionListener listener) {
+            Context ctx = binding.getRoot().getContext();
+            binding.tvActivityTypeBadge.setText(LocaleHelper.translateTimelineCategory(ctx, event.getActivityType()));
+            binding.tvEventTime.setText(LocaleHelper.localizeTime(ctx, event.getTimeFormatted()));
+            binding.tvEventTitle.setText(LocaleHelper.translateDynamicText(ctx, event.getTitle()));
+            binding.tvEventDetails.setText(LocaleHelper.translateDynamicText(ctx, event.getDetails()));
 
             if (event.getCategoryColor() != null) {
                 try {
                     int color = Color.parseColor(event.getCategoryColor());
-                    viewCategoryIndicator.setBackgroundColor(color);
+                    binding.viewCategoryIndicator.setBackgroundColor(color);
                 } catch (Exception ignored) {}
             }
+
+            binding.getRoot().setOnClickListener(v -> {
+                if (listener != null) listener.onEditTimelineEvent(event);
+            });
+            binding.btnEditTimelineEvent.setOnClickListener(v -> {
+                if (listener != null) listener.onEditTimelineEvent(event);
+            });
+            binding.btnDeleteTimelineEvent.setOnClickListener(v -> {
+                if (listener != null) listener.onDeleteTimelineEvent(event);
+            });
         }
     }
 }

@@ -10,7 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="100dp">
 
         <!-- Top Rapid Response SOS Card -->
         <com.google.android.material.card.MaterialCardView
@@ -40,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:fontFamily="@font/inter"
+                    android:fontFamily="@font/poppins"
                     android:text="@string/emergency_title"
                     android:textColor="@color/emergency_red_dark"
                     android:textSize="17sp"
@@ -51,9 +54,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:fontFamily="@font/inter"
+                    android:fontFamily="@font/poppins"
                     android:gravity="center"
-                    android:text="One-tap calling &amp; automated emergency SMS with maternal vitals."
+                    android:text="@string/emergency_info_sub"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp" />
 
@@ -64,7 +67,7 @@
                     android:layout_height="52dp"
                     android:layout_marginTop="14dp"
                     android:backgroundTint="@color/emergency_red"
-                    android:fontFamily="@font/inter"
+                    android:fontFamily="@font/poppins"
                     android:text="@string/sos_call_ambulance"
                     android:textColor="@color/white"
                     android:textSize="14sp"
@@ -80,7 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
-                    android:fontFamily="@font/inter"
+                    android:fontFamily="@font/poppins"
                     android:text="@string/sos_call_caregiver"
                     android:textColor="@color/emergency_red_dark"
                     android:textSize="13sp"
@@ -96,8 +99,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
-                    android:fontFamily="@font/inter"
-                    android:text="Import Caregiver from Contacts"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/btn_import_caregiver"
                     android:textColor="@color/primary"
                     android:textSize="13sp"
                     app:cornerRadius="10dp"
@@ -111,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:fontFamily="@font/inter"
+                    android:fontFamily="@font/poppins"
                     android:text="Caregiver: +8801711223344"
                     android:textColor="@color/text_secondary"
                     android:textSize="12sp"
@@ -124,7 +127,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:fontFamily="@font/inter"
+                    android:fontFamily="@font/poppins"
                     android:text="@string/sos_send_sms"
                     android:textColor="@color/emergency_red_dark"
                     android:textSize="13sp"
@@ -137,13 +140,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter"
+            android:fontFamily="@font/poppins"
             android:text="@string/doctor_dir_title"
             android:textColor="@color/text_primary"
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <!-- Stats Row (100+ Doctors | 64 Districts | 200+ Hospitals) -->
+        <!-- Stats Row (129 Doctors | 8 Divisions | 64 Districts) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,10 +159,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/bg_bottom_sheet_dialog"
-                android:fontFamily="@font/inter"
+                android:fontFamily="@font/poppins"
                 android:gravity="center"
                 android:padding="6dp"
-                android:text="@string/stat_verified_doctors"
+                android:text="@string/stat_verified_doctors_129"
                 android:textColor="@color/primary"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -171,10 +174,10 @@
                 android:layout_marginEnd="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_bottom_sheet_dialog"
-                android:fontFamily="@font/inter"
+                android:fontFamily="@font/poppins"
                 android:gravity="center"
                 android:padding="6dp"
-                android:text="@string/stat_districts"
+                android:text="@string/stat_divisions_8"
                 android:textColor="@color/teal_accent"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -184,10 +187,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/bg_bottom_sheet_dialog"
-                android:fontFamily="@font/inter"
+                android:fontFamily="@font/poppins"
                 android:gravity="center"
                 android:padding="6dp"
-                android:text="@string/stat_hospitals"
+                android:text="@string/stat_districts"
                 android:textColor="@color/accent_gold"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -198,7 +201,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="8dp"
             app:boxCornerRadiusBottomEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
@@ -211,7 +214,7 @@
                 android:id="@+id/et_search_doctors"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter"
+                android:fontFamily="@font/poppins"
                 android:hint="@string/search_doctor_hint"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
@@ -219,11 +222,116 @@
                 android:textSize="13sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Specialty Filter Chips (All, Obstetrician, Gynecologist, Pediatrician) -->
+        <!-- 8 Divisions Filter Chips -->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="6dp"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_doctor_division"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:checkedChip="@+id/chip_div_all"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_div_all"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/filter_all_divisions" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_div_dhaka"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/div_dhaka" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_div_chattogram"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/div_chattogram" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_div_khulna"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/div_khulna" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_div_rajshahi"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/div_rajshahi" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_div_sylhet"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/div_sylhet" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_div_barishal"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/div_barishal" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_div_rangpur"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/div_rangpur" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_div_mymensingh"
+                    style="@style/Widget.MaaCare.Chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/div_mymensingh" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
+        <!-- Dynamic 64-District Filter Chips -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_doctor_district"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:selectionRequired="true"
+                app:singleSelection="true" />
+        </HorizontalScrollView>
+
+        <!-- Specialty Filter Chips (All, Obs & Gynae, Pediatrics) -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:scrollbars="none">
 
             <com.google.android.material.chip.ChipGroup
@@ -240,34 +348,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:fontFamily="@font/inter"
-                    android:text="All Specialists" />
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/filter_all_specialists" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_spec_obstetrician"
+                    android:id="@+id/chip_spec_obs_gynae"
                     style="@style/Widget.MaaCare.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter"
-                    android:text="@string/spec_obstetrician" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_spec_gynecologist"
-                    style="@style/Widget.MaaCare.Chip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter"
-                    android:text="@string/spec_gynecologist" />
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/spec_obs_gynae" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip_spec_pediatrician"
                     style="@style/Widget.MaaCare.Chip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter"
-                    android:text="@string/spec_pediatrician" />
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/spec_pediatrics" />
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/tv_doctor_result_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/poppins"
+            android:text="Showing 129 specialists across 64 districts"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <!-- Nearest Doctors List -->
         <androidx.recyclerview.widget.RecyclerView
@@ -282,7 +393,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/inter"
+            android:fontFamily="@font/poppins"
             android:text="@string/tab_essentials"
             android:textColor="@color/text_primary"
             android:textSize="17sp"
@@ -301,7 +412,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/inter"
+            android:fontFamily="@font/poppins"
             android:text="@string/danger_signs_title"
             android:textColor="@color/text_primary"
             android:textSize="17sp"

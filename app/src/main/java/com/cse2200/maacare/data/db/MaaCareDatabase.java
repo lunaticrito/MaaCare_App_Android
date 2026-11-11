@@ -52,7 +52,7 @@ import java.util.concurrent.Executors;
                 BabyEssentialItemEntity.class,
                 DoctorEntity.class
         },
-        version = 3,
+        version = 5,
         exportSchema = false
 )
 public abstract class MaaCareDatabase extends RoomDatabase {

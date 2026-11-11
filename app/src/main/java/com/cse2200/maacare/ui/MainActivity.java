@@ -32,9 +32,11 @@ import com.cse2200.maacare.ui.fragments.HomeTrackerFragment;
 import com.cse2200.maacare.ui.fragments.MedicineReminderFragment;
 import com.cse2200.maacare.util.NotificationHelper;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -133,9 +135,31 @@ public class MainActivity extends BaseActivity implements
 
         MaaCareRepository repo = new MaaCareRepository(this);
         long now = System.currentTimeMillis();
-        String dateStr = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date(now));
+        SimpleDateFormat dbDateFmt = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        Calendar calYesterday = Calendar.getInstance();
+        calYesterday.add(Calendar.DAY_OF_YEAR, -1);
+        String yesterdayStr = dbDateFmt.format(calYesterday.getTime());
+        String todayStr = dbDateFmt.format(new Date(now));
+        Calendar calTomorrow = Calendar.getInstance();
+        calTomorrow.add(Calendar.DAY_OF_YEAR, 1);
+        String tomorrowStr = dbDateFmt.format(calTomorrow.getTime());
+
         String timeStr = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date(now));
         String uid = preferenceManager.getFirebaseUid();
+
+        ChipGroup dateChipGroup = view.findViewById(R.id.chip_group_quick_log_date);
+        Fragment currentFrag = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (currentFrag instanceof CareAndVaccineFragment) {
+            String activeDate = ((CareAndVaccineFragment) currentFrag).getSelectedTimelineDate();
+            if (yesterdayStr.equals(activeDate)) {
+                dateChipGroup.check(R.id.chip_quick_yesterday);
+            } else if (tomorrowStr.equals(activeDate)) {
+                dateChipGroup.check(R.id.chip_quick_tomorrow);
+            } else {
+                dateChipGroup.check(R.id.chip_quick_today);
+            }
+        }
 
         view.findViewById(R.id.btn_quick_water).setOnClickListener(v -> {
             preferenceManager.adjustTodayWaterIntakeMl(250);
@@ -148,85 +172,57 @@ public class MainActivity extends BaseActivity implements
             refreshCurrentFragment();
         });
 
-        view.findViewById(R.id.btn_quick_feeding).setOnClickListener(v -> {
-            BabyCareTimelineEntity feed = new BabyCareTimelineEntity(
-                    dateStr, timeStr, now, "FEEDING", "Baby Feeding Recorded",
-                    "Logged via 1-tap quick action", "#E6F2FF"
-            );
-            repo.insertBabyEvent(feed, new MaaCareRepository.DataCallback<Long>() {
-                @Override public void onSuccess(Long result) {
-                    feed.setId(result);
-                    firebaseManager.backupBabyEventToFirestore(uid, feed);
-                    runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "Feeding recorded & backed up!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        refreshCurrentFragment();
-                    });
-                }
-                @Override public void onError(Throwable error) {}
-            });
-        });
+        view.findViewById(R.id.btn_quick_feeding).setOnClickListener(v ->
+                saveQuickTimelineEvent(repo, dialog, dateChipGroup, yesterdayStr, todayStr, tomorrowStr,
+                        timeStr, now, uid, "FEEDING", "Baby Feeding Recorded",
+                        "Logged via 1-tap quick action", "#E6F2FF", "Feeding recorded & backed up!"));
 
-        view.findViewById(R.id.btn_quick_diaper).setOnClickListener(v -> {
-            BabyCareTimelineEntity diaper = new BabyCareTimelineEntity(
-                    dateStr, timeStr, now, "DIAPER", "Diaper Change Recorded",
-                    "Clean diaper logged via quick action", "#E6FAEA"
-            );
-            repo.insertBabyEvent(diaper, new MaaCareRepository.DataCallback<Long>() {
-                @Override public void onSuccess(Long result) {
-                    diaper.setId(result);
-                    firebaseManager.backupBabyEventToFirestore(uid, diaper);
-                    runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "Diaper change recorded & synced!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        refreshCurrentFragment();
-                    });
-                }
-                @Override public void onError(Throwable error) {}
-            });
-        });
+        view.findViewById(R.id.btn_quick_diaper).setOnClickListener(v ->
+                saveQuickTimelineEvent(repo, dialog, dateChipGroup, yesterdayStr, todayStr, tomorrowStr,
+                        timeStr, now, uid, "DIAPER", "Diaper Change Recorded",
+                        "Clean diaper logged via quick action", "#E6FAEA", "Diaper change recorded & synced!"));
 
-        view.findViewById(R.id.btn_quick_sleep).setOnClickListener(v -> {
-            BabyCareTimelineEntity sleep = new BabyCareTimelineEntity(
-                    dateStr, timeStr, now, "SLEEP", "Baby Sleep / Nap Recorded",
-                    "Peaceful sleep interval logged", "#FFF1E0"
-            );
-            repo.insertBabyEvent(sleep, new MaaCareRepository.DataCallback<Long>() {
-                @Override public void onSuccess(Long result) {
-                    sleep.setId(result);
-                    firebaseManager.backupBabyEventToFirestore(uid, sleep);
-                    runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "Sleep log recorded & synced!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        refreshCurrentFragment();
-                    });
-                }
-                @Override public void onError(Throwable error) {}
-            });
-        });
+        view.findViewById(R.id.btn_quick_sleep).setOnClickListener(v ->
+                saveQuickTimelineEvent(repo, dialog, dateChipGroup, yesterdayStr, todayStr, tomorrowStr,
+                        timeStr, now, uid, "SLEEP", "Baby Sleep / Nap Recorded",
+                        "Peaceful sleep interval logged", "#FFF1E0", "Sleep log recorded & synced!"));
 
-        view.findViewById(R.id.btn_quick_bath).setOnClickListener(v -> {
-            BabyCareTimelineEntity bath = new BabyCareTimelineEntity(
-                    dateStr, timeStr, now, "BATH", "Tub Bathing Recorded",
-                    "Warm bath and hygiene logged", "#FDECEF"
-            );
-            repo.insertBabyEvent(bath, new MaaCareRepository.DataCallback<Long>() {
-                @Override public void onSuccess(Long result) {
-                    bath.setId(result);
-                    firebaseManager.backupBabyEventToFirestore(uid, bath);
-                    runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this, "Tub bath recorded & synced!", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        refreshCurrentFragment();
-                    });
-                }
-                @Override public void onError(Throwable error) {}
-            });
-        });
+        view.findViewById(R.id.btn_quick_bath).setOnClickListener(v ->
+                saveQuickTimelineEvent(repo, dialog, dateChipGroup, yesterdayStr, todayStr, tomorrowStr,
+                        timeStr, now, uid, "BATH", "Tub Bathing Recorded",
+                        "Warm bath and hygiene logged", "#FDECEF", "Tub bath recorded & synced!"));
 
         view.findViewById(R.id.btn_cancel_quick_log).setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
+    }
+
+    private void saveQuickTimelineEvent(MaaCareRepository repo, BottomSheetDialog dialog, ChipGroup dateChipGroup,
+                                        String yesterdayStr, String todayStr, String tomorrowStr,
+                                        String timeStr, long now, String uid,
+                                        String type, String title, String details, String colorHex, String toastMsg) {
+        String targetDate = todayStr;
+        int checkedId = dateChipGroup != null ? dateChipGroup.getCheckedChipId() : R.id.chip_quick_today;
+        if (checkedId == R.id.chip_quick_yesterday) targetDate = yesterdayStr;
+        else if (checkedId == R.id.chip_quick_tomorrow) targetDate = tomorrowStr;
+
+        BabyCareTimelineEntity entity = new BabyCareTimelineEntity(
+                targetDate, timeStr, now, type, title, details, colorHex
+        );
+        repo.insertBabyEvent(entity, new MaaCareRepository.DataCallback<Long>() {
+            @Override
+            public void onSuccess(Long result) {
+                entity.setId(result);
+                firebaseManager.backupBabyEventToFirestore(uid, entity);
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this, toastMsg, Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                    refreshCurrentFragment();
+                });
+            }
+            @Override
+            public void onError(Throwable error) {}
+        });
     }
 
     private void refreshCurrentFragment() {

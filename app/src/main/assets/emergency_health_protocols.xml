@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<emergency_protocols>
+    <danger_sign>
+        <sign_name>Severe Persistent Headache &amp; Blurred Vision</sign_name>
+        <sign_name_bn>তীব্র মাথাব্যথা এবং ঝাপসা দৃষ্টি</sign_name_bn>
+        <risk_level>CRITICAL</risk_level>
+        <description>High possibility of pre-eclampsia or eclampsia (dangerously high blood pressure).</description>
+        <description_bn>প্রি-একলাম্পসিয়া বা একলাম্পসিয়ার (অতিরিক্ত উচ্চ রক্তচাপ) ঝুঁকির প্রবল সম্ভাবনা।</description_bn>
+        <first_aid_action>Rest in a quiet, dark room on your left side. Measure blood pressure immediately and contact doctor.</first_aid_action>
+        <first_aid_action_bn>করণীয়: নিরিবিলি অন্ধকার ঘরে বাম কাত হয়ে বিশ্রাম নিন। দ্রুত রক্তচাপ মাপুন এবং অবিলম্বে ডাক্তারের সাথে যোগাযোগ করুন।</first_aid_action_bn>
+    </danger_sign>
+
+    <danger_sign>
+        <sign_name>Vaginal Bleeding or Spotting</sign_name>
+        <sign_name_bn>যোনিপথে রক্তপাত বা দাগ দেখা</sign_name_bn>
+        <risk_level>CRITICAL</risk_level>
+        <description>May indicate placenta previa, placental abruption, or preterm labor.</description>
+        <description_bn>প্লাসেন্টা প্রিভিয়া, প্লাসেন্টাল অ্যাবরাপশন বা অকাল প্রসবের লক্ষণ হতে পারে।</description_bn>
+        <first_aid_action>Lie down immediately. Do not use tampons. Seek emergency obstetric care without delay.</first_aid_action>
+        <first_aid_action_bn>করণীয়: অবিলম্বে শুয়ে পড়ুন। ভেতরে কোনো কিছু ব্যবহার করবেন না এবং দেরি না করে জরুরি প্রসূতি কেন্দ্রে যান।</first_aid_action_bn>
+    </danger_sign>
+
+    <danger_sign>
+        <sign_name>Severe Abdominal Pain / Bleeding</sign_name>
+        <sign_name_bn>তীব্র পেটে ব্যথা বা রক্তপাত</sign_name_bn>
+        <risk_level>HIGH</risk_level>
+        <description>Sharp continuous pain not relieved by rest can signify placental complications or ectopic rupture.</description>
+        <description_bn>বিশ্রামের পরও না কমা তীব্র ও একটানা পেটে ব্যথা প্লাসেন্টাল জটিলতার লক্ষণ হতে পারে।</description_bn>
+        <first_aid_action>Avoid painkiller self-medication. Keep calm and take ambulance to hospital immediately.</first_aid_action>
+        <first_aid_action_bn>করণীয়: নিজে থেকে কোনো ব্যথানাশক ওষুধ খাবেন না। শান্ত থাকুন এবং অবিলম্বে অ্যাম্বুলেন্সে হাসপাতালে যান।</first_aid_action_bn>
+    </danger_sign>
+
+    <danger_sign>
+        <sign_name>Sudden Swelling of Face, Hands, and Feet</sign_name>
+        <sign_name_bn>মুখ, হাত ও পা হঠাৎ ফুলে যাওয়া</sign_name_bn>
+        <risk_level>HIGH</risk_level>
+        <description>Rapid fluid retention associated with hypertensive pregnancy disorders.</description>
+        <description_bn>গর্ভকালীন উচ্চ রক্তচাপজনিত কারণে শরীরে দ্রুত পানি জমা।</description_bn>
+        <first_aid_action>Elevate feet, remove tight rings, check blood pressure, and alert healthcare provider.</first_aid_action>
+        <first_aid_action_bn>করণীয়: পা উঁচু করে রাখুন, হাতের টাইট আংটি খুলে ফেলুন, রক্তচাপ মাপুন এবং দ্রুত ডাক্তারকে জানান।</first_aid_action_bn>
+    </danger_sign>
+
+    <danger_sign>
+        <sign_name>Marked Reduction in Fetal Movement</sign_name>
+        <sign_name_bn>শিশুর নড়াচড়া উল্লেখযোগ্যভাবে কমে যাওয়া</sign_name_bn>
+        <risk_level>CRITICAL</risk_level>
+        <description>Fewer than 10 kicks in 2 hours during the 3rd trimester suggests fetal distress.</description>
+        <description_bn>৩য় ত্রৈমাসিকে ২ ঘণ্টায় ১০ বারের কম লাথি বা নড়াচড়া শিশুর ঝুঁকির লক্ষণ হতে পারে।</description_bn>
+        <first_aid_action>Drink cold sweet water or fruit juice, lie on left side, count kicks for 1 hour. If still reduced, go to emergency triage.</first_aid_action>
+        <first_aid_action_bn>করণীয়: ঠান্ডা মিষ্টি পানি বা ফলের রস পান করুন, বাম কাত হয়ে শুয়ে ১ ঘণ্টা নড়াচড়া গুনুন। তবুও কম হলে জরুরি বিভাগে যান।</first_aid_action_bn>
+    </danger_sign>
+
+    <danger_sign>
+        <sign_name>Continuous Leaking of Water / Fluid</sign_name>
+        <sign_name_bn>ক্রমাগত পানি বা তরল ভাঙা (PROM)</sign_name_bn>
+        <risk_level>HIGH</risk_level>
+        <description>Premature rupture of membranes (PROM) exposes fetus to risk of infection or umbilical cord prolapse.</description>
+        <description_bn>সময়ের আগে পানির থলি ফেটে গেলে সংক্রমণ বা আম্বিলিক্যাল কর্ডের ঝুঁকি থাকে।</description_bn>
+        <first_aid_action>Note fluid color and smell. Wear a clean sanitary pad and go straight to maternity ward.</first_aid_action>
+        <first_aid_action_bn>করণীয়: তরলের রঙ ও গন্ধ লক্ষ্য করুন। পরিষ্কার স্যানিটারি প্যাড ব্যবহার করুন এবং সরাসরি প্রসূতি ওয়ার্ডে চলে যান।</first_aid_action_bn>
+    </danger_sign>
+</emergency_protocols>

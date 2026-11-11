@@ -14,6 +14,12 @@ import com.cse2200.maacare.data.db.entity.MedicineEntity;
 import com.cse2200.maacare.data.db.entity.UserEntity;
 import com.cse2200.maacare.data.db.entity.VaccinationEntity;
 import com.cse2200.maacare.data.prefs.PreferenceManager;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -132,8 +138,31 @@ public class DatabaseInitializer {
             ));
         }
 
-        // 6. Pre-populate Baby Daily Timeline Events
+        // 6. Pre-populate Distinct Baby Daily Timeline Events for Yesterday, Today & Tomorrow
         if (db.babyCareDao().getAllEvents().isEmpty()) {
+            SimpleDateFormat dateKeyFmt = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            String yesterdayDate = dateKeyFmt.format(new Date(now - 86400000L));
+            String tomorrowDate = dateKeyFmt.format(new Date(now + 86400000L));
+
+            // Yesterday's historical logs
+            db.babyCareDao().insert(new BabyCareTimelineEntity(
+                    yesterdayDate, "06:45 AM", now - 86400000L - 18000000L,
+                    "FEEDING", "Early Morning Breastfeeding", "12 mins left side, calm feeding session.", "#E6F2FF"
+            ));
+            db.babyCareDao().insert(new BabyCareTimelineEntity(
+                    yesterdayDate, "09:20 AM", now - 86400000L - 14000000L,
+                    "DIAPER", "Morning Diaper & Outfit Change", "Fresh cotton onesie after clean diaper change.", "#E6FAEA"
+            ));
+            db.babyCareDao().insert(new BabyCareTimelineEntity(
+                    yesterdayDate, "01:15 PM", now - 86400000L - 9000000L,
+                    "SLEEP", "Afternoon Deep Nap", "Slept soundly for 2 hours after afternoon feed.", "#FFF1E0"
+            ));
+            db.babyCareDao().insert(new BabyCareTimelineEntity(
+                    yesterdayDate, "04:30 PM", now - 86400000L - 4000000L,
+                    "BATH", "Evening Sponge Bath", "Gentle sponge cleanse and moisturizer before dusk.", "#FDECEF"
+            ));
+
+            // Today's active logs
             db.babyCareDao().insert(new BabyCareTimelineEntity(
                     todayDate, "07:30 AM", now - 18000000L,
                     "FEEDING", "Morning Breastfeeding", "Left breast 15m, right breast 12m. Baby burped well.", "#E6F2FF"
@@ -153,6 +182,20 @@ public class DatabaseInitializer {
             db.babyCareDao().insert(new BabyCareTimelineEntity(
                     todayDate, "12:30 PM", now - 3600000L,
                     "FEEDING", "Afternoon Feed", "Bottle feed - 120ml expressed breastmilk.", "#E6F2FF"
+            ));
+
+            // Tomorrow's scheduled / upcoming care tasks
+            db.babyCareDao().insert(new BabyCareTimelineEntity(
+                    tomorrowDate, "08:00 AM", now + 86400000L - 10800000L,
+                    "FEEDING", "Scheduled Morning Feed & Vitamin D", "Give prescribed 400 IU Vitamin D drops with morning feed.", "#E6F2FF"
+            ));
+            db.babyCareDao().insert(new BabyCareTimelineEntity(
+                    tomorrowDate, "10:30 AM", now + 86400000L - 7200000L,
+                    "BATH", "Pre-Checkup Morning Bath", "Warm bath before pediatric well-baby weight follow-up.", "#FDECEF"
+            ));
+            db.babyCareDao().insert(new BabyCareTimelineEntity(
+                    tomorrowDate, "02:00 PM", now + 86400000L - 3600000L,
+                    "SLEEP", "Planned Quiet Nap Window", "Dim nursery lights & swaddle for afternoon rest.", "#FFF1E0"
             ));
         }
 
@@ -221,35 +264,23 @@ public class DatabaseInitializer {
             db.babyEssentialsDao().insertAll(items);
         }
 
-        // 11. Pre-populate Verified Doctors Directory (Bangladesh Specialist Hub)
+        // 11. Pre-populate 64-District Bangladesh Doctors Directory (129 Specialists across 8 Divisions)
         if (db.doctorDao().getAllDoctors().isEmpty()) {
-            List<DoctorEntity> docs = new ArrayList<>();
-            docs.add(new DoctorEntity(
-                    "Prof. Dr. Rashida Begum", "Obstetrician & Gynecologist",
-                    "Dhaka Medical College Hospital", 2.4, "Today, 05:00 PM", true, "+8801712345671", 4.9
-            ));
-            docs.add(new DoctorEntity(
-                    "Dr. Farzana Huq", "Senior Consultant - Obstetrics & Fetal Medicine",
-                    "Square Hospitals Ltd, Panthapath", 3.8, "Today, 06:30 PM", true, "+8801712345672", 4.8
-            ));
-            docs.add(new DoctorEntity(
-                    "Dr. Shahedur Rahman", "Chief Consultant Pediatrician & Neonatologist",
-                    "Evercare Hospital Dhaka, Bashundhara", 5.2, "Tomorrow, 10:00 AM", false, "+8801712345673", 4.9
-            ));
-            docs.add(new DoctorEntity(
-                    "Prof. Dr. Nazneen Akhter", "Maternal-Fetal Medicine & High-Risk Pregnancy",
-                    "BSMMU (PG Hospital), Shahbagh", 3.1, "Today, 04:00 PM", true, "+8801712345674", 4.7
-            ));
-            docs.add(new DoctorEntity(
-                    "Dr. Kazi Tanvir Ahmed", "Pediatric Critical Care & Infant Health",
-                    "United Hospital, Gulshan 2", 6.5, "Tomorrow, 11:30 AM", false, "+8801712345675", 4.8
-            ));
-            docs.add(new DoctorEntity(
-                    "Dr. Syeda Nusrat Jahan", "Gynecology & Reproductive Endocrinologist",
-                    "Labaid Specialized Hospital, Dhanmondi", 1.8, "Today, 07:00 PM", true, "+8801712345676", 4.8
-            ));
-
-            db.doctorDao().insertAll(docs);
+            try (InputStream is = context.getAssets().open("doctors_bd.json");
+                 InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8)) {
+                Type listType = new TypeToken<List<DoctorEntity>>() {}.getType();
+                List<DoctorEntity> docs = new Gson().fromJson(reader, listType);
+                if (docs != null && !docs.isEmpty()) {
+                    db.doctorDao().insertAll(docs);
+                }
+            } catch (Exception ignored) {
+                // Safe offline fallback if asset read fails
+                List<DoctorEntity> fallback = new ArrayList<>();
+                fallback.add(new DoctorEntity("Dhaka", "Dhaka", "Prof. Dr. Mariam Faruqui (Shati)",
+                        "Prof. & Senior Consultant (Obs & Gynae)", "Obs & Gynae",
+                        "Labaid Specialized Hospital, Dhanmondi", 1.8, "Today, 05:00 PM", true, "+8801766662111", 4.9));
+                db.doctorDao().insertAll(fallback);
+            }
         }
     }
 }

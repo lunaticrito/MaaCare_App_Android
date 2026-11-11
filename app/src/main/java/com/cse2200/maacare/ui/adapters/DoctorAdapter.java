@@ -1,23 +1,41 @@
 package com.cse2200.maacare.ui.adapters;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cse2200.maacare.R;
 import com.cse2200.maacare.data.db.entity.DoctorEntity;
+import com.cse2200.maacare.databinding.ItemDoctorCardBinding;
+import com.cse2200.maacare.util.LocaleHelper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+/**
+ * Bilingual RecyclerView Adapter for the 64-District Bangladesh Doctors Directory
+ * supporting one-tap calling and assigning a specialist as Primary Emergency Contact.
+ */
 public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorViewHolder> {
 
+    public interface OnDoctorActionListener {
+        void onSetEmergencyDoctor(DoctorEntity doctor);
+    }
+
     private final List<DoctorEntity> doctorList = new ArrayList<>();
+    private final OnDoctorActionListener listener;
+
+    public DoctorAdapter() {
+        this(null);
+    }
+
+    public DoctorAdapter(OnDoctorActionListener listener) {
+        this.listener = listener;
+    }
 
     public void setDoctors(List<DoctorEntity> list) {
         doctorList.clear();
@@ -30,13 +48,17 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
     @NonNull
     @Override
     public DoctorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_doctor_card, parent, false);
-        return new DoctorViewHolder(view);
+        ItemDoctorCardBinding binding = ItemDoctorCardBinding.inflate(
+                LayoutInflater.from(parent.getContext()),
+                parent,
+                false
+        );
+        return new DoctorViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DoctorViewHolder holder, int position) {
-        holder.bind(doctorList.get(position));
+        holder.bind(doctorList.get(position), listener);
     }
 
     @Override
@@ -45,48 +67,57 @@ public class DoctorAdapter extends RecyclerView.Adapter<DoctorAdapter.DoctorView
     }
 
     static class DoctorViewHolder extends RecyclerView.ViewHolder {
-        private final TextView tvName;
-        private final TextView tvSpecialty;
-        private final TextView tvRating;
-        private final TextView tvHospital;
-        private final TextView tvSlot;
-        private final TextView tvBadgeAvailability;
-        private final Button btnCall;
-        private final Button btnBook;
+        private final ItemDoctorCardBinding binding;
 
-        public DoctorViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tvName = itemView.findViewById(R.id.tv_doctor_name);
-            tvSpecialty = itemView.findViewById(R.id.tv_doctor_specialty);
-            tvRating = itemView.findViewById(R.id.tv_doctor_rating);
-            tvHospital = itemView.findViewById(R.id.tv_doctor_hospital);
-            tvSlot = itemView.findViewById(R.id.tv_doctor_slot);
-            tvBadgeAvailability = itemView.findViewById(R.id.tv_badge_availability);
-            btnCall = itemView.findViewById(R.id.btn_call_doctor);
-            btnBook = itemView.findViewById(R.id.btn_book_doctor);
+        public DoctorViewHolder(@NonNull ItemDoctorCardBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
-        public void bind(DoctorEntity doc) {
-            tvName.setText(doc.getName());
-            tvSpecialty.setText(doc.getSpecialty());
-            tvRating.setText(String.format("★ %.1f", doc.getRating()));
-            tvHospital.setText(String.format("%s • %.1f km away", doc.getHospital(), doc.getDistanceKm()));
-            tvSlot.setText(String.format("Next Slot: %s", doc.getNextSlot()));
+        public void bind(DoctorEntity doc, OnDoctorActionListener listener) {
+            Context ctx = binding.getRoot().getContext();
+            boolean bn = LocaleHelper.isBangla(ctx);
 
-            if (doc.isAvailableToday()) {
-                tvBadgeAvailability.setVisibility(View.VISIBLE);
+            String divisionStr = LocaleHelper.translateDivision(ctx, doc.getDivision());
+            String districtStr = LocaleHelper.translateDistrict(ctx, doc.getDistrict());
+            if (bn) {
+                binding.tvDoctorLocationBadge.setText(districtStr + " জেলা • " + divisionStr + " বিভাগ");
+                binding.tvDoctorRating.setText("★ " + LocaleHelper.toBanglaDigits(String.format(Locale.US, "%.1f", doc.getRating())));
             } else {
-                tvBadgeAvailability.setVisibility(View.GONE);
+                binding.tvDoctorLocationBadge.setText(districtStr + " • " + divisionStr + " Div");
+                binding.tvDoctorRating.setText(String.format(Locale.US, "★ %.1f", doc.getRating()));
             }
 
-            btnCall.setOnClickListener(v -> {
+            binding.tvDoctorName.setText(doc.getName());
+
+            String categoryTag = LocaleHelper.translateSpecialtyCategory(ctx, doc.getSpecialtyCategory());
+            if (bn) {
+                binding.tvDoctorSpecialty.setText(categoryTag + " • " + doc.getSpecialty());
+            } else {
+                binding.tvDoctorSpecialty.setText(doc.getSpecialty());
+            }
+
+            binding.tvDoctorHospital.setText(doc.getHospital());
+
+            String slotText = LocaleHelper.localizeTime(ctx, doc.getNextSlot());
+            String phoneDisplay = bn ? LocaleHelper.toBanglaDigits(doc.getPhone()) : doc.getPhone();
+            binding.tvDoctorSlot.setText(phoneDisplay + " • " + slotText);
+
+            binding.tvBadgeAvailability.setVisibility(doc.isAvailableToday() ? View.VISIBLE : View.GONE);
+
+            binding.btnCallDoctor.setText(bn ? "📞 কল করুন" : ctx.getString(R.string.btn_call_doctor));
+            binding.btnSetEmergencyDoctor.setText(ctx.getString(R.string.btn_set_emergency_contact));
+
+            binding.btnCallDoctor.setOnClickListener(v -> {
                 Intent dialIntent = new Intent(Intent.ACTION_DIAL);
                 dialIntent.setData(Uri.parse("tel:" + doc.getPhone()));
-                itemView.getContext().startActivity(dialIntent);
+                ctx.startActivity(dialIntent);
             });
 
-            btnBook.setOnClickListener(v -> {
-                Toast.makeText(itemView.getContext(), "Booking slot with " + doc.getName() + " confirmed!", Toast.LENGTH_SHORT).show();
+            binding.btnSetEmergencyDoctor.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onSetEmergencyDoctor(doc);
+                }
             });
         }
     }

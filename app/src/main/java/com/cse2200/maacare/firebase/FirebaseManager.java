@@ -6,6 +6,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.cse2200.maacare.data.db.entity.BabyCareTimelineEntity;
+import com.cse2200.maacare.data.db.entity.BabyGrowthEntity;
+import com.cse2200.maacare.data.db.entity.BabyVitalsEntity;
 import com.cse2200.maacare.data.db.entity.MedicineEntity;
 import com.cse2200.maacare.data.db.entity.VaccinationEntity;
 import com.google.firebase.FirebaseApp;
@@ -219,6 +221,7 @@ public class FirebaseManager {
         if (!isAvailable || firestore == null || uid == null || event == null) return;
         try {
             Map<String, Object> map = new HashMap<>();
+            map.put("date_key", event.getDateString());
             map.put("activity_type", event.getActivityType());
             map.put("title", event.getTitle());
             map.put("details", event.getDetails());
@@ -233,6 +236,94 @@ public class FirebaseManager {
                     .set(map, SetOptions.merge());
         } catch (Exception e) {
             Log.w(TAG, "Firestore baby event backup bypassed: " + e.getMessage());
+        }
+    }
+
+    public void deleteBabyEventFromFirestore(String uid, long eventId) {
+        if (!isAvailable || firestore == null || uid == null) return;
+        try {
+            firestore.collection("maacare_users")
+                    .document(uid)
+                    .collection("baby_timeline")
+                    .document(String.valueOf(eventId))
+                    .delete();
+        } catch (Exception e) {
+            Log.w(TAG, "Firestore baby event delete bypassed: " + e.getMessage());
+        }
+    }
+
+    public void syncGrowthRecordToFirestore(String uid, BabyGrowthEntity growth) {
+        if (!isAvailable || firestore == null || uid == null || growth == null) return;
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("age_months", growth.getAgeMonths());
+            map.put("weight_kg", growth.getWeightKg());
+            map.put("height_cm", growth.getHeightCm());
+            map.put("is_at_birth", growth.isAtBirth());
+            map.put("recorded_at", growth.getDateRecordedMillis());
+
+            firestore.collection("maacare_users")
+                    .document(uid)
+                    .collection("baby_growth")
+                    .document("month_" + growth.getAgeMonths())
+                    .set(map, SetOptions.merge());
+
+            if (realtimeDb != null) {
+                realtimeDb.getReference("users")
+                        .child(uid)
+                        .child("realtime_monitoring")
+                        .child("growth_latest")
+                        .setValue(map);
+            }
+        } catch (Exception e) {
+            Log.w(TAG, "Firebase growth sync bypassed: " + e.getMessage());
+        }
+    }
+
+    public void deleteGrowthRecordFromFirestore(String uid, int ageMonths) {
+        if (!isAvailable || firestore == null || uid == null) return;
+        try {
+            firestore.collection("maacare_users")
+                    .document(uid)
+                    .collection("baby_growth")
+                    .document("month_" + ageMonths)
+                    .delete();
+        } catch (Exception e) {
+            Log.w(TAG, "Firestore growth delete bypassed: " + e.getMessage());
+        }
+    }
+
+    public void backupVitalsToFirestore(String uid, BabyVitalsEntity vitals) {
+        if (!isAvailable || firestore == null || uid == null || vitals == null) return;
+        try {
+            Map<String, Object> map = new HashMap<>();
+            map.put("is_sick", vitals.isSick());
+            map.put("symptoms", vitals.getSymptomsNotes());
+            map.put("temperature", vitals.getTempDegreeOrFreq());
+            map.put("pulse_bpm", vitals.getPulseFrequency());
+            map.put("spo2_percent", vitals.getSpo2Frequency());
+            map.put("timestamp", vitals.getRecordedMillis());
+
+            firestore.collection("maacare_users")
+                    .document(uid)
+                    .collection("baby_vitals_history")
+                    .document(String.valueOf(vitals.getId()))
+                    .set(map, SetOptions.merge());
+        } catch (Exception e) {
+            Log.w(TAG, "Firestore vitals backup bypassed: " + e.getMessage());
+        }
+    }
+
+    public void deleteVitalsFromFirestore(String uid, long vitalsId) {
+        if (!isAvailable || firestore == null || uid == null) return;
+        try {
+            firestore.collection("maacare_users")
+                    .document(uid)
+                    .collection("baby_vitals_history")
+                    .document(String.valueOf(vitalsId))
+                    .delete();
+        } catch (Exception e) {
+            Log.w(TAG, "Firestore vitals delete bypassed: " + e.getMessage());
         }
     }
 

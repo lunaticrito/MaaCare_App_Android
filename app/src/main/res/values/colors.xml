@@ -4,6 +4,8 @@
     <color name="primary">#F28B96</color> <!-- Soft Rose/Blush -->
     <color name="primary_dark">#D8707C</color>
     <color name="primary_light">#FDECEF</color>
+    <color name="primary_button_bg">#F28B96</color>
+    <color name="primary_button_text">#FFFFFF</color>
     <color name="ic_launcher_background">#F2E3E8</color>
 
     <color name="secondary">#00897B</color> <!-- Teal Mint -->

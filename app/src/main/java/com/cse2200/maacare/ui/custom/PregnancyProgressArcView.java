@@ -9,7 +9,9 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import com.cse2200.maacare.R;
+import com.cse2200.maacare.util.LocaleHelper;
 
 /**
  * Custom View extending android.view.View to render a medical gestational progress arc gauge.
@@ -89,12 +91,12 @@ public class PregnancyProgressArcView extends View {
         indicatorPaint.setColor(indicatorColor);
 
         textPrimaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        textPrimaryPaint.setColor(Color.parseColor("#212121"));
+        textPrimaryPaint.setColor(ContextCompat.getColor(getContext(), R.color.text_primary));
         textPrimaryPaint.setTextAlign(Paint.Align.CENTER);
         textPrimaryPaint.setFakeBoldText(true);
 
         textSecondaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        textSecondaryPaint.setColor(Color.parseColor("#666666"));
+        textSecondaryPaint.setColor(ContextCompat.getColor(getContext(), R.color.text_secondary));
         textSecondaryPaint.setTextAlign(Paint.Align.CENTER);
 
         textTertiaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -180,16 +182,32 @@ public class PregnancyProgressArcView extends View {
             float centerX = arcBounds.centerX();
             float centerY = arcBounds.centerY() + 10;
 
-            String weekText = "Week " + currentWeek;
+            boolean bn = LocaleHelper.isBangla(getContext());
+            String weekText;
             String trimesterText;
-            if (currentWeek <= 12) {
-                trimesterText = "1st Trimester";
-            } else if (currentWeek <= 27) {
-                trimesterText = "2nd Trimester";
+            String daysText;
+
+            if (bn) {
+                weekText = "সপ্তাহ " + LocaleHelper.toBanglaDigits(String.valueOf(currentWeek));
+                if (currentWeek <= 12) {
+                    trimesterText = "১ম ত্রৈমাসিক";
+                } else if (currentWeek <= 27) {
+                    trimesterText = "২য় ত্রৈমাসিক";
+                } else {
+                    trimesterText = "৩য় ত্রৈমাসিক";
+                }
+                daysText = "প্রসবের বাকি " + LocaleHelper.toBanglaDigits(String.valueOf(daysRemaining)) + " দিন";
             } else {
-                trimesterText = "3rd Trimester";
+                weekText = "Week " + currentWeek;
+                if (currentWeek <= 12) {
+                    trimesterText = "1st Trimester";
+                } else if (currentWeek <= 27) {
+                    trimesterText = "2nd Trimester";
+                } else {
+                    trimesterText = "3rd Trimester";
+                }
+                daysText = daysRemaining + " Days to EDD";
             }
-            String daysText = daysRemaining + " Days to EDD";
 
             canvas.drawText(weekText, centerX, centerY - 25, textPrimaryPaint);
             canvas.drawText(trimesterText, centerX, centerY + 25, textSecondaryPaint);

@@ -1,26 +1,21 @@
 {
   "project_info": {
-    "project_number": "102938475612",
+    "project_number": "32296906775",
     "project_id": "maacare-cse2200",
-    "storage_bucket": "maacare-cse2200.appspot.com"
+    "storage_bucket": "maacare-cse2200.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:102938475612:android:9876543210abcdef123456",
+        "mobilesdk_app_id": "1:32296906775:android:9617c39357bc079c01ec52",
         "android_client_info": {
           "package_name": "com.cse2200.maacare"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "102938475612-abcdefghijklmnopqrstuvwxyz012345.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyD-PlaceholderKeyForMaaCareCSE2200AcademicDemo"
+          "current_key": "AIzaSyCrjlw30d9swfqbWSN7kob6VBuUJuiGVZE"
         }
       ],
       "services": {

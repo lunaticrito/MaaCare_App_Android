@@ -15,13 +15,17 @@ import com.cse2200.maacare.data.db.entity.HydrationLogEntity;
 import com.cse2200.maacare.data.db.entity.MedicineEntity;
 import com.cse2200.maacare.data.db.entity.UserEntity;
 import com.cse2200.maacare.data.db.entity.VaccinationEntity;
+import com.cse2200.maacare.data.model.DangerSign;
 import com.cse2200.maacare.data.model.MaternalHealthDataResponse;
 import com.cse2200.maacare.network.ApiClient;
 import com.google.gson.Gson;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -259,6 +263,20 @@ public class MaaCareRepository {
         });
     }
 
+    public void updateBabyEvent(BabyCareTimelineEntity event, DataCallback<Integer> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            int rows = database.babyCareDao().update(event);
+            callback.onSuccess(rows);
+        });
+    }
+
+    public void deleteBabyEvent(BabyCareTimelineEntity event, DataCallback<Integer> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            int rows = database.babyCareDao().delete(event);
+            callback.onSuccess(rows);
+        });
+    }
+
     // --- Developmental Milestones ---
 
     public void getAllMilestones(DataCallback<List<BabyMilestoneEntity>> callback) {
@@ -291,7 +309,41 @@ public class MaaCareRepository {
         });
     }
 
+    public void upsertGrowthRecord(int ageMonths, double heightCm, double weightKg, DataCallback<BabyGrowthEntity> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            BabyGrowthEntity existing = database.babyGrowthDao().getRecordByAgeMonth(ageMonths);
+            long now = System.currentTimeMillis();
+            if (existing != null) {
+                existing.setHeightCm(heightCm);
+                existing.setWeightKg(weightKg);
+                existing.setDateRecordedMillis(now);
+                existing.setAtBirth(ageMonths == 0);
+                database.babyGrowthDao().update(existing);
+                callback.onSuccess(existing);
+            } else {
+                BabyGrowthEntity created = new BabyGrowthEntity(ageMonths, heightCm, weightKg, now, ageMonths == 0);
+                long id = database.babyGrowthDao().insert(created);
+                created.setId(id);
+                callback.onSuccess(created);
+            }
+        });
+    }
+
+    public void deleteGrowthRecord(BabyGrowthEntity growth, DataCallback<Integer> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            int rows = database.babyGrowthDao().delete(growth);
+            callback.onSuccess(rows);
+        });
+    }
+
     // --- Baby Vitals & Health ---
+
+    public void getAllVitals(DataCallback<List<BabyVitalsEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<BabyVitalsEntity> list = database.babyVitalsDao().getAllVitals();
+            callback.onSuccess(list);
+        });
+    }
 
     public void getLatestVitals(DataCallback<BabyVitalsEntity> callback) {
         MaaCareDatabase.databaseWriteExecutor.execute(() -> {
@@ -304,6 +356,20 @@ public class MaaCareRepository {
         MaaCareDatabase.databaseWriteExecutor.execute(() -> {
             long id = database.babyVitalsDao().insert(vitals);
             callback.onSuccess(id);
+        });
+    }
+
+    public void updateVitals(BabyVitalsEntity vitals, DataCallback<Integer> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            int rows = database.babyVitalsDao().update(vitals);
+            callback.onSuccess(rows);
+        });
+    }
+
+    public void deleteVitals(BabyVitalsEntity vitals, DataCallback<Integer> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            int rows = database.babyVitalsDao().delete(vitals);
+            callback.onSuccess(rows);
         });
     }
 
@@ -330,11 +396,81 @@ public class MaaCareRepository {
         });
     }
 
-    // --- Doctor Directory ---
+    // --- Emergency XML Protocol Parsing (XmlPullParser) ---
+
+    public void getEmergencyProtocolsFromXml(DataCallback<List<DangerSign>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<DangerSign> protocols = new ArrayList<>();
+            try (InputStream is = context.getAssets().open("emergency_health_protocols.xml")) {
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                XmlPullParser parser = factory.newPullParser();
+                parser.setInput(is, "UTF-8");
+
+                String signName = "", signNameBn = "", riskLevel = "", desc = "", descBn = "", action = "", actionBn = "";
+                String currentTag = null;
+                int eventType = parser.getEventType();
+
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+                    if (eventType == XmlPullParser.START_TAG) {
+                        currentTag = parser.getName();
+                        if ("danger_sign".equals(currentTag)) {
+                            signName = ""; signNameBn = ""; riskLevel = "";
+                            desc = ""; descBn = ""; action = ""; actionBn = "";
+                        }
+                    } else if (eventType == XmlPullParser.TEXT && currentTag != null) {
+                        String text = parser.getText().trim();
+                        if (!text.isEmpty()) {
+                            switch (currentTag) {
+                                case "sign_name": signName = text; break;
+                                case "sign_name_bn": signNameBn = text; break;
+                                case "risk_level": riskLevel = text; break;
+                                case "description": desc = text; break;
+                                case "description_bn": descBn = text; break;
+                                case "first_aid_action": action = text; break;
+                                case "first_aid_action_bn": actionBn = text; break;
+                            }
+                        }
+                    } else if (eventType == XmlPullParser.END_TAG) {
+                        if ("danger_sign".equals(parser.getName())) {
+                            protocols.add(new DangerSign(signName, signNameBn, riskLevel, desc, descBn, action, actionBn));
+                        }
+                        currentTag = null;
+                    }
+                    eventType = parser.next();
+                }
+                callback.onSuccess(protocols);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed parsing emergency_health_protocols.xml", e);
+                callback.onError(e);
+            }
+        });
+    }
+
+    // --- Doctor Directory (8 Divisions & 64 Districts) ---
 
     public void getAllDoctors(DataCallback<List<DoctorEntity>> callback) {
         MaaCareDatabase.databaseWriteExecutor.execute(() -> {
             List<DoctorEntity> list = database.doctorDao().getAllDoctors();
+            callback.onSuccess(list);
+        });
+    }
+
+    public void getDistrictsByDivision(String division, DataCallback<List<String>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<String> list = database.doctorDao().getDistrictsByDivision(division != null ? division : "");
+            callback.onSuccess(list);
+        });
+    }
+
+    public void filterDoctors(String division, String district, String specialtyCategory, String query,
+                              DataCallback<List<DoctorEntity>> callback) {
+        MaaCareDatabase.databaseWriteExecutor.execute(() -> {
+            List<DoctorEntity> list = database.doctorDao().filterDoctors(
+                    division != null ? division : "",
+                    district != null ? district : "",
+                    specialtyCategory != null ? specialtyCategory : "",
+                    query != null ? query : ""
+            );
             callback.onSuccess(list);
         });
     }

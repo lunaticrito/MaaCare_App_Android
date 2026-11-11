@@ -1,6 +1,7 @@
 package com.cse2200.maacare.data.db.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -17,6 +18,9 @@ public interface BabyGrowthDao {
     @Query("SELECT * FROM baby_growth WHERE isAtBirth = 1 LIMIT 1")
     BabyGrowthEntity getBirthRecord();
 
+    @Query("SELECT * FROM baby_growth WHERE ageMonths = :ageMonths LIMIT 1")
+    BabyGrowthEntity getRecordByAgeMonth(int ageMonths);
+
     @Query("SELECT * FROM baby_growth ORDER BY ageMonths DESC LIMIT 1")
     BabyGrowthEntity getLatestRecord();
 
@@ -28,4 +32,7 @@ public interface BabyGrowthDao {
 
     @Update
     int update(BabyGrowthEntity growth);
+
+    @Delete
+    int delete(BabyGrowthEntity growth);
 }

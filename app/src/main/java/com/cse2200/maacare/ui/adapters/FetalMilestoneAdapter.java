@@ -1,5 +1,6 @@
 package com.cse2200.maacare.ui.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -8,9 +9,10 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cse2200.maacare.data.model.FetalMilestone;
 import com.cse2200.maacare.databinding.ItemFetalMilestoneBinding;
+import com.cse2200.maacare.util.LocaleHelper;
 
 /**
- * High-performance RecyclerView adapter using DiffUtil and ViewBinding for Fetal Milestones.
+ * Bilingual RecyclerView adapter using DiffUtil and ViewBinding for Weekly Fetal Milestones.
  */
 public class FetalMilestoneAdapter extends ListAdapter<FetalMilestone, FetalMilestoneAdapter.MilestoneViewHolder> {
 
@@ -68,14 +70,34 @@ public class FetalMilestoneAdapter extends ListAdapter<FetalMilestone, FetalMile
         }
 
         public void bind(FetalMilestone item, OnMilestoneClickListener listener) {
-            binding.tvMilestoneWeek.setText("Week " + item.getWeek());
-            String trimesterName = item.getTrimester() == 1 ? "1st Trimester" :
-                    (item.getTrimester() == 2 ? "2nd Trimester" : "3rd Trimester");
-            binding.tvTrimesterTag.setText(trimesterName);
-            binding.tvFetalSize.setText(item.getBabySize());
-            binding.tvDevSummary.setText(item.getDevelopmentSummary());
-            binding.tvMaternalChanges.setText("Mom: " + item.getMaternalChanges());
-            binding.tvClinicalAdvice.setText("Clinical Advice: " + item.getClinicalAdvice());
+            Context ctx = binding.getRoot().getContext();
+            boolean bn = LocaleHelper.isBangla(ctx);
+
+            if (bn) {
+                binding.tvMilestoneWeek.setText("সপ্তাহ " + LocaleHelper.toBanglaDigits(String.valueOf(item.getWeek())));
+                String trimesterBn = item.getTrimester() == 1 ? "১ম ত্রৈমাসিক"
+                        : (item.getTrimester() == 2 ? "২য় ত্রৈমাসিক" : "৩য় ত্রৈমাসিক");
+                binding.tvTrimesterTag.setText(trimesterBn);
+                binding.tvFetalSize.setText(item.getBabySizeBn() != null && !item.getBabySizeBn().isEmpty()
+                        ? item.getBabySizeBn() : LocaleHelper.toBanglaDigits(item.getBabySize()));
+                binding.tvDevSummary.setText(item.getDevelopmentSummaryBn() != null && !item.getDevelopmentSummaryBn().isEmpty()
+                        ? item.getDevelopmentSummaryBn() : item.getDevelopmentSummary());
+                String momBn = item.getMaternalChangesBn() != null && !item.getMaternalChangesBn().isEmpty()
+                        ? item.getMaternalChangesBn() : item.getMaternalChanges();
+                String adviceBn = item.getClinicalAdviceBn() != null && !item.getClinicalAdviceBn().isEmpty()
+                        ? item.getClinicalAdviceBn() : item.getClinicalAdvice();
+                binding.tvMaternalChanges.setText("মা: " + momBn);
+                binding.tvClinicalAdvice.setText("চিকিৎসা পরামর্শ: " + adviceBn);
+            } else {
+                binding.tvMilestoneWeek.setText("Week " + item.getWeek());
+                String trimesterName = item.getTrimester() == 1 ? "1st Trimester" :
+                        (item.getTrimester() == 2 ? "2nd Trimester" : "3rd Trimester");
+                binding.tvTrimesterTag.setText(trimesterName);
+                binding.tvFetalSize.setText(item.getBabySize());
+                binding.tvDevSummary.setText(item.getDevelopmentSummary());
+                binding.tvMaternalChanges.setText("Mom: " + item.getMaternalChanges());
+                binding.tvClinicalAdvice.setText("Clinical Advice: " + item.getClinicalAdvice());
+            }
 
             itemView.setOnClickListener(v -> {
                 if (listener != null) listener.onMilestoneClick(item);

@@ -1,5 +1,6 @@
 package com.cse2200.maacare.ui.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cse2200.maacare.R;
 import com.cse2200.maacare.data.db.entity.BabyMilestoneEntity;
+import com.cse2200.maacare.util.LocaleHelper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,8 +77,11 @@ public class BabyMilestoneAdapter extends RecyclerView.Adapter<BabyMilestoneAdap
         }
 
         public void bind(BabyMilestoneEntity item, OnMilestoneUpdateListener listener) {
-            tvCategory.setText(item.getCategory());
-            tvQuestion.setText(item.getQuestionText());
+            Context ctx = itemView.getContext();
+            boolean bn = LocaleHelper.isBangla(ctx);
+
+            tvCategory.setText(LocaleHelper.translateDynamicText(ctx, item.getCategory()));
+            tvQuestion.setText(LocaleHelper.translateDynamicText(ctx, item.getQuestionText()));
 
             if (item.isAchieved()) {
                 rbYes.setChecked(true);
@@ -85,7 +90,7 @@ public class BabyMilestoneAdapter extends RecyclerView.Adapter<BabyMilestoneAdap
             }
 
             if (item.getRemarkText() != null) {
-                etRemark.setText(item.getRemarkText());
+                etRemark.setText(LocaleHelper.translateDynamicText(ctx, item.getRemarkText()));
             } else {
                 etRemark.setText("");
             }
@@ -95,7 +100,7 @@ public class BabyMilestoneAdapter extends RecyclerView.Adapter<BabyMilestoneAdap
                 String remark = etRemark.getText() != null ? etRemark.getText().toString().trim() : "";
                 if (listener != null) {
                     listener.onUpdate(item, achieved, remark);
-                    Toast.makeText(itemView.getContext(), "Milestone observation saved!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, bn ? "মাইলফলক পর্যবেক্ষণ সংরক্ষিত হয়েছে!" : "Milestone observation saved!", Toast.LENGTH_SHORT).show();
                 }
             });
         }

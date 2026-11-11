@@ -1,5 +1,6 @@
 package com.cse2200.maacare.ui.adapters;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,11 +8,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+import com.cse2200.maacare.R;
 import com.cse2200.maacare.data.db.entity.VaccinationEntity;
 import com.cse2200.maacare.databinding.ItemVaccinationBinding;
+import com.cse2200.maacare.util.LocaleHelper;
 
 /**
- * Adapter for newborn EPI & WHO vaccination schedule with interactive administered toggles
+ * Bilingual Adapter for newborn EPI & WHO vaccination schedule with interactive administered toggles
  * and dynamic Completed, Due Now, and Upcoming status badges.
  */
 public class VaccinationAdapter extends ListAdapter<VaccinationEntity, VaccinationAdapter.VaccineViewHolder> {
@@ -74,25 +77,28 @@ public class VaccinationAdapter extends ListAdapter<VaccinationEntity, Vaccinati
         }
 
         public void bind(VaccinationEntity item, int babyAgeDays, OnVaccineToggleListener listener) {
-            binding.tvVaccineName.setText(item.getVaccineName());
-            binding.tvTargetAge.setText(item.getTargetAge());
-            binding.tvDiseaseTarget.setText(item.getDiseaseTarget());
+            Context ctx = binding.getRoot().getContext();
+            binding.tvVaccineName.setText(LocaleHelper.translateDynamicText(ctx, item.getVaccineName()));
+            binding.tvTargetAge.setText(LocaleHelper.translateDynamicText(ctx, item.getTargetAge()));
+            binding.tvDiseaseTarget.setText(LocaleHelper.translateDynamicText(ctx, item.getDiseaseTarget()));
 
             binding.cbVaccineDone.setOnCheckedChangeListener(null);
             binding.cbVaccineDone.setChecked(item.isDone());
 
             String status = item.computeStatus(babyAgeDays);
-            binding.tvVaccineStatus.setText(status);
 
             if ("COMPLETED".equals(status)) {
+                binding.tvVaccineStatus.setText(ctx.getString(R.string.vaccine_badge_completed));
                 binding.tvVaccineStatus.setTextColor(Color.parseColor("#2E7D32"));
                 binding.tvVaccineStatus.setBackgroundColor(Color.parseColor("#E8F5E9"));
                 binding.tvVaccineStatus.setPadding(12, 4, 12, 4);
             } else if ("DUE NOW".equals(status)) {
+                binding.tvVaccineStatus.setText(ctx.getString(R.string.vaccine_badge_due_now));
                 binding.tvVaccineStatus.setTextColor(Color.parseColor("#C62828"));
                 binding.tvVaccineStatus.setBackgroundColor(Color.parseColor("#FFEBEE"));
                 binding.tvVaccineStatus.setPadding(12, 4, 12, 4);
             } else {
+                binding.tvVaccineStatus.setText(ctx.getString(R.string.vaccine_badge_upcoming));
                 binding.tvVaccineStatus.setTextColor(Color.parseColor("#00695C"));
                 binding.tvVaccineStatus.setBackgroundColor(Color.parseColor("#E0F2F1"));
                 binding.tvVaccineStatus.setPadding(12, 4, 12, 4);

@@ -4,101 +4,155 @@
       "week": 4,
       "trimester": 1,
       "baby_size": "Poppy Seed (~1 mm)",
+      "baby_size_bn": "পপি বীজ (~১ মি.মি.)",
       "weight_grams": 0.1,
       "length_cm": 0.1,
       "development_summary": "The blastocyst has implanted in the uterine wall. The amniotic sac and placenta are forming rapidly.",
+      "development_summary_bn": "ভ্রূণ জরায়ুর দেয়ালে স্থাপিত হয়েছে। অ্যামনিয়োটিক থলি ও প্লাসেন্টা দ্রুত গঠিত হচ্ছে।",
       "maternal_changes": "Mild cramping, breast tenderness, and early fatigue as hCG hormone levels rise.",
-      "clinical_advice": "Begin daily 400 mcg Folic Acid supplementation to prevent neural tube defects."
+      "maternal_changes_bn": "এইচসিজি (hCG) হরমোন বৃদ্ধির কারণে হালকা পেটে টান, স্তনে সংবেদনশীলতা ও প্রাথমিক ক্লান্তি।",
+      "clinical_advice": "Begin daily 400 mcg Folic Acid supplementation to prevent neural tube defects.",
+      "clinical_advice_bn": "নিউরাল টিউবের ত্রুটি প্রতিরোধে প্রতিদিন ৪০০ মাইক্রোগ্রাম ফলিক অ্যাসিড গ্রহণ শুরু করুন।"
     },
     {
       "week": 8,
       "trimester": 1,
       "baby_size": "Raspberry (~1.6 cm)",
+      "baby_size_bn": "রাস্পবেরি (~১.৬ সে.মি.)",
       "weight_grams": 1.0,
       "length_cm": 1.6,
       "development_summary": "Tiny webbed fingers and toes are developing. Heart is beating at ~150-170 bpm.",
+      "development_summary_bn": "ছোট আঙুল এবং পায়ের পাতা গঠিত হচ্ছে। হৃদস্পন্দন প্রতি মিনিটে ~১৫০-১৭০ বার স্পন্দিত হচ্ছে।",
       "maternal_changes": "Morning sickness, heightened sense of smell, and frequent urination.",
-      "clinical_advice": "Eat small, frequent meals rich in vitamin B6 to ease nausea. Stay hydrated with electrolyte fluids."
+      "maternal_changes_bn": "সকালের বমি বমি ভাব (মর্নিং সিকনেস), তীব্র ঘ্রাণশক্তি এবং ঘন ঘন প্রস্রাবের প্রবণতা।",
+      "clinical_advice": "Eat small, frequent meals rich in vitamin B6 to ease nausea. Stay hydrated with electrolyte fluids.",
+      "clinical_advice_bn": "বমি ভাব কমাতে ভিটামিন বি৬ সমৃদ্ধ খাবার অল্প পরিমাণে বারবার খান। ইলেক্ট্রোলাইট ও পর্যাপ্ত পানি পান করুন।"
     },
     {
       "week": 12,
       "trimester": 1,
       "baby_size": "Lime (~5.4 cm)",
+      "baby_size_bn": "লেবু (~৫.৪ সে.মি.)",
       "weight_grams": 14.0,
       "length_cm": 5.4,
       "development_summary": "Fetal reflexes develop; fingers can curl and toes can flare. Organs and kidneys produce amniotic fluid.",
+      "development_summary_bn": "ভ্রূণের প্রতিফলন (reflexes) তৈরি হয়; হাত ও পায়ের আঙুল নড়াচড়া করতে পারে। অঙ্গপ্রত্যঙ্গ ও কিডনি অ্যামনিয়োটিক ফ্লুইড তৈরি শুরু করে।",
       "maternal_changes": "Nausea begins to subside as placenta assumes hormone production. Energy levels begin to stabilize.",
-      "clinical_advice": "Schedule the first comprehensive antenatal care (ANC) checkup and Nuchal Translucency ultrasound scan."
+      "maternal_changes_bn": "প্লাসেন্টা হরমোন তৈরির দায়িত্ব নেওয়ায় বমি ভাব কমতে শুরু করে। শারীরিক শক্তি স্বাভাবিক হতে থাকে।",
+      "clinical_advice": "Schedule the first comprehensive antenatal care (ANC) checkup and Nuchal Translucency ultrasound scan.",
+      "clinical_advice_bn": "প্রথম পূর্ণাঙ্গ গর্ভকালীন চেকআপ (ANC) এবং নুকাল ট্রান্সলুসেন্সি (NT) আল্ট্রাসাউন্ড স্ক্যান করান।"
     },
     {
       "week": 16,
       "trimester": 2,
       "baby_size": "Avocado (~11.6 cm)",
+      "baby_size_bn": "অ্যাভোকাডো (~১১.৬ সে.মি.)",
       "weight_grams": 100.0,
       "length_cm": 11.6,
       "development_summary": "Eyes can make slow movements, and baby's tiny skeleton is hardening from cartilage to bone.",
+      "development_summary_bn": "চোখ ধীরে ধীরে নড়াচড়া করতে পারে এবং শিশুর ছোট কঙ্কাল তরুণাস্থি থেকে হাড়ে শক্ত হতে শুরু করে।",
       "maternal_changes": "Maternal 'pregnancy glow' appears. Occasional round ligament stretching pain.",
-      "clinical_advice": "Start daily Iron and Calcium supplementation (take calcium 2 hours apart from iron for maximum absorption)."
+      "maternal_changes_bn": "গর্ভকালীন উজ্জ্বলতা দেখা দেয়। মাঝে মাঝে তলপেটের লিগামেন্টে হালকা টান অনুভূত হতে পারে।",
+      "clinical_advice": "Start daily Iron and Calcium supplementation (take calcium 2 hours apart from iron for maximum absorption).",
+      "clinical_advice_bn": "প্রতিদিন আয়রন এবং ক্যালসিয়াম সাপ্লিমেন্ট খাওয়া শুরু করুন (আয়রন ও ক্যালসিয়াম অন্তত ২ ঘণ্টা ব্যবধানে খাবেন)।"
     },
     {
       "week": 20,
       "trimester": 2,
       "baby_size": "Banana (~25.6 cm)",
+      "baby_size_bn": "কলা (~২৫.৬ সে.মি.)",
       "weight_grams": 300.0,
       "length_cm": 25.6,
       "development_summary": "Halfway milestone! Lanugo (fine hair) covers the body. Baby can swallow amniotic fluid and hear mom's voice.",
+      "development_summary_bn": "গর্ভাবস্থার অর্ধেক পথ! শিশুর গায়ে সূক্ষ্ম লোম (ল্যানুগো) দেখা দেয় এবং শিশু মায়ের কণ্ঠস্বর শুনতে পায়।",
       "maternal_changes": "First fetal movements ('quickening') felt as gentle flutters. Mild ankle edema in evening.",
-      "clinical_advice": "Undergo the detailed anomaly ultrasound scan to assess organ structures and placental position."
+      "maternal_changes_bn": "প্রথমবার শিশুর হালকা নড়াচড়া অনুভূত হয়। সন্ধ্যায় পায়ে সামান্য ফোলা ভাব দেখা দিতে পারে।",
+      "clinical_advice": "Undergo the detailed anomaly ultrasound scan to assess organ structures and placental position.",
+      "clinical_advice_bn": "শিশুর অঙ্গপ্রত্যঙ্গ ও প্লাসেন্টার অবস্থান পরীক্ষা করতে অ্যানোমালি আল্ট্রাসাউন্ড স্ক্যান করান।"
     },
     {
       "week": 24,
       "trimester": 2,
       "baby_size": "Ear of Corn (~30.0 cm)",
+      "baby_size_bn": "ভুট্টা (~৩০.০ সে.মি.)",
       "weight_grams": 600.0,
       "length_cm": 30.0,
       "development_summary": "Lungs develop surfactant-producing alveolar cells. Rapid brain and taste bud development.",
+      "development_summary_bn": "ফুসফুসে শ্বাস-প্রশ্বাসের জন্য সারফ্যাক্ট্যান্ট কোষ গঠিত হয়। মস্তিষ্ক ও স্বাদগ্রন্থি দ্রুত বিকশিত হয়।",
       "maternal_changes": "Mild heartburn, Braxton Hicks contractions may begin. Skin on abdomen stretches.",
-      "clinical_advice": "Screen for Gestational Diabetes Mellitus (GDM) with an Oral Glucose Tolerance Test (OGTT)."
+      "maternal_changes_bn": "হালকা বুকজ্বালা ও অনিয়মিত মৃদু পেট শক্ত হওয়ার অনুভূতি হতে পারে। পেটের ত্বক প্রসারিত হয়।",
+      "clinical_advice": "Screen for Gestational Diabetes Mellitus (GDM) with an Oral Glucose Tolerance Test (OGTT).",
+      "clinical_advice_bn": "গর্ভকালীন ডায়াবেটিস (GDM) পরীক্ষা করার জন্য ওজিটিটি (OGTT) রক্ত পরীক্ষা করান।"
     },
     {
       "week": 28,
       "trimester": 3,
       "baby_size": "Eggplant (~37.6 cm)",
+      "baby_size_bn": "বেগুন (~৩৭.৬ সে.মি.)",
       "weight_grams": 1000.0,
       "length_cm": 37.6,
       "development_summary": "Welcome to the 3rd trimester! Baby can blink and open eyes. Brain wave patterns show REM sleep cycles.",
+      "development_summary_bn": "৩য় ত্রৈমাসিকে স্বাগতম! শিশু চোখ খুলতে ও পলক ফেলতে পারে এবং স্বপ্নের ঘুম (REM) শুরু হয়।",
       "maternal_changes": "Shortness of breath as uterus pushes diaphragm upwards. Mild backaches.",
-      "clinical_advice": "Monitor fetal kick counts daily (expect at least 10 kicks within 2 hours of quiet resting)."
+      "maternal_changes_bn": "জরায়ু উপরের দিকে চাপ দেওয়ায় শ্বাসে সামান্য টান ও কোমরে মৃদু ব্যথা হতে পারে।",
+      "clinical_advice": "Monitor fetal kick counts daily (expect at least 10 kicks within 2 hours of quiet resting).",
+      "clinical_advice_bn": "প্রতিদিন শিশুর নড়াচড়া গুনুন (বিশ্রামের সময় ২ ঘণ্টায় অন্তত ১০ বার নড়াচড়া হওয়া উচিত)।"
+    },
+    {
+      "week": 30,
+      "trimester": 3,
+      "baby_size": "Cabbage (~39.9 cm)",
+      "baby_size_bn": "বাঁধাকপি (~৩৯.৯ সে.মি.)",
+      "weight_grams": 1320.0,
+      "length_cm": 39.9,
+      "development_summary": "Brain surface develops deeper folds; baby builds fat layers for temperature regulation after birth.",
+      "development_summary_bn": "শিশুর মস্তিষ্কের ভাঁজ আরও গভীর হয় এবং জন্মের পর শরীর উষ্ণ রাখতে চর্বির স্তর জমা হয়।",
+      "maternal_changes": "Increased fatigue, pelvic heaviness, and occasional night leg cramps.",
+      "maternal_changes_bn": "ক্লান্তি বৃদ্ধি, তলপেটে ভারী অনুভূতি এবং রাতে পায়ে টান ধরতে পারে।",
+      "clinical_advice": "Sleep on your left side to maximize blood flow to the placenta and schedule bi-weekly ANC visits.",
+      "clinical_advice_bn": "প্লাসেন্টায় রক্ত চলাচল ভালো রাখতে বাম কাত হয়ে ঘুমান এবং প্রতি দুই সপ্তাহে চেকআপ করান।"
     },
     {
       "week": 32,
       "trimester": 3,
       "baby_size": "Jicama / Coconut (~42.4 cm)",
+      "baby_size_bn": "নারিকেল (~৪২.৪ সে.মি.)",
       "weight_grams": 1700.0,
       "length_cm": 42.4,
       "development_summary": "Bones fully formed though soft. Toenails, fingernails, and real scalp hair are present.",
+      "development_summary_bn": "হাড়গুলো পূর্ণ রূপ পেয়েছে তবে এখনও নরম। হাত ও পায়ের নখ এবং মাথায় চুল গঠিত হয়েছে।",
       "maternal_changes": "Pelvic pressure increases. Colostrum (pre-milk) may leak from breasts.",
-      "clinical_advice": "Review your birth plan and prepare the hospital bag with clean newborn clothing and sanitary supplies."
+      "maternal_changes_bn": "শ্রোণীদেশে চাপ বাড়ে এবং স্তন থেকে প্রথম শালদুধ (কলোস্ট্রাম) নির্গত হতে পারে।",
+      "clinical_advice": "Review your birth plan and prepare the hospital bag with clean newborn clothing and sanitary supplies.",
+      "clinical_advice_bn": "প্রসব পরিকল্পনা চূড়ান্ত করুন এবং নবজাতকের পোশাক ও প্রয়োজনীয় সামগ্রীসহ হাসপাতালের ব্যাগ গুছিয়ে রাখুন।"
     },
     {
       "week": 36,
       "trimester": 3,
       "baby_size": "Papaya (~47.4 cm)",
+      "baby_size_bn": "পেঁপে (~৪৭.৪ সে.মি.)",
       "weight_grams": 2600.0,
       "length_cm": 47.4,
       "development_summary": "Baby typically turns head-down (cephalic presentation). Skull remains pliable to navigate the birth canal.",
+      "development_summary_bn": "শিশু সাধারণত মাথা নিচের দিকে ঘুরিয়ে প্রসবের অবস্থানে আসে এবং প্রসব পথের জন্য মাথার হাড় নমনীয় থাকে।",
       "maternal_changes": "Baby drops into pelvis ('lightening'). Easier breathing, but increased bladder pressure.",
-      "clinical_advice": "Weekly antenatal visits begin. Watch for danger signs: continuous watery leakage or vaginal bleeding."
+      "maternal_changes_bn": "শিশু নিচে নেমে আসায় শ্বাস নিতে স্বস্তি লাগে, তবে মূত্রথলিতে চাপ বৃদ্ধি পায়।",
+      "clinical_advice": "Weekly antenatal visits begin. Watch for danger signs: continuous watery leakage or vaginal bleeding.",
+      "clinical_advice_bn": "সাপ্তাহিক গর্ভকালীন চেকআপ শুরু করুন। ক্রমাগত পানি ভাঙা বা রক্তপাতের মতো বিপদ চিহ্নের দিকে নজর রাখুন।"
     },
     {
       "week": 40,
       "trimester": 3,
       "baby_size": "Watermelon (~51.2 cm)",
+      "baby_size_bn": "তরমুজ (~৫১.২ সে.মি.)",
       "weight_grams": 3400.0,
       "length_cm": 51.2,
       "development_summary": "Full term! Lungs and nervous system are completely primed for breathing atmospheric oxygen.",
+      "development_summary_bn": "পূর্ণ মেয়াদ! শিশুর ফুসফুস এবং স্নায়ুতন্ত্র বাইরের বাতাসে শ্বাস নেওয়ার জন্য সম্পূর্ণ প্রস্তুত।",
       "maternal_changes": "Cervical effacement and dilation. Rhythmic contractions spaced under 5 minutes apart indicate active labor.",
-      "clinical_advice": "Proceed immediately to the designated maternity hospital upon regular contractions or ruptured membranes."
+      "maternal_changes_bn": "জরায়ুমুখ প্রসারিত হয়। প্রতি ৫ মিনিটের কম বিরতিতে নিয়মিত প্রসব বেদনা শুরু হওয়া সক্রিয় প্রসবের লক্ষণ।",
+      "clinical_advice": "Proceed immediately to the designated maternity hospital upon regular contractions or ruptured membranes.",
+      "clinical_advice_bn": "নিয়মিত প্রসব বেদনা বা পানি ভাঙলে দেরি না করে অবিলম্বে নির্ধারিত প্রসূতি হাসপাতালে চলে যান।"
     }
   ],
   "nutrition_advisories": [
@@ -162,39 +216,57 @@
   "danger_signs": [
     {
       "sign_name": "Severe Persistent Headache & Blurred Vision",
+      "sign_name_bn": "তীব্র মাথাব্যথা এবং ঝাপসা দৃষ্টি",
       "risk_level": "CRITICAL",
       "description": "High possibility of pre-eclampsia or eclampsia (dangerously high blood pressure).",
-      "first_aid_action": "Rest in a quiet, dark room on your left side. Measure blood pressure immediately and contact doctor."
+      "description_bn": "প্রি-একলাম্পসিয়া বা একলাম্পসিয়ার (অতিরিক্ত উচ্চ রক্তচাপ) ঝুঁকির প্রবল সম্ভাবনা।",
+      "first_aid_action": "Rest in a quiet, dark room on your left side. Measure blood pressure immediately and contact doctor.",
+      "first_aid_action_bn": "করণীয়: নিরিবিলি অন্ধকার ঘরে বাম কাত হয়ে বিশ্রাম নিন। দ্রুত রক্তচাপ মাপুন এবং অবিলম্বে ডাক্তারের সাথে যোগাযোগ করুন।"
     },
     {
       "sign_name": "Vaginal Bleeding or Spotting",
+      "sign_name_bn": "যোনিপথে রক্তপাত বা দাগ দেখা",
       "risk_level": "CRITICAL",
       "description": "May indicate placenta previa, placental abruption, or preterm labor.",
-      "first_aid_action": "Lie down immediately. Do not use tampons. Seek emergency obstetric care without delay."
+      "description_bn": "প্লাসেন্টা প্রিভিয়া, প্লাসেন্টাল অ্যাবরাপশন বা অকাল প্রসবের লক্ষণ হতে পারে।",
+      "first_aid_action": "Lie down immediately. Do not use tampons. Seek emergency obstetric care without delay.",
+      "first_aid_action_bn": "করণীয়: অবিলম্বে শুয়ে পড়ুন। ভেতরে কোনো কিছু ব্যবহার করবেন না এবং দেরি না করে জরুরি প্রসূতি কেন্দ্রে যান।"
     },
     {
-      "sign_name": "Severe Abdominal Pain or Cramping",
+      "sign_name": "Severe Abdominal Pain / Bleeding",
+      "sign_name_bn": "তীব্র পেটে ব্যথা বা রক্তপাত",
       "risk_level": "HIGH",
       "description": "Sharp continuous pain not relieved by rest can signify placental complications or ectopic rupture.",
-      "first_aid_action": "Avoid painkiller self-medication. Keep calm and take ambulance to hospital immediately."
+      "description_bn": "বিশ্রামের পরও না কমা তীব্র ও একটানা পেটে ব্যথা প্লাসেন্টাল জটিলতার লক্ষণ হতে পারে।",
+      "first_aid_action": "Avoid painkiller self-medication. Keep calm and take ambulance to hospital immediately.",
+      "first_aid_action_bn": "করণীয়: নিজে থেকে কোনো ব্যথানাশক ওষুধ খাবেন না। শান্ত থাকুন এবং অবিলম্বে অ্যাম্বুলেন্সে হাসপাতালে যান।"
     },
     {
       "sign_name": "Sudden Swelling of Face, Hands, and Feet",
+      "sign_name_bn": "মুখ, হাত ও পা হঠাৎ ফুলে যাওয়া",
       "risk_level": "HIGH",
       "description": "Rapid fluid retention associated with hypertensive pregnancy disorders.",
-      "first_aid_action": "Elevate feet, remove tight rings, check blood pressure, and alert healthcare provider."
+      "description_bn": "গর্ভকালীন উচ্চ রক্তচাপজনিত কারণে শরীরে দ্রুত পানি জমা।",
+      "first_aid_action": "Elevate feet, remove tight rings, check blood pressure, and alert healthcare provider.",
+      "first_aid_action_bn": "করণীয়: পা উঁচু করে রাখুন, হাতের টাইট আংটি খুলে ফেলুন, রক্তচাপ মাপুন এবং দ্রুত ডাক্তারকে জানান।"
     },
     {
       "sign_name": "Marked Reduction in Fetal Movement",
+      "sign_name_bn": "শিশুর নড়াচড়া উল্লেখযোগ্যভাবে কমে যাওয়া",
       "risk_level": "CRITICAL",
       "description": "Fewer than 10 kicks in 2 hours during the 3rd trimester suggests fetal distress.",
-      "first_aid_action": "Drink cold sweet water or fruit juice, lie on left side, count kicks for 1 hour. If still reduced, go to emergency triage."
+      "description_bn": "৩য় ত্রৈমাসিকে ২ ঘণ্টায় ১০ বারের কম লাথি বা নড়াচড়া শিশুর ঝুঁকির লক্ষণ হতে পারে।",
+      "first_aid_action": "Drink cold sweet water or fruit juice, lie on left side, count kicks for 1 hour. If still reduced, go to emergency triage.",
+      "first_aid_action_bn": "করণীয়: ঠান্ডা মিষ্টি পানি বা ফলের রস পান করুন, বাম কাত হয়ে শুয়ে ১ ঘণ্টা নড়াচড়া গুনুন। তবুও কম হলে জরুরি বিভাগে যান।"
     },
     {
       "sign_name": "Continuous Leaking of Water / Fluid",
+      "sign_name_bn": "ক্রমাগত পানি বা তরল ভাঙা (PROM)",
       "risk_level": "HIGH",
       "description": "Premature rupture of membranes (PROM) exposes fetus to risk of infection or umbilical cord prolapse.",
-      "first_aid_action": "Note fluid color and smell. Wear a clean sanitary pad and go straight to maternity ward."
+      "description_bn": "সময়ের আগে পানির থলি ফেটে গেলে সংক্রমণ বা আম্বিলিক্যাল কর্ডের ঝুঁকি থাকে।",
+      "first_aid_action": "Note fluid color and smell. Wear a clean sanitary pad and go straight to maternity ward.",
+      "first_aid_action_bn": "করণীয়: তরলের রঙ ও গন্ধ লক্ষ্য করুন। পরিষ্কার স্যানিটারি প্যাড ব্যবহার করুন এবং সরাসরি প্রসূতি ওয়ার্ডে চলে যান।"
     }
   ]
 }

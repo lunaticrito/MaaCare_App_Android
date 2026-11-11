@@ -1,20 +1,49 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme (Dark Mode) -->
+    <!-- Base application theme (Dark Mode - #88026D Deep Magenta/Plum) -->
     <style name="Theme.MaaCare" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryVariant">@color/primary_dark</item>
-        <item name="colorOnPrimary">@color/black</item>
-        
+        <item name="colorOnPrimary">@color/primary_button_text</item>
+
         <item name="colorSecondary">@color/secondary</item>
         <item name="colorSecondaryVariant">@color/secondary_dark</item>
         <item name="colorOnSecondary">@color/black</item>
-        
+
+        <item name="colorSurface">@color/surface_card</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+
+        <!-- #88026D Window & Status Bar Background -->
         <item name="android:statusBarColor">@color/background_light</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-        
         <item name="android:windowBackground">@color/background_light</item>
-        <item name="android:fontFamily">@font/inter</item>
 
+        <!-- Global Poppins Typography -->
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
+
+        <!-- Global High-Contrast Dark Mode Component Styles -->
         <item name="chipStyle">@style/Widget.MaaCare.Chip</item>
+        <item name="materialButtonStyle">@style/Widget.MaaCare.Button</item>
+        <item name="textInputStyle">@style/Widget.MaaCare.TextInputLayout.Dark</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.MaaCare.DarkAlertDialog</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.MaaCare.DarkAlertDialog</item>
+    </style>
+
+    <style name="Widget.MaaCare.TextInputLayout.Dark" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/primary</item>
+        <item name="boxStrokeWidth">1.2dp</item>
+        <item name="hintTextColor">@color/text_secondary</item>
+        <item name="android:textColorHint">@color/text_secondary</item>
+    </style>
+
+    <style name="ThemeOverlay.MaaCare.DarkAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">@color/surface_card</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="android:background">@color/surface_card</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="fontFamily">@font/poppins</item>
     </style>
 </resources>

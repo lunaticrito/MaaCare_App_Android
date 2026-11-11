@@ -11,7 +11,7 @@
         android:id="@+id/tv_quick_log_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter"
+        android:fontFamily="@font/poppins"
         android:gravity="center"
         android:text="@string/quick_log_title"
         android:textColor="@color/text_primary"
@@ -22,12 +22,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/inter"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/poppins"
         android:gravity="center"
         android:text="One-tap logging for maternal hydration and newborn daily routine"
         android:textColor="@color/text_secondary"
         android:textSize="13sp" />
+
+    <!-- Target Date Selector for Timeline Logs -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chip_group_quick_log_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp"
+        app:checkedChip="@+id/chip_quick_today"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_quick_yesterday"
+            style="@style/Widget.MaaCare.Chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pill_yesterday" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_quick_today"
+            style="@style/Widget.MaaCare.Chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/pill_today" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_quick_tomorrow"
+            style="@style/Widget.MaaCare.Chip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pill_tomorrow" />
+    </com.google.android.material.chip.ChipGroup>
 
     <!-- Water Intake Quick Log -->
     <com.google.android.material.button.MaterialButton
@@ -36,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginBottom="8dp"
-        android:fontFamily="@font/inter"
+        android:fontFamily="@font/poppins"
         android:gravity="start|center_vertical"
         android:paddingStart="16dp"
         android:text="@string/action_log_water"
@@ -57,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginBottom="8dp"
-        android:fontFamily="@font/inter"
+        android:fontFamily="@font/poppins"
         android:gravity="start|center_vertical"
         android:paddingStart="16dp"
         android:text="@string/action_log_feeding"
@@ -78,7 +112,7 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginBottom="8dp"
-        android:fontFamily="@font/inter"
+        android:fontFamily="@font/poppins"
         android:gravity="start|center_vertical"
         android:paddingStart="16dp"
         android:text="@string/action_log_diaper"
@@ -99,7 +133,7 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginBottom="8dp"
-        android:fontFamily="@font/inter"
+        android:fontFamily="@font/poppins"
         android:gravity="start|center_vertical"
         android:paddingStart="16dp"
         android:text="@string/action_log_sleep"
@@ -120,7 +154,7 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginBottom="16dp"
-        android:fontFamily="@font/inter"
+        android:fontFamily="@font/poppins"
         android:gravity="start|center_vertical"
         android:paddingStart="16dp"
         android:text="@string/action_log_bath"
@@ -139,7 +173,7 @@
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:fontFamily="@font/inter"
+        android:fontFamily="@font/poppins"
         android:text="Dismiss"
         android:textColor="@color/text_secondary"
         android:textSize="14sp" />

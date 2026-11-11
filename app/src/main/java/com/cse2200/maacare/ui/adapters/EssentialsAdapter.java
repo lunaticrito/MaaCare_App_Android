@@ -1,5 +1,6 @@
 package com.cse2200.maacare.ui.adapters;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.cse2200.maacare.R;
 import com.cse2200.maacare.data.db.entity.BabyEssentialItemEntity;
+import com.cse2200.maacare.util.LocaleHelper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +66,9 @@ public class EssentialsAdapter extends RecyclerView.Adapter<EssentialsAdapter.Es
         }
 
         public void bind(BabyEssentialItemEntity item, OnEssentialCheckChangeListener listener) {
-            tvItemName.setText(item.getItemName());
-            tvCategoryPill.setText(item.getCategory());
+            Context ctx = itemView.getContext();
+            tvItemName.setText(LocaleHelper.translateDynamicText(ctx, item.getItemName()));
+            tvCategoryPill.setText(LocaleHelper.translateDynamicText(ctx, item.getCategory()));
 
             cbItem.setOnCheckedChangeListener(null);
             cbItem.setChecked(item.isChecked());

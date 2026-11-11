@@ -1,5 +1,6 @@
 package com.cse2200.maacare.ui.adapters;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -8,14 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+import com.cse2200.maacare.R;
 import com.cse2200.maacare.data.db.entity.MedicineEntity;
 import com.cse2200.maacare.databinding.ItemMedicineReminderBinding;
+import com.cse2200.maacare.util.LocaleHelper;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 /**
- * Adapter for prescribed medications with interactive taken toggles, reminder switches,
+ * Bilingual Adapter for prescribed medications with interactive taken toggles, reminder switches,
  * delete actions, and real-time course duration tracking progress bars.
  */
 public class MedicineAdapter extends ListAdapter<MedicineEntity, MedicineAdapter.MedicineViewHolder> {
@@ -77,26 +80,35 @@ public class MedicineAdapter extends ListAdapter<MedicineEntity, MedicineAdapter
         }
 
         public void bind(MedicineEntity item, OnMedicineActionListener listener) {
-            binding.tvMedicineName.setText(item.getName());
-            binding.tvDosage.setText(item.getDosage());
-            binding.tvScheduledTime.setText("Scheduled: " + item.getReminderTime());
+            Context ctx = binding.getRoot().getContext();
+            boolean bn = LocaleHelper.isBangla(ctx);
 
-            // Course Duration Tracking
+            binding.tvMedicineName.setText(LocaleHelper.translateDynamicText(ctx, item.getName()));
+            binding.tvDosage.setText(LocaleHelper.translateDynamicText(ctx, item.getDosage()));
+
+            String localizedTime = LocaleHelper.localizeTime(ctx, item.getReminderTime());
+            binding.tvScheduledTime.setText(bn ? "নির্ধারিত সময়: " + localizedTime : "Scheduled: " + localizedTime);
+
             boolean isCompleted = item.isCourseCompleted();
             if (isCompleted) {
-                binding.tvCourseStatusTag.setText("COURSE COMPLETED");
+                binding.tvCourseStatusTag.setText(ctx.getString(R.string.course_status_completed));
                 binding.tvCourseStatusTag.setTextColor(Color.parseColor("#616161"));
                 binding.tvCourseStatusTag.setBackgroundColor(Color.parseColor("#EEEEEE"));
 
                 String endDateStr = DATE_FMT.format(new Date(item.getEndDateMillis()));
-                binding.tvCourseBadge.setText(item.getDurationDays() + "-day course ended on " + endDateStr);
+                if (bn) {
+                    binding.tvCourseBadge.setText(LocaleHelper.toBanglaDigits(
+                            item.getDurationDays() + " দিনের কোর্স " + endDateStr + " তারিখে শেষ হয়েছে"));
+                } else {
+                    binding.tvCourseBadge.setText(item.getDurationDays() + "-day course ended on " + endDateStr);
+                }
                 binding.pbCourseProgress.setProgress(100);
                 binding.pbCourseProgress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#9E9E9E")));
 
                 binding.switchReminder.setEnabled(false);
                 binding.switchReminder.setChecked(false);
             } else {
-                binding.tvCourseStatusTag.setText("ACTIVE COURSE");
+                binding.tvCourseStatusTag.setText(ctx.getString(R.string.course_status_active));
                 binding.tvCourseStatusTag.setTextColor(Color.parseColor("#004D40"));
                 binding.tvCourseStatusTag.setBackgroundColor(Color.parseColor("#E0F2F1"));
 
@@ -104,37 +116,29 @@ public class MedicineAdapter extends ListAdapter<MedicineEntity, MedicineAdapter
                 int totalDays = item.getDurationDays();
                 int remaining = item.getDaysRemainingInCourse();
 
-                binding.tvCourseBadge.setText("Day " + curDay + " of " + totalDays + " • " + remaining + " days left");
-                int progress = item.getCourseProgressPercent();
-                binding.pbCourseProgress.setProgress(progress);
+                String badgeText = ctx.getString(R.string.course_day_format, curDay, totalDays, remaining);
+                binding.tvCourseBadge.setText(bn ? LocaleHelper.toBanglaDigits(badgeText) : badgeText);
+                binding.pbCourseProgress.setProgress(item.getCourseProgressPercent());
                 binding.pbCourseProgress.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#00897B")));
 
                 binding.switchReminder.setEnabled(true);
                 binding.switchReminder.setChecked(item.isReminderEnabled());
             }
 
-            // Clear listeners before setting state to prevent reciprocal trigger
             binding.cbTakenToday.setOnCheckedChangeListener(null);
             binding.cbTakenToday.setChecked(item.isTakenToday());
-
             binding.switchReminder.setOnCheckedChangeListener(null);
 
             binding.cbTakenToday.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (listener != null) {
-                    listener.onTakenToggled(item, isChecked);
-                }
+                if (listener != null) listener.onTakenToggled(item, isChecked);
             });
 
             binding.switchReminder.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (listener != null) {
-                    listener.onReminderToggled(item, isChecked);
-                }
+                if (listener != null) listener.onReminderToggled(item, isChecked);
             });
 
             binding.btnDeleteMedicine.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onDeleteClicked(item);
-                }
+                if (listener != null) listener.onDeleteClicked(item);
             });
         }
     }

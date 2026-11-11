@@ -1,10 +1,11 @@
 package com.cse2200.maacare.data.db.entity;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 /**
- * Doctor contact and directory entity for maternal, obstetric, and pediatric care.
+ * Doctor contact and directory entity covering all 8 Divisions and 64 Districts of Bangladesh.
  */
 @Entity(tableName = "doctors")
 public class DoctorEntity {
@@ -12,8 +13,11 @@ public class DoctorEntity {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
+    private String division;
+    private String district;
     private String name;
-    private String specialty; // "Obstetrician", "Gynecologist", "Pediatrician"
+    private String specialty;
+    private String specialtyCategory; // "Obs & Gynae" or "Pediatrics"
     private String hospital;
     private double distanceKm;
     private String nextSlot;
@@ -21,10 +25,26 @@ public class DoctorEntity {
     private String phone;
     private double rating;
 
+    public DoctorEntity() {
+    }
+
+    @Ignore
     public DoctorEntity(String name, String specialty, String hospital, double distanceKm,
                         String nextSlot, boolean availableToday, String phone, double rating) {
+        this("Dhaka", "Dhaka", name, specialty,
+                specialty != null && specialty.toLowerCase().contains("ped") ? "Pediatrics" : "Obs & Gynae",
+                hospital, distanceKm, nextSlot, availableToday, phone, rating);
+    }
+
+    @Ignore
+    public DoctorEntity(String division, String district, String name, String specialty,
+                        String specialtyCategory, String hospital, double distanceKm,
+                        String nextSlot, boolean availableToday, String phone, double rating) {
+        this.division = division;
+        this.district = district;
         this.name = name;
         this.specialty = specialty;
+        this.specialtyCategory = specialtyCategory;
         this.hospital = hospital;
         this.distanceKm = distanceKm;
         this.nextSlot = nextSlot;
@@ -36,11 +56,20 @@ public class DoctorEntity {
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
 
+    public String getDivision() { return division; }
+    public void setDivision(String division) { this.division = division; }
+
+    public String getDistrict() { return district; }
+    public void setDistrict(String district) { this.district = district; }
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
     public String getSpecialty() { return specialty; }
     public void setSpecialty(String specialty) { this.specialty = specialty; }
+
+    public String getSpecialtyCategory() { return specialtyCategory; }
+    public void setSpecialtyCategory(String specialtyCategory) { this.specialtyCategory = specialtyCategory; }
 
     public String getHospital() { return hospital; }
     public void setHospital(String hospital) { this.hospital = hospital; }

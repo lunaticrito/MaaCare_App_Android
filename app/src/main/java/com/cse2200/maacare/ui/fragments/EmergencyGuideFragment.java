@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.cse2200.maacare.R;
 import com.cse2200.maacare.data.db.entity.BabyEssentialItemEntity;
 import com.cse2200.maacare.data.db.entity.DoctorEntity;
+import com.cse2200.maacare.data.model.DangerSign;
 import com.cse2200.maacare.data.model.MaternalHealthDataResponse;
 import com.cse2200.maacare.data.prefs.PreferenceManager;
 import com.cse2200.maacare.data.repository.MaaCareRepository;
@@ -30,18 +31,19 @@ import com.cse2200.maacare.firebase.FirebaseManager;
 import com.cse2200.maacare.ui.adapters.DangerSignAdapter;
 import com.cse2200.maacare.ui.adapters.DoctorAdapter;
 import com.cse2200.maacare.ui.adapters.EssentialsAdapter;
+import com.cse2200.maacare.util.LocaleHelper;
+import com.google.android.material.chip.Chip;
 import java.util.List;
 
 /**
- * Emergency Health Guidance & Doctor Directory Fragment featuring:
+ * Bilingual Emergency Health Guidance & 64-District Bangladesh Doctor Directory Fragment:
  * - One-tap SOS calling via Intent.ACTION_DIAL (999 and primary caregiver)
- * - Automated Maternal Emergency SMS Dispatch with gestational week & blood group
- * - Device ContentProvider Consumption: Import Caregiver Contact via ContactsContract
- * - Find A Doctor Near You with live search & specialty filters
- * - Hospital Bag Essentials interactive checklist
- * - Obstetric Danger Signs Checklist & First-Aid Protocols
+ * - Automated Maternal Emergency SMS Dispatch
+ * - Device ContentProvider Consumption (ContactsContract) + Set Doctor as Emergency Contact
+ * - Complete 129-Doctor Directory filterable by 8 Divisions, 64 Districts, Specialty & Search
+ * - Hospital Bag Essentials checklist & Bilingual Obstetric Danger Signs (JSON + XML Protocols)
  */
-public class EmergencyGuideFragment extends Fragment {
+public class EmergencyGuideFragment extends Fragment implements DoctorAdapter.OnDoctorActionListener {
 
     private static final int REQUEST_CODE_PICK_CONTACT = 202;
     private static final int PERMISSION_REQUEST_CONTACTS = 203;
@@ -53,6 +55,11 @@ public class EmergencyGuideFragment extends Fragment {
     private DoctorAdapter doctorAdapter;
     private EssentialsAdapter essentialsAdapter;
     private DangerSignAdapter dangerSignAdapter;
+
+    private String selectedDivision = "";
+    private String selectedDistrict = "";
+    private String selectedSpecialtyCategory = "";
+    private String searchQuery = "";
 
     @Nullable
     @Override
@@ -79,18 +86,21 @@ public class EmergencyGuideFragment extends Fragment {
     private void updateCaregiverContactDisplay() {
         String name = preferenceManager.getEmergencyContactName();
         String phone = preferenceManager.getEmergencyPhone();
-        binding.tvCaregiverContactDisplay.setText("Caregiver: " + name + " (" + phone + ")");
+        if (LocaleHelper.isBangla(requireContext())) {
+            String displayName = "Primary Caregiver".equalsIgnoreCase(name) ? "প্রাথমিক অভিভাবক" : name;
+            binding.tvCaregiverContactDisplay.setText("জরুরি অভিভাবক: " + displayName + " (" + LocaleHelper.toBanglaDigits(phone) + ")");
+        } else {
+            binding.tvCaregiverContactDisplay.setText("Caregiver: " + name + " (" + phone + ")");
+        }
     }
 
     private void setupEmergencyActionButtons() {
-        // 1. One-tap Emergency Calling to 999
         binding.btnSosCallAmbulance.setOnClickListener(v -> {
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
             callIntent.setData(Uri.parse("tel:999"));
             startActivity(callIntent);
         });
 
-        // 2. One-tap Calling to Caregiver
         binding.btnSosCallCaregiver.setOnClickListener(v -> {
             String phone = preferenceManager.getEmergencyPhone();
             Intent callIntent = new Intent(Intent.ACTION_DIAL);
@@ -98,7 +108,6 @@ public class EmergencyGuideFragment extends Fragment {
             startActivity(callIntent);
         });
 
-        // 3. Import Caregiver from Contacts (ContactsContract ContentProvider)
         binding.btnImportContactCaregiver.setOnClickListener(v -> {
             if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -108,7 +117,6 @@ public class EmergencyGuideFragment extends Fragment {
             }
         });
 
-        // 4. One-tap Automated Emergency SMS
         binding.btnSosSendSms.setOnClickListener(v -> {
             String phone = preferenceManager.getEmergencyPhone();
             String motherName = preferenceManager.getMotherName();
@@ -119,7 +127,6 @@ public class EmergencyGuideFragment extends Fragment {
                     + motherName + " (Gestational Week: " + week
                     + ", Blood Group: " + blood + "). Please assist immediately!";
 
-            // Sync SOS alert to Firebase Realtime Database
             String uid = preferenceManager.getFirebaseUid();
             FirebaseManager.getInstance(requireContext()).syncRealtimeSosAlert(uid, true, message);
 
@@ -168,8 +175,6 @@ public class EmergencyGuideFragment extends Fragment {
 
                         String name = nameIdx != -1 ? cursor.getString(nameIdx) : "Caregiver";
                         String phone = numberIdx != -1 ? cursor.getString(numberIdx) : "";
-
-                        // Format / clean phone number
                         phone = phone.replaceAll("\\s+", "");
 
                         preferenceManager.setEmergencyContactName(name);
@@ -185,57 +190,139 @@ public class EmergencyGuideFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onSetEmergencyDoctor(DoctorEntity doctor) {
+        preferenceManager.setEmergencyContactName(doctor.getName());
+        preferenceManager.setEmergencyPhone(doctor.getPhone());
+        updateCaregiverContactDisplay();
+
+        boolean bn = LocaleHelper.isBangla(requireContext());
+        String msg = bn
+                ? "জরুরি যোগাযোগ হিসেবে সেট করা হয়েছে: " + doctor.getName()
+                : "Set as Primary Emergency Contact: " + doctor.getName();
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
     private void setupDoctorDirectory() {
-        doctorAdapter = new DoctorAdapter();
+        doctorAdapter = new DoctorAdapter(this);
         binding.rvNearestDoctors.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rvNearestDoctors.setAdapter(doctorAdapter);
 
-        // Search Listener
+        // 1. Search Box Listener
         binding.etSearchDoctors.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String query = s != null ? s.toString().trim() : "";
-                if (query.isEmpty()) {
-                    loadDoctors();
-                } else {
-                    repository.searchDoctors(query, new MaaCareRepository.DataCallback<List<DoctorEntity>>() {
-                        @Override
-                        public void onSuccess(List<DoctorEntity> list) {
-                            if (getActivity() != null) {
-                                getActivity().runOnUiThread(() -> doctorAdapter.setDoctors(list));
-                            }
-                        }
-                        @Override public void onError(Throwable error) {}
-                    });
-                }
+                searchQuery = s != null ? s.toString().trim() : "";
+                applyDoctorFilters();
             }
             @Override public void afterTextChanged(Editable s) {}
         });
 
-        // Specialty Filter Chips
-        binding.chipGroupDoctorSpecialty.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.chip_spec_obstetrician) {
-                filterDoctorsBySpecialty("Obstetrician");
-            } else if (checkedId == R.id.chip_spec_gynecologist) {
-                filterDoctorsBySpecialty("Gynecologist");
-            } else if (checkedId == R.id.chip_spec_pediatrician) {
-                filterDoctorsBySpecialty("Pediatrician");
-            } else {
-                loadDoctors();
-            }
+        // 2. Division Filter Chips (8 Divisions)
+        binding.chipGroupDoctorDivision.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.chip_div_dhaka) selectedDivision = "Dhaka";
+            else if (checkedId == R.id.chip_div_chattogram) selectedDivision = "Chattogram";
+            else if (checkedId == R.id.chip_div_khulna) selectedDivision = "Khulna";
+            else if (checkedId == R.id.chip_div_rajshahi) selectedDivision = "Rajshahi";
+            else if (checkedId == R.id.chip_div_sylhet) selectedDivision = "Sylhet";
+            else if (checkedId == R.id.chip_div_barishal) selectedDivision = "Barishal";
+            else if (checkedId == R.id.chip_div_rangpur) selectedDivision = "Rangpur";
+            else if (checkedId == R.id.chip_div_mymensingh) selectedDivision = "Mymensingh";
+            else selectedDivision = "";
+
+            selectedDistrict = "";
+            loadDistrictChipsForDivision(selectedDivision);
+            applyDoctorFilters();
         });
+
+        // 3. Specialty Filter Chips
+        binding.chipGroupDoctorSpecialty.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.chip_spec_obs_gynae) {
+                selectedSpecialtyCategory = "Obs & Gynae";
+            } else if (checkedId == R.id.chip_spec_pediatrician) {
+                selectedSpecialtyCategory = "Pediatrics";
+            } else {
+                selectedSpecialtyCategory = "";
+            }
+            applyDoctorFilters();
+        });
+
+        loadDistrictChipsForDivision("");
     }
 
-    private void filterDoctorsBySpecialty(String specialty) {
-        repository.getDoctorsBySpecialty(specialty, new MaaCareRepository.DataCallback<List<DoctorEntity>>() {
+    private void loadDistrictChipsForDivision(String division) {
+        repository.getDistrictsByDivision(division, new MaaCareRepository.DataCallback<List<String>>() {
             @Override
-            public void onSuccess(List<DoctorEntity> list) {
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> doctorAdapter.setDoctors(list));
+            public void onSuccess(List<String> districts) {
+                if (getActivity() != null && binding != null) {
+                    getActivity().runOnUiThread(() -> populateDistrictChips(districts));
                 }
             }
             @Override public void onError(Throwable error) {}
         });
+    }
+
+    private void populateDistrictChips(List<String> districts) {
+        binding.chipGroupDoctorDistrict.setOnCheckedChangeListener(null);
+        binding.chipGroupDoctorDistrict.removeAllViews();
+
+        Chip firstAll = createFilterChip(getString(R.string.filter_all_districts), "");
+        firstAll.setId(View.generateViewId());
+        firstAll.setChecked(true);
+        binding.chipGroupDoctorDistrict.addView(firstAll);
+
+        if (districts != null) {
+            for (String dist : districts) {
+                String label = LocaleHelper.translateDistrict(requireContext(), dist);
+                Chip chip = createFilterChip(label, dist);
+                chip.setId(View.generateViewId());
+                binding.chipGroupDoctorDistrict.addView(chip);
+            }
+        }
+
+        binding.chipGroupDoctorDistrict.setOnCheckedChangeListener((group, checkedId) -> {
+            View checkedView = group.findViewById(checkedId);
+            if (checkedView instanceof Chip && checkedView.getTag() instanceof String) {
+                selectedDistrict = (String) checkedView.getTag();
+            } else {
+                selectedDistrict = "";
+            }
+            applyDoctorFilters();
+        });
+    }
+
+    private Chip createFilterChip(String label, String rawDistrictTag) {
+        Chip chip = new Chip(new androidx.appcompat.view.ContextThemeWrapper(requireContext(), R.style.Widget_MaaCare_Chip));
+        chip.setText(label);
+        chip.setTag(rawDistrictTag);
+        chip.setCheckable(true);
+        chip.setChipBackgroundColorResource(R.color.selector_chip_bg);
+        chip.setTextColor(ContextCompat.getColorStateList(requireContext(), R.color.selector_chip_text));
+        chip.setChipStrokeColorResource(R.color.selector_chip_stroke);
+        chip.setChipStrokeWidth(getResources().getDisplayMetrics().density);
+        return chip;
+    }
+
+    private void applyDoctorFilters() {
+        repository.filterDoctors(selectedDivision, selectedDistrict, selectedSpecialtyCategory, searchQuery,
+                new MaaCareRepository.DataCallback<List<DoctorEntity>>() {
+                    @Override
+                    public void onSuccess(List<DoctorEntity> list) {
+                        if (getActivity() != null && binding != null) {
+                            getActivity().runOnUiThread(() -> {
+                                doctorAdapter.setDoctors(list);
+                                int count = list != null ? list.size() : 0;
+                                boolean bn = LocaleHelper.isBangla(requireContext());
+                                if (bn) {
+                                    binding.tvDoctorResultCount.setText("মোট " + LocaleHelper.toBanglaDigits(String.valueOf(count)) + " জন বিশেষজ্ঞ ডাক্তার পাওয়া গেছে");
+                                } else {
+                                    binding.tvDoctorResultCount.setText("Showing " + count + " verified specialists");
+                                }
+                            });
+                        }
+                    }
+                    @Override public void onError(Throwable error) {}
+                });
     }
 
     private void setupEssentialsChecklist() {
@@ -256,28 +343,16 @@ public class EmergencyGuideFragment extends Fragment {
     }
 
     private void loadAllData() {
-        loadDoctors();
+        applyDoctorFilters();
         loadEssentials();
         loadDangerSigns();
-    }
-
-    private void loadDoctors() {
-        repository.getAllDoctors(new MaaCareRepository.DataCallback<List<DoctorEntity>>() {
-            @Override
-            public void onSuccess(List<DoctorEntity> list) {
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> doctorAdapter.setDoctors(list));
-                }
-            }
-            @Override public void onError(Throwable error) {}
-        });
     }
 
     private void loadEssentials() {
         repository.getAllEssentials(new MaaCareRepository.DataCallback<List<BabyEssentialItemEntity>>() {
             @Override
             public void onSuccess(List<BabyEssentialItemEntity> list) {
-                if (getActivity() != null) {
+                if (getActivity() != null && binding != null) {
                     getActivity().runOnUiThread(() -> essentialsAdapter.setItems(list));
                 }
             }
@@ -286,10 +361,22 @@ public class EmergencyGuideFragment extends Fragment {
     }
 
     private void loadDangerSigns() {
+        // Parse local XML emergency protocols first (XmlPullParser) and merge/update with API JSON
+        repository.getEmergencyProtocolsFromXml(new MaaCareRepository.DataCallback<List<DangerSign>>() {
+            @Override
+            public void onSuccess(List<DangerSign> xmlProtocols) {
+                if (getActivity() != null && binding != null && xmlProtocols != null && !xmlProtocols.isEmpty()) {
+                    getActivity().runOnUiThread(() -> dangerSignAdapter.submitList(xmlProtocols));
+                }
+            }
+            @Override public void onError(Throwable error) {}
+        });
+
         repository.getMaternalHealthData(new MaaCareRepository.DataCallback<MaternalHealthDataResponse>() {
             @Override
             public void onSuccess(MaternalHealthDataResponse result) {
-                if (getActivity() != null && result != null) {
+                if (getActivity() != null && binding != null && result != null
+                        && result.getDangerSigns() != null && !result.getDangerSigns().isEmpty()) {
                     getActivity().runOnUiThread(() -> dangerSignAdapter.submitList(result.getDangerSigns()));
                 }
             }

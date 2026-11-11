@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:text="Add Prescribed Medication"
+            android:text="@string/add_medicine_dialog_title"
             android:textColor="@color/primary_dark"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -70,7 +70,7 @@
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pick Time"
+                android:text="@string/btn_pick_time"
                 android:textColor="@color/primary"
                 app:strokeColor="@color/primary" />
         </LinearLayout>
@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="Prescribed Course Duration"
+            android:text="@string/course_duration_heading"
             android:textColor="@color/text_primary"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -95,52 +95,52 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_3_days"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaaCare.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3 Days" />
+                android:text="@string/chip_3_days" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_7_days"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaaCare.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1 Week (7 Days)" />
+                android:text="@string/chip_7_days" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_14_days"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaaCare.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2 Weeks (14 Days)" />
+                android:text="@string/chip_14_days" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_30_days"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaaCare.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1 Month (30 Days)" />
+                android:text="@string/chip_30_days" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_90_days"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaaCare.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3 Months (90 Days)" />
+                android:text="@string/chip_90_days" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_pregnancy_course"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaaCare.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Entire Pregnancy" />
+                android:text="@string/chip_pregnancy" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_custom_days"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
+                style="@style/Widget.MaaCare.Chip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Custom Days" />
+                android:text="@string/chip_custom" />
         </com.google.android.material.chip.ChipGroup>
 
         <com.google.android.material.textfield.TextInputLayout

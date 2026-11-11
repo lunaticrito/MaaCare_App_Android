@@ -37,6 +37,7 @@ import com.cse2200.maacare.firebase.FirebaseManager;
 import com.cse2200.maacare.service.MaternalHealthMonitorService;
 import com.cse2200.maacare.ui.adapters.FetalMilestoneAdapter;
 import com.cse2200.maacare.ui.auth.LoginActivity;
+import com.cse2200.maacare.util.LocaleHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -107,9 +108,18 @@ public class HomeTrackerFragment extends Fragment {
         String blood = preferenceManager.getBloodGroup();
         int daysLeft = preferenceManager.getDaysRemainingToEdd();
 
-        binding.tvMotherName.setText("Hello, " + name);
-        binding.tvProfileSubtext.setText("Week " + week + ", Day " + day + " • Blood: " + blood + " • " + daysLeft + " Days to EDD");
-        binding.tvCountdownEdd.setText(daysLeft + " Days to Estimated Delivery");
+        if (LocaleHelper.isBangla(requireContext())) {
+            String displayName = "Anna".equalsIgnoreCase(name) ? "অ্যানা" : name;
+            binding.tvMotherName.setText("হ্যালো, " + displayName);
+            binding.tvProfileSubtext.setText(LocaleHelper.toBanglaDigits(
+                    "সপ্তাহ " + week + ", দিন " + day + " • রক্তের গ্রুপ: " + blood + " • প্রসবের বাকি " + daysLeft + " দিন"));
+            binding.tvCountdownEdd.setText(LocaleHelper.toBanglaDigits(
+                    "প্রসবের আনুমানিক বাকি " + daysLeft + " দিন"));
+        } else {
+            binding.tvMotherName.setText("Hello, " + name);
+            binding.tvProfileSubtext.setText("Week " + week + ", Day " + day + " • Blood: " + blood + " • " + daysLeft + " Days to EDD");
+            binding.tvCountdownEdd.setText(daysLeft + " Days to Estimated Delivery");
+        }
 
         // Update Custom View Arc
         binding.arcPregnancyProgress.setProgress(week, daysLeft);
@@ -326,7 +336,12 @@ public class HomeTrackerFragment extends Fragment {
         int goal = preferenceManager.getDailyWaterGoalMl();
         int percent = Math.min(100, (int) (((float) intake / (float) goal) * 100));
 
-        binding.tvWaterCount.setText(String.format(Locale.getDefault(), "%d mL / %d mL (%d%%)", intake, goal, percent));
+        if (LocaleHelper.isBangla(requireContext())) {
+            String raw = getString(R.string.hydration_count_format, intake, goal, percent);
+            binding.tvWaterCount.setText(LocaleHelper.toBanglaDigits(raw));
+        } else {
+            binding.tvWaterCount.setText(String.format(Locale.getDefault(), "%d mL / %d mL (%d%%)", intake, goal, percent));
+        }
         binding.pbWaterProgress.setProgress(percent);
     }
 

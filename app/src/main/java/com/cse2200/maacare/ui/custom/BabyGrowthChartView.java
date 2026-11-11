@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import com.cse2200.maacare.R;
 import com.cse2200.maacare.data.db.entity.BabyGrowthEntity;
+import com.cse2200.maacare.util.LocaleHelper;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,17 +44,16 @@ public class BabyGrowthChartView extends View {
 
     private final List<BabyGrowthEntity> growthData = new ArrayList<>();
 
-    // WHO Standard Weight Percentiles for 0-6 Months (kg)
-    // Month: 0, 1, 2, 3, 4, 5, 6
-    private static final float[] P3_WEIGHTS  = {2.4f, 3.4f, 4.3f, 5.0f, 5.6f, 6.0f, 6.4f};
-    private static final float[] P15_WEIGHTS = {2.8f, 3.8f, 4.8f, 5.5f, 6.1f, 6.6f, 7.0f};
-    private static final float[] P50_WEIGHTS = {3.3f, 4.5f, 5.6f, 6.4f, 7.0f, 7.5f, 7.9f};
-    private static final float[] P85_WEIGHTS = {3.8f, 5.1f, 6.3f, 7.2f, 7.8f, 8.4f, 8.8f};
-    private static final float[] P97_WEIGHTS = {4.2f, 5.7f, 7.0f, 8.0f, 8.7f, 9.3f, 9.8f};
+    // WHO Standard Weight Percentiles for 0-12 Months (kg)
+    private static final float[] P3_WEIGHTS  = {2.4f, 3.4f, 4.3f, 5.0f, 5.6f, 6.0f, 6.4f, 6.7f, 7.0f, 7.2f, 7.5f, 7.7f, 7.9f};
+    private static final float[] P15_WEIGHTS = {2.8f, 3.8f, 4.8f, 5.5f, 6.1f, 6.6f, 7.0f, 7.3f, 7.6f, 7.9f, 8.1f, 8.4f, 8.6f};
+    private static final float[] P50_WEIGHTS = {3.3f, 4.5f, 5.6f, 6.4f, 7.0f, 7.5f, 7.9f, 8.3f, 8.6f, 8.9f, 9.2f, 9.4f, 9.6f};
+    private static final float[] P85_WEIGHTS = {3.8f, 5.1f, 6.3f, 7.2f, 7.8f, 8.4f, 8.8f, 9.2f, 9.6f, 9.9f, 10.2f, 10.5f, 10.8f};
+    private static final float[] P97_WEIGHTS = {4.2f, 5.7f, 7.0f, 8.0f, 8.7f, 9.3f, 9.8f, 10.2f, 10.6f, 11.0f, 11.3f, 11.6f, 11.9f};
 
     private static final float MIN_WEIGHT = 2.0f;
-    private static final float MAX_WEIGHT = 11.0f;
-    private static final int MAX_MONTHS = 6;
+    private float maxWeight = 11.0f;
+    private int displayMaxMonths = 6;
 
     public BabyGrowthChartView(Context context) {
         super(context);
@@ -72,13 +72,13 @@ public class BabyGrowthChartView extends View {
 
     private void init() {
         gridPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        gridPaint.setColor(Color.parseColor("#E0E3E8"));
+        gridPaint.setColor(ContextCompat.getColor(getContext(), R.color.divider_color));
         gridPaint.setStyle(Paint.Style.STROKE);
         gridPaint.setStrokeWidth(2f);
         gridPaint.setPathEffect(new DashPathEffect(new float[]{8, 8}, 0));
 
         axisTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        axisTextPaint.setColor(Color.parseColor("#7A828E"));
+        axisTextPaint.setColor(ContextCompat.getColor(getContext(), R.color.text_secondary));
         axisTextPaint.setTextSize(26f);
 
         // Percentiles 3% & 97% (Thin grey/amber dashed boundary)
@@ -101,29 +101,40 @@ public class BabyGrowthChartView extends View {
 
         // Shaded green zone (15% to 85%)
         normalZonePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        normalZonePaint.setColor(Color.parseColor("#154CAF50")); // 8% alpha translucent green
+        normalZonePaint.setColor(Color.parseColor("#224CAF50"));
         normalZonePaint.setStyle(Paint.Style.FILL);
 
         // Actual growth curve (Pink/Coral accent)
+        int curveColor = ContextCompat.getColor(getContext(), R.color.primary);
         actualGrowthPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        actualGrowthPaint.setColor(Color.parseColor("#F28B96"));
+        actualGrowthPaint.setColor(curveColor);
         actualGrowthPaint.setStyle(Paint.Style.STROKE);
         actualGrowthPaint.setStrokeWidth(6.5f);
         actualGrowthPaint.setPathEffect(new CornerPathEffect(24));
 
         actualPointPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        actualPointPaint.setColor(Color.parseColor("#F28B96"));
+        actualPointPaint.setColor(curveColor);
         actualPointPaint.setStyle(Paint.Style.FILL);
 
         actualPointInnerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        actualPointInnerPaint.setColor(Color.WHITE);
+        actualPointInnerPaint.setColor(ContextCompat.getColor(getContext(), R.color.surface_card));
         actualPointInnerPaint.setStyle(Paint.Style.FILL);
     }
 
     public void setGrowthData(List<BabyGrowthEntity> data) {
         growthData.clear();
+        displayMaxMonths = 6;
+        maxWeight = 11.0f;
         if (data != null) {
             growthData.addAll(data);
+            for (BabyGrowthEntity g : growthData) {
+                if (g.getAgeMonths() > displayMaxMonths) {
+                    displayMaxMonths = Math.min(12, g.getAgeMonths());
+                }
+                if (g.getWeightKg() > maxWeight - 1.0f) {
+                    maxWeight = (float) Math.ceil(g.getWeightKg() + 1.5);
+                }
+            }
         }
         invalidate();
     }
@@ -150,18 +161,23 @@ public class BabyGrowthChartView extends View {
 
         if (width <= 0 || height <= 0) return;
 
+        boolean bn = LocaleHelper.isBangla(getContext());
+
         // Draw horizontal grid lines & Y labels (Weight kg)
-        for (int w = 2; w <= 10; w += 2) {
-            float y = paddingTop + height - ((w - MIN_WEIGHT) / (MAX_WEIGHT - MIN_WEIGHT)) * height;
+        for (int w = 2; w <= (int) maxWeight; w += 2) {
+            float y = paddingTop + height - ((w - MIN_WEIGHT) / (maxWeight - MIN_WEIGHT)) * height;
             canvas.drawLine(paddingLeft, y, paddingLeft + width, y, gridPaint);
-            canvas.drawText(w + " kg", 12f, y + 8f, axisTextPaint);
+            String yLabel = bn ? LocaleHelper.toBanglaDigits(String.valueOf(w)) + " কেজি" : w + " kg";
+            canvas.drawText(yLabel, 8f, y + 8f, axisTextPaint);
         }
 
         // Draw vertical grid lines & X labels (Months)
-        for (int m = 0; m <= MAX_MONTHS; m++) {
-            float x = paddingLeft + (m / (float) MAX_MONTHS) * width;
+        for (int m = 0; m <= displayMaxMonths; m++) {
+            float x = paddingLeft + (m / (float) displayMaxMonths) * width;
             canvas.drawLine(x, paddingTop, x, paddingTop + height, gridPaint);
-            String label = m == 0 ? "Birth" : m + "m";
+            String label = bn
+                    ? (m == 0 ? "জন্ম" : LocaleHelper.toBanglaDigits(String.valueOf(m)) + "ম")
+                    : (m == 0 ? "Birth" : m + "m");
             float textWidth = axisTextPaint.measureText(label);
             canvas.drawText(label, x - textWidth / 2f, getHeight() - 15f, axisTextPaint);
         }
@@ -175,15 +191,15 @@ public class BabyGrowthChartView extends View {
 
         // Build Normal Zone Polygon between P15 and P85
         zonePath.reset();
-        for (int m = 0; m <= MAX_MONTHS; m++) {
-            float x = paddingLeft + (m / (float) MAX_MONTHS) * width;
-            float y = paddingTop + height - ((P85_WEIGHTS[m] - MIN_WEIGHT) / (MAX_WEIGHT - MIN_WEIGHT)) * height;
+        for (int m = 0; m <= displayMaxMonths; m++) {
+            float x = paddingLeft + (m / (float) displayMaxMonths) * width;
+            float y = paddingTop + height - ((P85_WEIGHTS[m] - MIN_WEIGHT) / (maxWeight - MIN_WEIGHT)) * height;
             if (m == 0) zonePath.moveTo(x, y);
             else zonePath.lineTo(x, y);
         }
-        for (int m = MAX_MONTHS; m >= 0; m--) {
-            float x = paddingLeft + (m / (float) MAX_MONTHS) * width;
-            float y = paddingTop + height - ((P15_WEIGHTS[m] - MIN_WEIGHT) / (MAX_WEIGHT - MIN_WEIGHT)) * height;
+        for (int m = displayMaxMonths; m >= 0; m--) {
+            float x = paddingLeft + (m / (float) displayMaxMonths) * width;
+            float y = paddingTop + height - ((P15_WEIGHTS[m] - MIN_WEIGHT) / (maxWeight - MIN_WEIGHT)) * height;
             zonePath.lineTo(x, y);
         }
         zonePath.close();
@@ -200,7 +216,7 @@ public class BabyGrowthChartView extends View {
 
         // Legend label on Median
         float medEndX = paddingLeft + width - 10;
-        float medEndY = paddingTop + height - ((P50_WEIGHTS[MAX_MONTHS] - MIN_WEIGHT) / (MAX_WEIGHT - MIN_WEIGHT)) * height;
+        float medEndY = paddingTop + height - ((P50_WEIGHTS[displayMaxMonths] - MIN_WEIGHT) / (maxWeight - MIN_WEIGHT)) * height;
         canvas.drawText("50th %ile", medEndX - 100, medEndY - 12, axisTextPaint);
 
         // 3. Draw Baby's Actual Growth Curve
@@ -209,10 +225,10 @@ public class BabyGrowthChartView extends View {
             List<float[]> points = new ArrayList<>();
 
             for (BabyGrowthEntity record : growthData) {
-                int month = Math.min(record.getAgeMonths(), MAX_MONTHS);
-                float x = paddingLeft + (month / (float) MAX_MONTHS) * width;
-                float clampedWeight = Math.max(MIN_WEIGHT, Math.min(MAX_WEIGHT, (float) record.getWeightKg()));
-                float y = paddingTop + height - ((clampedWeight - MIN_WEIGHT) / (MAX_WEIGHT - MIN_WEIGHT)) * height;
+                int month = Math.min(record.getAgeMonths(), displayMaxMonths);
+                float x = paddingLeft + (month / (float) displayMaxMonths) * width;
+                float clampedWeight = Math.max(MIN_WEIGHT, Math.min(maxWeight, (float) record.getWeightKg()));
+                float y = paddingTop + height - ((clampedWeight - MIN_WEIGHT) / (maxWeight - MIN_WEIGHT)) * height;
                 points.add(new float[]{x, y});
             }
 
@@ -239,14 +255,14 @@ public class BabyGrowthChartView extends View {
 
     private void buildCurvePath(Path path, float[] weights, float pLeft, float pTop, float w, float h) {
         path.reset();
-        for (int m = 0; m <= MAX_MONTHS; m++) {
-            float x = pLeft + (m / (float) MAX_MONTHS) * w;
-            float y = pTop + h - ((weights[m] - MIN_WEIGHT) / (MAX_WEIGHT - MIN_WEIGHT)) * h;
+        for (int m = 0; m <= displayMaxMonths; m++) {
+            float x = pLeft + (m / (float) displayMaxMonths) * w;
+            float y = pTop + h - ((weights[m] - MIN_WEIGHT) / (maxWeight - MIN_WEIGHT)) * h;
             if (m == 0) {
                 path.moveTo(x, y);
             } else {
-                float prevX = pLeft + ((m - 1) / (float) MAX_MONTHS) * w;
-                float prevY = pTop + h - ((weights[m - 1] - MIN_WEIGHT) / (MAX_WEIGHT - MIN_WEIGHT)) * h;
+                float prevX = pLeft + ((m - 1) / (float) displayMaxMonths) * w;
+                float prevY = pTop + h - ((weights[m - 1] - MIN_WEIGHT) / (maxWeight - MIN_WEIGHT)) * h;
                 float midX = (prevX + x) / 2f;
                 path.cubicTo(midX, prevY, midX, y, x, y);
             }

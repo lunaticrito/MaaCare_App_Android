@@ -6,15 +6,21 @@
     android:background="@color/background_light">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_care_vaccine"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="110dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp">
 
             <!-- Top Chronological Child Age Tracker Card -->
             <com.google.android.material.card.MaterialCardView
@@ -44,7 +50,7 @@
                             android:id="@+id/tv_baby_age_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:fontFamily="@font/poppins"
                             android:text="Baby is 8 Weeks old (2 Months)"
                             android:textColor="@color/primary"
                             android:textSize="16sp"
@@ -55,7 +61,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
-                            android:fontFamily="@font/inter"
+                            android:fontFamily="@font/poppins"
                             android:text="Chronological age computed from birth date."
                             android:textColor="@color/text_secondary"
                             android:textSize="12sp" />
@@ -66,8 +72,8 @@
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter"
-                        android:text="Birth Date"
+                        android:fontFamily="@font/poppins"
+                        android:text="@string/btn_edit_birth_date"
                         android:textColor="@color/primary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -92,44 +98,48 @@
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter"
+                        android:fontFamily="@font/poppins"
                         android:text="@string/tab_baby_timeline"
-                        android:textColor="@color/selector_tab_text"
+                        android:textColor="@color/selector_chip_text"
                         android:textSize="12sp"
-                        app:strokeColor="@color/chip_unselected_border" />
+                        app:backgroundTint="@color/selector_chip_bg"
+                        app:strokeColor="@color/selector_chip_stroke" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_submodule_growth"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter"
+                        android:fontFamily="@font/poppins"
                         android:text="@string/tab_baby_growth"
-                        android:textColor="@color/selector_tab_text"
+                        android:textColor="@color/selector_chip_text"
                         android:textSize="12sp"
-                        app:strokeColor="@color/chip_unselected_border" />
+                        app:backgroundTint="@color/selector_chip_bg"
+                        app:strokeColor="@color/selector_chip_stroke" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_submodule_health"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter"
+                        android:fontFamily="@font/poppins"
                         android:text="@string/tab_baby_health"
-                        android:textColor="@color/selector_tab_text"
+                        android:textColor="@color/selector_chip_text"
                         android:textSize="12sp"
-                        app:strokeColor="@color/chip_unselected_border" />
+                        app:backgroundTint="@color/selector_chip_bg"
+                        app:strokeColor="@color/selector_chip_stroke" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_submodule_vaccines"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter"
+                        android:fontFamily="@font/poppins"
                         android:text="@string/tab_baby_vaccines"
-                        android:textColor="@color/selector_tab_text"
+                        android:textColor="@color/selector_chip_text"
                         android:textSize="12sp"
-                        app:strokeColor="@color/chip_unselected_border" />
+                        app:backgroundTint="@color/selector_chip_bg"
+                        app:strokeColor="@color/selector_chip_stroke" />
                 </com.google.android.material.button.MaterialButtonToggleGroup>
             </HorizontalScrollView>
 
@@ -155,7 +165,7 @@
                         android:layout_height="38dp"
                         android:layout_marginEnd="4dp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/inter"
+                        android:fontFamily="@font/poppins"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
                         android:text="@string/pill_yesterday"
@@ -171,12 +181,12 @@
                         android:layout_height="38dp"
                         android:layout_marginEnd="4dp"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/primary"
-                        android:fontFamily="@font/inter"
+                        android:backgroundTint="@color/chip_checked_bg"
+                        android:fontFamily="@font/poppins"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
                         android:text="@string/pill_today"
-                        android:textColor="@color/white"
+                        android:textColor="@color/chip_checked_text"
                         android:textSize="12sp"
                         app:cornerRadius="19dp" />
 
@@ -186,7 +196,7 @@
                         android:layout_width="0dp"
                         android:layout_height="38dp"
                         android:layout_weight="1"
-                        android:fontFamily="@font/inter"
+                        android:fontFamily="@font/poppins"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
                         android:text="@string/pill_tomorrow"
@@ -195,6 +205,31 @@
                         app:cornerRadius="19dp"
                         app:strokeColor="@color/chip_unselected_border" />
                 </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_timeline_event"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginBottom="10dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/btn_add_schedule_care"
+                    android:textColor="@color/primary"
+                    android:textSize="12sp"
+                    app:cornerRadius="12dp"
+                    app:strokeColor="@color/chip_unselected_border" />
+
+                <TextView
+                    android:id="@+id/tv_timeline_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:gravity="center"
+                    android:padding="24dp"
+                    android:text="@string/empty_timeline_msg"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_baby_timeline"
@@ -219,10 +254,14 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_birth_growth"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="6dp"
                         android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
                         app:cardBackgroundColor="@color/surface_card"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="2dp"
@@ -235,20 +274,35 @@
                             android:orientation="vertical"
                             android:padding="12dp">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
-                                android:text="At Birth (Day 0)"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="12sp" />
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="@string/growth_at_birth_title"
+                                    android:textColor="@color/text_secondary"
+                                    android:textSize="12sp" />
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:contentDescription="Edit Birth Weight &amp; Height"
+                                    android:src="@drawable/ic_edit"
+                                    app:tint="@color/primary" />
+                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/tv_birth_metrics"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:fontFamily="@font/inter"
+                                android:fontFamily="@font/poppins"
                                 android:text="3.2 kg • 50.0 cm"
                                 android:textColor="@color/text_primary"
                                 android:textSize="15sp"
@@ -257,10 +311,14 @@
                     </com.google.android.material.card.MaterialCardView>
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_current_growth"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
                         app:cardBackgroundColor="@color/surface_card"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="2dp"
@@ -273,21 +331,37 @@
                             android:orientation="vertical"
                             android:padding="12dp">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
-                                android:text="Current (2 Months)"
-                                android:textColor="@color/primary"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tv_current_growth_label"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/poppins"
+                                    android:text="Current (2 Months)"
+                                    android:textColor="@color/primary"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:contentDescription="Edit Current Weight &amp; Height"
+                                    android:src="@drawable/ic_edit"
+                                    app:tint="@color/primary" />
+                            </LinearLayout>
 
                             <TextView
                                 android:id="@+id/tv_current_metrics"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:fontFamily="@font/inter"
+                                android:fontFamily="@font/poppins"
                                 android:text="5.4 kg • 57.5 cm"
                                 android:textColor="@color/text_primary"
                                 android:textSize="15sp"
@@ -295,6 +369,20 @@
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_edit_growth"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginBottom="12dp"
+                    android:backgroundTint="@color/primary_button_bg"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/btn_add_edit_growth"
+                    android:textColor="@color/primary_button_text"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="12dp" />
 
                 <!-- Custom WHO Percentiles Growth Chart -->
                 <com.google.android.material.card.MaterialCardView
@@ -316,7 +404,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:fontFamily="@font/poppins"
                             android:text="@string/chart_who_title"
                             android:textColor="@color/text_primary"
                             android:textSize="14sp"
@@ -326,8 +414,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:fontFamily="@font/inter"
-                            android:text="Green corridor: 15th-85th percentiles (Normal standard range)"
+                            android:fontFamily="@font/poppins"
+                            android:text="@string/chart_normal_corridor"
                             android:textColor="@color/text_secondary"
                             android:textSize="11sp" />
 
@@ -338,6 +426,16 @@
                             android:layout_height="220dp"
                             android:layout_marginTop="12dp" />
 
+                        <TextView
+                            android:id="@+id/tv_growth_points_summary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:fontFamily="@font/poppins"
+                            android:text="Logged Points: Birth 3.2kg • 1m 4.3kg • 2m 5.4kg"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -346,7 +444,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/inter"
+                    android:fontFamily="@font/poppins"
                     android:text="@string/milestone_section_title"
                     android:textColor="@color/text_primary"
                     android:textSize="15sp"
@@ -387,7 +485,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:fontFamily="@font/poppins"
                             android:text="@string/q_baby_sick"
                             android:textColor="@color/text_primary"
                             android:textSize="15sp"
@@ -406,7 +504,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="24dp"
                                 android:checked="true"
-                                android:fontFamily="@font/inter"
+                                android:fontFamily="@font/poppins"
                                 android:text="@string/radio_no"
                                 android:textColor="@color/selector_radio_text"
                                 app:buttonTint="@color/primary" />
@@ -415,7 +513,7 @@
                                 android:id="@+id/rb_sick_yes"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
+                                android:fontFamily="@font/poppins"
                                 android:text="@string/radio_yes"
                                 android:textColor="@color/selector_radio_text"
                                 app:buttonTint="@color/primary" />
@@ -435,7 +533,7 @@
                                 android:id="@+id/et_symptoms_notes"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
+                                android:fontFamily="@font/poppins"
                                 android:hint="@string/notes_symptoms_hint"
                                 android:textColor="@color/text_primary"
                                 android:textSize="13sp" />
@@ -463,7 +561,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:fontFamily="@font/poppins"
                             android:text="@string/card_temperature"
                             android:textColor="@color/text_primary"
                             android:textSize="15sp"
@@ -483,7 +581,7 @@
                                 android:id="@+id/et_temp_value"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
+                                android:fontFamily="@font/poppins"
                                 android:hint="@string/temp_frequency_hint"
                                 android:text="98.6°F - Normal"
                                 android:textColor="@color/text_primary"
@@ -512,7 +610,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:fontFamily="@font/poppins"
                             android:text="@string/card_vital_signs"
                             android:textColor="@color/text_primary"
                             android:textSize="15sp"
@@ -539,7 +637,7 @@
                                     android:id="@+id/et_pulse_value"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/inter"
+                                    android:fontFamily="@font/poppins"
                                     android:hint="@string/pulse_hint"
                                     android:inputType="number"
                                     android:text="124"
@@ -562,7 +660,7 @@
                                     android:id="@+id/et_spo2_value"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/inter"
+                                    android:fontFamily="@font/poppins"
                                     android:hint="@string/spo2_hint"
                                     android:inputType="number"
                                     android:text="99"
@@ -577,14 +675,46 @@
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:layout_marginTop="12dp"
-                            android:backgroundTint="@color/primary"
-                            android:fontFamily="@font/inter"
+                            android:backgroundTint="@color/primary_button_bg"
+                            android:fontFamily="@font/poppins"
                             android:text="@string/btn_proceed"
-                            android:textColor="@color/white"
+                            android:textColor="@color/primary_button_text"
                             android:textSize="14sp"
+                            android:textStyle="bold"
                             app:cornerRadius="10dp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+
+                <!-- Saved Health & Vitals History Section -->
+                <TextView
+                    android:id="@+id/tv_vitals_history_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/vitals_history_header"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_vitals_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins"
+                    android:gravity="center"
+                    android:padding="16dp"
+                    android:text="@string/empty_vitals_msg"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_vitals_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false" />
             </LinearLayout>
 
             <!-- ================= SUB-MODULE 4: VACCINES ================= -->
@@ -599,8 +729,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/inter"
-                    android:text="WHO &amp; Bangladesh EPI Immunization Timeline"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/epi_timeline_header"
                     android:textColor="@color/text_primary"
                     android:textSize="15sp"
                     android:textStyle="bold" />

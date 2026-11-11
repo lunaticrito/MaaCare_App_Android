@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
     android:layout_marginBottom="12dp"
     app:cardBackgroundColor="@color/surface_card"
     app:cardCornerRadius="16dp"
@@ -18,63 +18,78 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Top Row: Division/District Badge & Rating -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tv_doctor_location_badge"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:background="@drawable/bg_bottom_sheet_dialog"
+                android:fontFamily="@font/poppins"
+                android:paddingStart="8dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp"
+                android:text="Dhaka • Dhaka Division"
+                android:textColor="@color/teal_accent"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_doctor_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter"
-                    android:text="Prof. Dr. Rashida Begum"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_doctor_specialty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:fontFamily="@font/inter"
-                    android:text="Obstetrician &amp; Gynecologist"
-                    android:textColor="@color/primary"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/tv_doctor_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_bottom_sheet_dialog"
-                android:fontFamily="@font/inter"
+                android:fontFamily="@font/poppins"
                 android:paddingStart="8dp"
-                android:paddingTop="4dp"
+                android:paddingTop="3dp"
                 android:paddingEnd="8dp"
-                android:paddingBottom="4dp"
+                android:paddingBottom="3dp"
                 android:text="★ 4.9"
                 android:textColor="@color/accent_gold"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_doctor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="Prof. Dr. Mariam Faruqui (Shati)"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_doctor_specialty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="@font/poppins"
+            android:text="Prof. &amp; Senior Consultant (Obs &amp; Gynae)"
+            android:textColor="@color/primary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tv_doctor_hospital"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:fontFamily="@font/inter"
-            android:text="Dhaka Medical College Hospital • 2.4 km away"
+            android:fontFamily="@font/poppins"
+            android:text="Labaid Specialized Hospital, Dhanmondi"
             android:textColor="@color/text_secondary"
             android:textSize="13sp" />
 
@@ -90,8 +105,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/inter"
-                android:text="Next Slot: Today, 05:00 PM"
+                android:fontFamily="@font/poppins"
+                android:text="+8801766662111"
                 android:textColor="@color/teal_accent"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -101,13 +116,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_bottom_sheet_dialog"
-                android:fontFamily="@font/inter"
+                android:fontFamily="@font/poppins"
                 android:paddingStart="8dp"
                 android:paddingTop="2dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="2dp"
                 android:text="@string/badge_available_today"
-                android:textColor="#388E3C"
+                android:textColor="@color/success_green"
                 android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -115,8 +130,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/chip_unselected_border" />
 
         <LinearLayout
@@ -131,26 +146,28 @@
                 android:layout_height="44dp"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/primary"
-                android:fontFamily="@font/inter"
+                android:backgroundTint="@color/primary_button_bg"
+                android:fontFamily="@font/poppins"
                 android:text="@string/btn_call_doctor"
-                android:textColor="@color/white"
-                android:textSize="13sp"
+                android:textColor="@color/primary_button_text"
+                android:textSize="12sp"
+                android:textStyle="bold"
                 app:cornerRadius="10dp"
                 app:icon="@drawable/ic_call"
-                app:iconSize="16dp" />
+                app:iconSize="16dp"
+                app:iconTint="@color/primary_button_text" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_book_doctor"
+                android:id="@+id/btn_set_emergency_doctor"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
                 android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/inter"
-                android:text="@string/btn_book_appointment"
+                android:layout_weight="1.25"
+                android:fontFamily="@font/poppins"
+                android:text="@string/btn_set_emergency_contact"
                 android:textColor="@color/text_primary"
-                android:textSize="13sp"
+                android:textSize="11sp"
                 app:cornerRadius="10dp"
                 app:strokeColor="@color/chip_unselected_border"
                 app:strokeWidth="1.2dp" />

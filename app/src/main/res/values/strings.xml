@@ -78,6 +78,46 @@
     <string name="tab_baby_health">Health &amp; Vitals</string>
     <string name="tab_baby_vaccines">Vaccines</string>
 
+    <!-- Additional Bilingual UI Labels -->
+    <string name="profile_btn">Profile</string>
+    <string name="photo_memory_title">Baby &amp; Ultrasound Memory</string>
+    <string name="photo_memory_sub">Tap to select ultrasound scan or baby milestone photo</string>
+    <string name="photo_memory_ready">MediaStore: Local &amp; Cloud Ready</string>
+    <string name="btn_pick_photo">Pick Photo</string>
+    <string name="trimester_1_legend">T1 (W1-12)</string>
+    <string name="trimester_2_legend">T2 (W13-27)</string>
+    <string name="trimester_3_legend">T3 (W28-40)</string>
+    <string name="medicine_subtitle">Timely adherence to Iron, Folic Acid and Calcium protects mom &amp; baby.</string>
+    <string name="add_medicine_dialog_title">Add Prescribed Medication</string>
+    <string name="btn_pick_time">Pick Time</string>
+    <string name="btn_edit_birth_date">Birth Date</string>
+    <string name="btn_add_schedule_care">+ Add / Schedule Baby Care Activity</string>
+    <string name="empty_timeline_msg">No care logs recorded for this date yet. Tap \'+\' or the button above to add one.</string>
+    <string name="growth_at_birth_title">At Birth (Day 0)</string>
+    <string name="btn_add_edit_growth">+ Add / Edit Weight &amp; Height</string>
+    <string name="chart_normal_corridor">Green corridor: 15th-85th percentiles (Normal standard range)</string>
+    <string name="vitals_history_header">Recent Vitals &amp; Health Logs</string>
+    <string name="empty_vitals_msg">No health or vitals logs recorded yet.</string>
+    <string name="epi_timeline_header">WHO &amp; Bangladesh EPI Immunization Timeline</string>
+    <string name="emergency_info_sub">One-tap calling &amp; automated emergency SMS with maternal vitals.</string>
+    <string name="btn_import_caregiver">Import Caregiver from Contacts</string>
+    <string name="btn_set_emergency_contact">Set as Emergency Contact</string>
+    <string name="filter_all_divisions">All 8 Divisions</string>
+    <string name="filter_all_districts">All Districts</string>
+    <string name="filter_all_specialists">All Specialists</string>
+    <string name="spec_obs_gynae">Obs &amp; Gynae</string>
+    <string name="spec_pediatrics">Pediatrics</string>
+    <string name="div_dhaka">Dhaka</string>
+    <string name="div_chattogram">Chattogram</string>
+    <string name="div_khulna">Khulna</string>
+    <string name="div_rajshahi">Rajshahi</string>
+    <string name="div_sylhet">Sylhet</string>
+    <string name="div_barishal">Barishal</string>
+    <string name="div_rangpur">Rangpur</string>
+    <string name="div_mymensingh">Mymensingh</string>
+    <string name="stat_verified_doctors_129">129 Verified Doctors</string>
+    <string name="stat_divisions_8">8 Divisions</string>
+
     <!-- Timeline Activity Filter -->
     <string name="filter_all_activities">Show All Activities</string>
     <string name="filter_select_date">Select Date</string>
@@ -117,7 +157,7 @@
     <string name="start_time_hint">Start time (e.g. 08:00 AM)</string>
     <string name="end_time_hint">End time (e.g. 10:00 AM)</string>
     <string name="temp_frequency_hint">Temperature (°F) / Frequency</string>
-    <string name="btn_proceed">Proceed</string>
+    <string name="btn_proceed">Save Vitals Record</string>
     <string name="card_vital_signs">Vital Signs</string>
     <string name="pulse_hint">Pulse Frequency (bpm)</string>
     <string name="spo2_hint">SpO2 Frequency (in hr)</string>

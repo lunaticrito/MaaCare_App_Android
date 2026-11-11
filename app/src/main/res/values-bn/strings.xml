@@ -75,9 +75,49 @@
     <!-- Baby Suite: 4 Sub-Modules -->
     <string name="baby_suite_title">নবজাতক ও শিশুর সম্পূর্ণ যত্ন</string>
     <string name="tab_baby_timeline">টাইমলাইন</string>
-    <string name="tab_baby_growth">গ্রোথ চার্ট</string>
+    <string name="tab_baby_growth">বৃদ্ধি</string>
     <string name="tab_baby_health">স্বাস্থ্য ও ভাইটালস</string>
-    <string name="tab_baby_vaccines">টিকা শিডিউল</string>
+    <string name="tab_baby_vaccines">টিকা</string>
+
+    <!-- Additional Bilingual UI Labels -->
+    <string name="profile_btn">প্রোফাইল</string>
+    <string name="photo_memory_title">শিশু ও আল্ট্রাসাউন্ড স্মৃতি</string>
+    <string name="photo_memory_sub">আল্ট্রাসাউন্ড স্ক্যান বা শিশুর স্মৃতির ছবি নির্বাচন করতে ট্যাপ করুন</string>
+    <string name="photo_memory_ready">মিডিয়াস্টোর: লোকাল ও ক্লাউড প্রস্তুত</string>
+    <string name="btn_pick_photo">ছবি বাছাই করুন</string>
+    <string name="trimester_1_legend">১ম (১-১২ স.)</string>
+    <string name="trimester_2_legend">২য় (১৩-২৭ স.)</string>
+    <string name="trimester_3_legend">৩য় (২৮-৪০ স.)</string>
+    <string name="medicine_subtitle">নিয়মিত আয়রন, ফলিক অ্যাসিড ও ক্যালসিয়াম গ্রহণ মা ও শিশুকে সুরক্ষিত রাখে।</string>
+    <string name="add_medicine_dialog_title">নতুন প্রেসক্রিপশন ওষুধ যোগ করুন</string>
+    <string name="btn_pick_time">সময় বাছাই</string>
+    <string name="btn_edit_birth_date">জন্ম তারিখ</string>
+    <string name="btn_add_schedule_care">+ শিশুর যত্নের কার্যক্রম যোগ / শিডিউল করুন</string>
+    <string name="empty_timeline_msg">এই তারিখে কোনো রেকর্ড পাওয়া যায়নি। নতুন যোগ করতে \'+\' বা উপরের বাটনে ট্যাপ করুন।</string>
+    <string name="growth_at_birth_title">জন্মের সময় (দিন ০)</string>
+    <string name="btn_add_edit_growth">+ ওজন ও উচ্চতা যোগ / পরিবর্তন করুন</string>
+    <string name="chart_normal_corridor">সবুজ অঞ্চল: ১৫তম–৮৫তম পার্সেন্টাইল (স্বাভাবিক আদর্শ সীমা)</string>
+    <string name="vitals_history_header">সাম্প্রতিক স্বাস্থ্য ও ভাইটালস রেকর্ড</string>
+    <string name="empty_vitals_msg">এখনো কোনো স্বাস্থ্য বা ভাইটালস রেকর্ড সংরক্ষণ করা হয়নি।</string>
+    <string name="epi_timeline_header">বিশ্ব স্বাস্থ্য সংস্থা ও ইপিআই (EPI) টিকাদান সূচি</string>
+    <string name="emergency_info_sub">মায়ের জরুরি তথ্যসহ এক-ট্যাপ কল ও স্বয়ংক্রিয় জরুরি এসএমএস।</string>
+    <string name="btn_import_caregiver">ফোনবুক থেকে অভিভাবক বাছাই করুন</string>
+    <string name="btn_set_emergency_contact">জরুরি যোগাযোগ সেট করুন</string>
+    <string name="filter_all_divisions">সকল ৮ বিভাগ</string>
+    <string name="filter_all_districts">সকল জেলা</string>
+    <string name="filter_all_specialists">সকল বিশেষজ্ঞ</string>
+    <string name="spec_obs_gynae">গাইনি ও প্রসূতি</string>
+    <string name="spec_pediatrics">শিশু বিশেষজ্ঞ</string>
+    <string name="div_dhaka">ঢাকা</string>
+    <string name="div_chattogram">চট্টগ্রাম</string>
+    <string name="div_khulna">খুলনা</string>
+    <string name="div_rajshahi">রাজশাহী</string>
+    <string name="div_sylhet">সিলেট</string>
+    <string name="div_barishal">বরিশাল</string>
+    <string name="div_rangpur">রংপুর</string>
+    <string name="div_mymensingh">ময়মনসিংহ</string>
+    <string name="stat_verified_doctors_129">১২৯ বিশেষজ্ঞ ডাক্তার</string>
+    <string name="stat_divisions_8">৮ বিভাগ</string>
 
     <!-- Timeline Activity Filter -->
     <string name="filter_all_activities">সকল কার্যক্রম</string>
@@ -118,7 +158,7 @@
     <string name="start_time_hint">শুরুর সময় (যেমন: সকাল ০৮:০০)</string>
     <string name="end_time_hint">শেষের সময় (যেমন: সকাল ১০:০০)</string>
     <string name="temp_frequency_hint">শরীরের তাপমাত্রা (°F) / বিরতি</string>
-    <string name="btn_proceed">সংরক্ষণ করুন</string>
+    <string name="btn_proceed">ভাইটালস সংরক্ষণ করুন</string>
     <string name="card_vital_signs">শারীরিক ভাইটালস</string>
     <string name="pulse_hint">পালস রেট (প্রতি মিনিটে)</string>
     <string name="spo2_hint">অক্সিজেন স্যাচুরেশন SpO2 (ঘন্টায়)</string>
